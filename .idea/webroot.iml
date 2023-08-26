@@ -47,6 +47,13 @@
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/web-profiler-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/doctrine/annotations" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/friendsofphp/php-cs-fixer" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/phpstan/phpstan" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/sebastian/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/debug-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/options-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/process" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

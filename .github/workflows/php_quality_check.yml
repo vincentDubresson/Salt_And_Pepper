@@ -1,0 +1,19 @@
+name: PHP Quality Check
+
+on:
+  pull_request:
+
+jobs:
+  phpstan_and_php-cs-fixer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Composer dependencies
+        run:  cd api; composer install
+
+      - name: PHPStan Static Analysis
+        run: cd api; ./vendor/bin/phpstan analyse src/ bin/ config/ public/ tests/
+
+      - name : PHP CS Fixer Analysis
+        run: cd api; ./vendor/bin/php-cs-fixer fix src --verbose --dry-run
