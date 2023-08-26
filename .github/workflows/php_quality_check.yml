@@ -1,0 +1,17 @@
+name: PHP Quality Check
+
+on:
+  pull_request:
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Change working directory
+        run: cd api
+      - uses: php-actions/composer@v6
+      - name: PHPStan Static Analysis
+        uses: php-actions/phpstan@v3
+        with:
+          path: src/ inc/ bin/ config/ public/ tests/

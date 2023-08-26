@@ -47,6 +47,7 @@
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/web-profiler-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/twig/twig" />
+      <excludeFolder url="file://$MODULE_DIR$/api/vendor/phpstan/phpstan" />
       <excludeFolder url="file://$MODULE_DIR$/api/vendor/symfony/debug-bundle" />
     </content>
     <orderEntry type="inheritedJdk" />
