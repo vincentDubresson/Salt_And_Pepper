@@ -8,10 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Change working directory
-        run: cd api
-      - uses: php-actions/composer@v6
+
+      - name: Install Composer dependencies
+        run:  cd api; composer install
+
       - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@v3
-        with:
-          path: src/ inc/ bin/ config/ public/ tests/
+        run: cd api; ./vendor/bin/phpstan analyse src/ bin/ config/ public/ tests/
