@@ -1,10 +1,9 @@
-name: PHP Quality Check
+name: PHP Quality Check and Tests
 
-on:
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  phpstan_and_php-cs-fixer:
+  php_quality_check_and_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,4 +15,7 @@ jobs:
         run: cd api; ./vendor/bin/phpstan analyse src/ bin/ config/ public/ tests/
 
       - name : PHP CS Fixer Analysis
-        run: cd api; ./vendor/bin/php-cs-fixer fix src --verbose --dry-run
+        run: cd api; ./vendor/bin/php-cs-fixer fix src --verbose --diff --dry-run
+
+      - name: PHP Unit
+        run: cd api; ./vendor/bin/phpunit
