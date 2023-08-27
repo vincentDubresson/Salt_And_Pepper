@@ -2,60 +2,121 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ApiResource(
+    // Display when reading the object
+    normalizationContext: ['groups' => ['read']],
+    // Available to write
+    denormalizationContext: ['groups' => ['write']],
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    #[Groups(['read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le prénom est obligatoire.')]
+    #[Assert\Range(
+        maxMessage: 'Le prénom ne peut pas dépasser 255 caractères.',
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le nom est obligatoire.')]
+    #[Assert\Range(
+        maxMessage: 'Le nom ne peut pas dépasser 255 caractères.',
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'Une adresse email est obligatoire.')]
+    #[Assert\Range(
+        maxMessage: "L'adresse email ne peut pas dépasser 180 caractères.",
+        max: 180
+    )]
+    #[Assert\Email(message: "Cette adresse email n'est pas au bon format.")]
+    #[Groups(['read', 'write'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     /**
      * @var array<string>
      */
     #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Groups(['read', 'write'])]
     private array $roles = [];
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Range(
+        maxMessage: "L'adresse 1 ne peut pas dépasser 255 caractères.",
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $address1 = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Range(
+        maxMessage: "L'adresse 2 ne peut pas dépasser 255 caractères.",
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $address2 = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['read', 'write'])]
     private ?int $zipCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Range(
+        maxMessage: 'La ville ne peut pas dépasser 255 caractères.',
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le pays est obligatoire.')]
+    #[Assert\Range(
+        maxMessage: 'Le pays ne peut pas dépasser 255 caractères.',
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $country = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Range(
+        maxMessage: 'Le numéro de téléphone ne peut pas dépasser 255 caractères.',
+        max: 255
+    )]
+    #[Groups(['read', 'write'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[Assert\Date(message: "La date de naissance n'est pas au bon format.")]
+    #[Groups(['read', 'write'])]
     private ?\DateTimeImmutable $birthDate = null;
 
     public function getId(): ?Uuid
