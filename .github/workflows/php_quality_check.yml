@@ -1,7 +1,6 @@
 name: PHP Quality Check
 
-on:
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   phpstan_and_php-cs-fixer:
@@ -16,4 +15,4 @@ jobs:
         run: cd api; ./vendor/bin/phpstan analyse src/ bin/ config/ public/ tests/
 
       - name : PHP CS Fixer Analysis
-        run: cd api; ./vendor/bin/php-cs-fixer fix src --verbose --dry-run
+        run: cd api; ./vendor/bin/php-cs-fixer fix src --verbose --diff --dry-run

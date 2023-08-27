@@ -21,6 +21,7 @@
         "symfony/expression-language": "6.3.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "6.3.*",
+        "symfony/intl": "6.3.*",
         "symfony/monolog-bundle": "^3.8",
         "symfony/property-access": "6.3.*",
         "symfony/property-info": "6.3.*",
@@ -28,6 +29,7 @@
         "symfony/security-bundle": "6.3.*",
         "symfony/serializer": "6.3.*",
         "symfony/twig-bundle": "6.3.*",
+        "symfony/uid": "6.3.*",
         "symfony/validator": "6.3.*",
         "symfony/yaml": "6.3.*"
     },
@@ -88,8 +90,10 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsofphp/php-cs-fixer": "^3.23",
         "phpstan/phpstan": "^1.10",
+        "symfony/maker-bundle": "^1.50",
         "symfony/stopwatch": "6.3.*",
         "symfony/web-profiler-bundle": "6.3.*"
     }
