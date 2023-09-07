@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'app_home')]
     public function index(): JsonResponse
     {
         return new JsonResponse('This is the default page of the API', 200);
