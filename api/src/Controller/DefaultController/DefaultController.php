@@ -3,14 +3,14 @@
 namespace App\Controller\DefaultController;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(): JsonResponse
     {
-        return $this->render('Default/default.html.twig');
+        return new JsonResponse('This is the default page of the API', 200);
     }
 }
