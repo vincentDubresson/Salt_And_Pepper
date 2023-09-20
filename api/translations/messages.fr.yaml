@@ -1,0 +1,37 @@
+sonata_admin:
+  block_label:
+    user: Utilisateurs
+  breadcrum:
+    user_list: Utilisateurs
+  general:
+    actions: Action
+  form:
+    tab_label:
+      user_info: Informations administratives
+      user_config: Options avancées
+  label:
+    user:
+      firstname: Prénom
+      lastname: Nom
+      email: E-mail
+      address_1: Adresse
+      address_2: Complément d'adresse
+      zip_code: Code postal
+      city: Ville
+      country: Pays
+      phone_number: Numéro de téléphone
+      birth_date: Date de naissance
+      role: Rôle
+      created_at: Crée le
+      updated_at: Mis à jour le
+      enable: Actif
+  placeholder:
+    user:
+      select_country: Sélectionner un pays
+  value:
+    user:
+      role_admin: Administrateur
+      role_user: Utilisateur
+
+  menu_label:
+    user: Utilisateurs

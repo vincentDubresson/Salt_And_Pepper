@@ -40,6 +40,7 @@ class UserFixtures extends Fixture
             ->setPassword($this->passwordHasher->hashPassword($user, $this->userPassword))
             ->setRoles(['ROLE_ADMIN'])
             ->setCountry(Countries::getName('FR'))
+            ->setIsEnable(true)
         ;
 
         $manager->persist($user);
