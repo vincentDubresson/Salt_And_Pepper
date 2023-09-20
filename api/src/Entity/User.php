@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -16,6 +17,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'Cette adresse email a déjà été utilisée.')]
 #[ApiResource(
     // Display when reading the object
     normalizationContext: ['groups' => ['read']],
@@ -33,29 +35,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Groups(['read'])]
     private ?Uuid $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Le prénom est obligatoire.')]
-    #[Assert\Range(
+    #[Assert\Length(
+        max: 255,
         maxMessage: 'Le prénom ne peut pas dépasser 255 caractères.',
-        max: 255
     )]
     #[Groups(['read', 'write'])]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Le nom est obligatoire.')]
-    #[Assert\Range(
+    #[Assert\Length(
+        max: 255,
         maxMessage: 'Le nom ne peut pas dépasser 255 caractères.',
-        max: 255
     )]
     #[Groups(['read', 'write'])]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: 'Une adresse email est obligatoire.')]
-    #[Assert\Range(
-        maxMessage: "L'adresse email ne peut pas dépasser 180 caractères.",
-        max: 180
+    #[Assert\Length(
+        max: 180,
+        maxMessage: "L'email ne peut pas dépasser 180 caractères.",
     )]
     #[Assert\Email(message: "Cette adresse email n'est pas au bon format.")]
     #[Groups(['read', 'write'])]
@@ -66,62 +68,69 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     private ?string $password = null;
 
     /**
-     * @var array<string>
+     * @var array<string>|null
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
     #[Groups(['read', 'write'])]
-    private array $roles = [];
+    private ?array $roles = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Range(
-        maxMessage: "L'adresse 1 ne peut pas dépasser 255 caractères.",
-        max: 255
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "L'adresse ne peut pas dépasser 255 caractères.",
     )]
     #[Groups(['read', 'write'])]
     private ?string $address1 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Range(
-        maxMessage: "L'adresse 2 ne peut pas dépasser 255 caractères.",
-        max: 255
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "Le complément d'adresse ne peut pas dépasser 255 caractères.",
     )]
     #[Groups(['read', 'write'])]
     private ?string $address2 = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['read', 'write'])]
     private ?int $zipCode = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Range(
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
         maxMessage: 'La ville ne peut pas dépasser 255 caractères.',
-        max: 255
     )]
     #[Groups(['read', 'write'])]
     private ?string $city = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Le pays est obligatoire.')]
-    #[Assert\Range(
+    #[Assert\Length(
+        max: 255,
         maxMessage: 'Le pays ne peut pas dépasser 255 caractères.',
-        max: 255
     )]
     #[Groups(['read', 'write'])]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Range(
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
         maxMessage: 'Le numéro de téléphone ne peut pas dépasser 255 caractères.',
-        max: 255
     )]
     #[Groups(['read', 'write'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    #[Assert\Date(message: "La date de naissance n'est pas au bon format.")]
+    #[Assert\Type("\DateTimeInterface")]
     #[Groups(['read', 'write'])]
     private ?\DateTimeImmutable $birthDate = null;
+
+    #[ORM\Column]
+    private ?bool $isEnable = null;
+
+    public function __toString(): string
+    {
+        return $this->getFirstname().' '.$this->getLastname();
+    }
 
     public function getId(): ?Uuid
     {
@@ -133,6 +142,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->email;
     }
 
+    /**
+     * @return $this
+     */
     public function setEmail(string $email): static
     {
         $this->email = $email;
@@ -163,11 +175,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     }
 
     /**
-     * @param array<string> $roles
+     * This method is used in Sonata Admin Bundle.
+     */
+    public function getFirstRoleAsString(): string
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        $role = reset($roles);
+
+        return 'ROLE_ADMIN' === $role ? 'Administrateur' : 'Utilisateur';
+    }
+
+    /**
+     * @param array<string>|null $roles
      *
      * @return $this
      */
-    public function setRoles(array $roles): static
+    public function setRoles(?array $roles): static
     {
         $this->roles = $roles;
 
@@ -182,6 +208,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->password;
     }
 
+    /**
+     * @return $this
+     */
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -203,6 +232,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->firstname;
     }
 
+    /**
+     * @return $this
+     */
     public function setFirstname(string $firstname): static
     {
         $this->firstname = $firstname;
@@ -215,6 +247,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->lastname;
     }
 
+    /**
+     * @return $this
+     */
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
@@ -227,6 +262,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->birthDate;
     }
 
+    /**
+     * @return $this
+     */
     public function setBirthDate(?\DateTimeImmutable $birthDate): static
     {
         $this->birthDate = $birthDate;
@@ -239,6 +277,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->address1;
     }
 
+    /**
+     * @return $this
+     */
     public function setAddress1(?string $address1): static
     {
         $this->address1 = $address1;
@@ -251,6 +292,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->address2;
     }
 
+    /**
+     * @return $this
+     */
     public function setAddress2(?string $address2): static
     {
         $this->address2 = $address2;
@@ -263,6 +307,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->zipCode;
     }
 
+    /**
+     * @return $this
+     */
     public function setZipCode(?int $zipCode): static
     {
         $this->zipCode = $zipCode;
@@ -275,6 +322,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->city;
     }
 
+    /**
+     * @return $this
+     */
     public function setCity(?string $city): static
     {
         $this->city = $city;
@@ -287,6 +337,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->country;
     }
 
+    /**
+     * @return $this
+     */
     public function setCountry(string $country): static
     {
         $this->country = $country;
@@ -299,9 +352,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this->phoneNumber;
     }
 
+    /**
+     * @return $this
+     */
     public function setPhoneNumber(?string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function isIsEnable(): ?bool
+    {
+        return $this->isEnable;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setIsEnable(bool $isEnable): static
+    {
+        $this->isEnable = $isEnable;
 
         return $this;
     }

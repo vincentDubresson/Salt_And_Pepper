@@ -1,0 +1,12 @@
+sonata_admin:
+    title: 'Salt & Pepper'
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+    options:
+        default_translation_domain: 'messages'
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

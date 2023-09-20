@@ -18,6 +18,10 @@ framework:
     php_errors:
         log: true
 
+    # The translator service is required by SonataAdmin to display all labels properly.
+    # https://symfony.com/doc/5.4/translation.html#configuration
+    # translator: { fallbacks: ['%locale%'] }
+
 when@test:
     framework:
         test: true
