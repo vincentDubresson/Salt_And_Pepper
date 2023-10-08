@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter;
 use Sonata\Form\Type\DatePickerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Countries;
@@ -54,12 +55,17 @@ class UserAdmin extends AbstractAdmin
             $object
                 ->setPassword($this->passwordHasher->hashPassword($object, $this->passwordService->generatePassword(12)))
                 ->setCountry(Countries::getName((string) $object->getCountry()))
+                ->setRoles(
+                    ($object->isIsAdmin()) ? ['ROLE_ADMIN'] : ['ROLE_USER']
+                )
             ;
         }
     }
 
     protected function configureFormFields(FormMapper $form): void
     {
+        $this->transformDataForm($form);
+
         $form
             ->with('userInfo', [
                 'label' => 'sonata_admin.form.tab_label.user_info',
@@ -98,7 +104,7 @@ class UserAdmin extends AbstractAdmin
                 ])
                 ->add('country', ChoiceType::class, [
                     'label' => 'sonata_admin.label.user.country',
-                    'choices' => array_flip(\Symfony\Component\Intl\Countries::getNames()),
+                    'choices' => array_flip(Countries::getNames()),
                     'placeholder' => 'sonata_admin.placeholder.user.select_country',
                 ])
             ->end()
@@ -106,14 +112,9 @@ class UserAdmin extends AbstractAdmin
                 'label' => 'sonata_admin.form.tab_label.user_config',
                 'class' => 'col-lg-4',
             ])
-                ->add('roles', ChoiceType::class, [
-                    'label' => 'sonata_admin.label.user.role',
-                    'choices' => [
-                        'sonata_admin.value.user.role_user' => 'ROLE_USER',
-                        'sonata_admin.value.user.role_admin' => 'ROLE_ADMIN',
-                        ],
-                    'multiple' => true,
-                    'expanded' => false,
+                ->add('isAdmin', CheckboxType::class, [
+                    'label' => 'sonata_admin.label.user.admin',
+                    'required' => false,
                 ])
                 ->add('isEnable', null, [
                     'label' => 'sonata_admin.label.user.enable',
@@ -246,5 +247,15 @@ class UserAdmin extends AbstractAdmin
                 ])
             ->end()
         ;
+    }
+
+    private function transformDataForm(FormMapper $form): void
+    {
+        $data = $form->getAdmin()->getSubject();
+
+        if ($data instanceof User) {
+            $data->setisAdmin(in_array('ROLE_ADMIN', $data->getRoles()));
+            $data->setCountry((string) array_search($data->getCountry(), Countries::getNames()));
+        }
     }
 }

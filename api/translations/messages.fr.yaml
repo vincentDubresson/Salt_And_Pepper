@@ -22,6 +22,7 @@ sonata_admin:
       phone_number: Numéro de téléphone
       birth_date: Date de naissance
       role: Rôle
+      admin: Administrateur
       created_at: Crée le
       updated_at: Mis à jour le
       enable: Actif

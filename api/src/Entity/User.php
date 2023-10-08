@@ -77,6 +77,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Groups(['read', 'write'])]
     private ?array $roles = null;
 
+    private bool $isAdmin = false;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Length(
         max: 255,
@@ -133,8 +135,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    #[Groups(['read', 'write'])]
     private ?bool $isEnable = null;
+
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    #[Groups(['read', 'write'])]
+    private ?bool $isFirstConnexion = true;
 
     public function __toString(): string
     {
@@ -410,5 +417,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         $this->isEnable = $isEnable;
 
         return $this;
+    }
+
+    public function isIsAdmin(): bool
+    {
+        return $this->isAdmin;
+    }
+
+    public function setIsAdmin(bool $isAdmin): void
+    {
+        $this->isAdmin = $isAdmin;
+    }
+
+    public function getIsFirstConnexion(): ?bool
+    {
+        return $this->isFirstConnexion;
+    }
+
+    public function setIsFirstConnexion(?bool $isFirstConnexion): void
+    {
+        $this->isFirstConnexion = $isFirstConnexion;
     }
 }
