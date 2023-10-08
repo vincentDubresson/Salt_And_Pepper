@@ -41,7 +41,7 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN'])
             ->setCountry(Countries::getName('FR'))
             ->setIsEnable(true)
-        ;
+            ->setIsFirstConnexion(false);
 
         $manager->persist($user);
 

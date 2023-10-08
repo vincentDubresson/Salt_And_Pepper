@@ -3,6 +3,17 @@ sonata_admin:
     dashboard:
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+            -
+                class: col-lg-3 col-xs-6
+                position: top
+                type: sonata.admin.block.stats
+                settings:
+                    code: admin.user
+                    icon: fas fa-user
+                    text: sonata_admin.block_label.user
+                    color: bg-yellow
+                    filters:
+                        edited: { value: 1 }
     options:
         default_translation_domain: 'messages'
 
