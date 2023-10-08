@@ -1,0 +1,36 @@
+name: Web App Quality Check and Tests
+
+on:
+  push:
+
+jobs:
+  web_app_quality_check_and_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          cd web-app
+          npm i
+
+      - name: Eslint check
+        run: |
+          cd web-app
+          npm run lint
+
+      - name: Prettier check and commit
+        run: |
+          cd web-app
+          npm run format:fix
+          git add .
+          git config user.name "GitHub Actions"
+          git config user.email "<>"
+          git commit -m "[auto] Format TS and TSX files with Prettier" || true
+          git push
+
+      - name: Run tests
+        run: |
+          cd web-app
+          npm run test
