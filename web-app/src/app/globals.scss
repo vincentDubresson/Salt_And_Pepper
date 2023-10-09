@@ -1,0 +1,25 @@
+@import './variables.scss';
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: rgb($foreground-rgb);
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb($background-end-rgb)) rgb($background-start-rgb);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
