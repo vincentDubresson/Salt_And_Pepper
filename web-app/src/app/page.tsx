@@ -1,8 +1,17 @@
+'use client';
+
 import Image from 'next/image';
 import './globals.scss';
 import styles from './page.module.scss';
+import { useContext } from 'react';
+import { UserContext } from './context/UserContext';
 
 export default function Home() {
+  const userContext = useContext(UserContext);
+  const userToken = userContext ? userContext.userToken : null;
+
+  console.log('userApiToken', userToken);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
