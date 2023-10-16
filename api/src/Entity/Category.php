@@ -91,6 +91,11 @@ class Category implements TimestampableInterface, SluggableInterface
      */
     public function generateSlugValue(array $values): string
     {
-        return strtolower(implode('-', $values));
+        $newValues = [];
+        foreach($values as $value) {
+            $newValues[] = str_replace(' ', '-', $value);
+        }
+
+        return strtolower(implode('-', $newValues));
     }
 }
