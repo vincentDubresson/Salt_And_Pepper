@@ -487,6 +487,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
      */
     public function generateSlugValue(array $values): string
     {
-        return implode('-', $values);
+        return strtolower(implode('-', $values));
     }
 }
