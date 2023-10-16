@@ -2,7 +2,7 @@
 
 namespace App\Tests\Service;
 
-use App\Service\PasswordService;
+use App\Service\UserPasswordGenerator;
 use PHPUnit\Framework\TestCase;
 
 class PasswordServiceTest extends TestCase
@@ -12,11 +12,11 @@ class PasswordServiceTest extends TestCase
      */
     public function testGeneratePassword(): void
     {
-        $passwordService = new PasswordService();
+        $passwordGenerator = new UserPasswordGenerator();
 
         // Test que le mot de passe généré a la longueur attendue
         $length = 10;
-        $password = $passwordService->generatePassword($length);
+        $password = $passwordGenerator->generatePassword($length);
         $this->assertEquals($length, strlen($password));
 
         // Test que le mot de passe généré ne contient que des caractères valides

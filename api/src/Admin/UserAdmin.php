@@ -3,7 +3,7 @@
 namespace App\Admin;
 
 use App\Entity\User;
-use App\Service\PasswordService;
+use App\Service\UserPasswordGenerator;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -24,12 +24,12 @@ class UserAdmin extends AbstractAdmin
 
     private UserPasswordHasherInterface $passwordHasher;
 
-    private PasswordService $passwordService;
+    private UserPasswordGenerator $passwordGenerator;
 
     public function __construct(
         TranslatorInterface $translator,
         UserPasswordHasherInterface $passwordHasher,
-        PasswordService $passwordService,
+        UserPasswordGenerator $passwordGenerator,
         string $code = null,
         string $class = null,
         string $baseControllerName = null,
@@ -38,7 +38,7 @@ class UserAdmin extends AbstractAdmin
 
         $this->translator = $translator;
         $this->passwordHasher = $passwordHasher;
-        $this->passwordService = $passwordService;
+        $this->passwordGenerator = $passwordGenerator;
     }
 
     public function configure(): void
@@ -53,7 +53,7 @@ class UserAdmin extends AbstractAdmin
     {
         if ($object instanceof User) {
             $object
-                ->setPassword($this->passwordHasher->hashPassword($object, $this->passwordService->generatePassword(12)))
+                ->setPassword($this->passwordHasher->hashPassword($object, $this->passwordGenerator->generatePassword(12)))
                 ->setCountry(Countries::getName((string) $object->getCountry()))
                 ->setRoles(
                     ($object->isIsAdmin()) ? ['ROLE_ADMIN'] : ['ROLE_USER']

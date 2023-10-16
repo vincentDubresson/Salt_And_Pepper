@@ -20,7 +20,7 @@ jobs:
       - name: PHPStan Static Analysis
         run: |
           cd api
-          ./vendor/bin/phpstan analyse src/ bin/ config/ public/ tests/
+          ./vendor/bin/phpstan analyse -l 8 src/ bin/ config/ public/ tests/
 
       - name: PHP CS Fixer Analysis
         run: |

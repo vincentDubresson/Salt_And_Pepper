@@ -3,7 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
+use App\Service\UserPasswordHasherService;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -19,13 +25,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
 #[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse email a déjà été utilisée.')]
 #[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Post(
+            validationContext: ['groups' => ['Default', 'user:create']],
+            processor: UserPasswordHasherService::class
+        ),
+        new Get(),
+        new Put(processor: UserPasswordHasherService::class),
+        new Delete(),
+    ],
     // Display when reading the object
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['user:read']],
     // Available to write
-    denormalizationContext: ['groups' => ['write']],
+    denormalizationContext: ['groups' => ['user:create', 'user:update']],
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface
 {
@@ -35,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['read'])]
+    #[Groups(['user:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -44,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le prénom ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -53,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le nom ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $lastname = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -63,20 +80,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         maxMessage: "L'email ne peut pas dépasser 180 caractères.",
     )]
     #[Assert\Email(message: "Cette adresse email n'est pas au bon format.")]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
     private ?string $password = null;
+
+    #[Assert\NotBlank(groups: ['user:create'])]
+    #[Groups(['user:create', 'user:update'])]
+    private ?string $plainPassword = null;
 
     /**
      * @var array<string>|null
      */
     #[ORM\Column]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?array $roles = null;
 
+    #[Groups(['user:create', 'user:update'])]
     private bool $isAdmin = false;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -84,7 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: "L'adresse ne peut pas dépasser 255 caractères.",
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $address1 = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -92,11 +113,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: "Le complément d'adresse ne peut pas dépasser 255 caractères.",
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $address2 = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?int $zipCode = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -104,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'La ville ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $city = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -113,7 +134,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le pays ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $country = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -121,26 +142,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le numéro de téléphone ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     #[Assert\Type("\DateTimeInterface")]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?\DateTimeImmutable $birthDate = null;
 
     #[Vich\UploadableField(mapping: 'user', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $imageName = null;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?bool $isEnable = null;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?bool $isFirstConnexion = true;
 
     public function __toString(): string
@@ -227,11 +249,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     /**
      * @return $this
      */
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     /**

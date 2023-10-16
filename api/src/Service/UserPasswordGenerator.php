@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class PasswordService
+class UserPasswordGenerator
 {
     /**
      * @throws \Exception
