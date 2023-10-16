@@ -37,7 +37,7 @@ class CategoryAdmin extends AbstractAdmin
                 'label' => 'sonata_admin.form.tab_label.category_info',
             ])
                 ->add('label', TextType::class, [
-                    'label' => 'sonata_admin.label.category.label'
+                    'label' => 'sonata_admin.label.category.label',
                 ])
                 ->add('slug', null, [
                     'label' => 'sonata_admin.label.general.slug',
@@ -50,7 +50,7 @@ class CategoryAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter->add('label', null, [
-            'label' => 'sonata_admin.label.category.label'
+            'label' => 'sonata_admin.label.category.label',
         ]);
     }
 
@@ -58,7 +58,7 @@ class CategoryAdmin extends AbstractAdmin
     {
         $list
             ->add('label', null, [
-                'label' => 'sonata_admin.label.category.label'
+                'label' => 'sonata_admin.label.category.label',
             ])
             ->add('createdAt', 'date', [
                 'label' => 'sonata_admin.label.general.created_at',
@@ -90,7 +90,7 @@ class CategoryAdmin extends AbstractAdmin
                 'label' => 'sonata_admin.form.tab_label.category_info',
             ])
                 ->add('label', null, [
-                    'label' => 'sonata_admin.label.category.label'
+                    'label' => 'sonata_admin.label.category.label',
                 ])
                 ->add('createdAt', 'date', [
                     'label' => 'sonata_admin.label.general.created_at',

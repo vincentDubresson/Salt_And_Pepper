@@ -54,7 +54,7 @@ class Category implements TimestampableInterface, SluggableInterface
         maxMessage: 'La catégorie ne peut pas dépasser 255 caractères.',
     )]
     #[Groups(['category:read', 'category:create', 'category:update'])]
-    private ?string $label = null;
+    private string $label;
 
     public function __toString(): string
     {
@@ -66,7 +66,7 @@ class Category implements TimestampableInterface, SluggableInterface
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -92,7 +92,7 @@ class Category implements TimestampableInterface, SluggableInterface
     public function generateSlugValue(array $values): string
     {
         $newValues = [];
-        foreach($values as $value) {
+        foreach ($values as $value) {
             $newValues[] = str_replace(' ', '-', $value);
         }
 

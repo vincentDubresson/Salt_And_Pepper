@@ -20,7 +20,7 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach(self::CATEGORIES as $category) {
+        foreach (self::CATEGORIES as $category) {
             $newCategory = new Category();
 
             $newCategory->setLabel($category);
