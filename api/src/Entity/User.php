@@ -9,7 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
-use App\Service\PasswordService;
+use App\Service\UserPasswordHasherService;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -33,10 +33,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new GetCollection(),
         new Post(
             validationContext: ['groups' => ['Default', 'user:create']],
-            processor: PasswordService::class
+            processor: UserPasswordHasherService::class
         ),
         new Get(),
-        new Put(processor: PasswordService::class),
+        new Put(processor: UserPasswordHasherService::class),
         new Delete(),
     ],
     // Display when reading the object
@@ -252,6 +252,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
         return $this;
     }
 
