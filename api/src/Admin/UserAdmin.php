@@ -119,6 +119,10 @@ class UserAdmin extends AbstractAdmin
                 ->add('isEnable', null, [
                     'label' => 'sonata_admin.label.user.enable',
                 ])
+                ->add('slug', null, [
+                    'label' => 'sonata_admin.label.general.slug',
+                    'disabled' => true,
+                ])
             ->end()
         ;
     }
@@ -157,13 +161,13 @@ class UserAdmin extends AbstractAdmin
                 'label' => 'sonata_admin.label.user.role',
             ])
             ->add('createdAt', 'date', [
-                'label' => 'sonata_admin.label.user.created_at',
+                'label' => 'sonata_admin.label.general.created_at',
                 'format' => 'd/m/Y - H:i:s',
                 'locale' => 'fr',
                 'timezone' => 'Europe/Paris',
             ])
             ->add('updatedAt', 'date', [
-                'label' => 'sonata_admin.label.user.updated_at',
+                'label' => 'sonata_admin.label.general.updated_at',
                 'format' => 'd/m/Y - H:i:s',
                 'locale' => 'fr',
                 'timezone' => 'Europe/Paris',

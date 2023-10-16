@@ -1,15 +1,24 @@
 sonata_admin:
   block_label:
+    category: Catégories
     user: Utilisateurs
   breadcrum:
     user_list: Utilisateurs
+    category_list: Catégories
   general:
     actions: Action
   form:
     tab_label:
       user_info: Informations administratives
       user_config: Options avancées
+      category_info: Catégorie
   label:
+    category:
+      label: Libellé
+    general:
+      created_at: Crée le
+      updated_at: Mis à jour le
+      slug: slug
     user:
       firstname: Prénom
       lastname: Nom
@@ -23,8 +32,6 @@ sonata_admin:
       birth_date: Date de naissance
       role: Rôle
       admin: Administrateur
-      created_at: Crée le
-      updated_at: Mis à jour le
       enable: Actif
   placeholder:
     user:
@@ -35,4 +42,5 @@ sonata_admin:
       role_user: Utilisateur
 
   menu_label:
+    category: Catégories
     user: Utilisateurs

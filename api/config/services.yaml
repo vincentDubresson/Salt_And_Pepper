@@ -32,3 +32,8 @@ services:
         class: App\Admin\UserAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, group: sonata_admin.block_label.user, label: sonata_admin.menu_label.user }
+
+    admin.category:
+        class: App\Admin\CategoryAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Category, manager_type: orm, group: sonata_admin.block_label.category, label: sonata_admin.menu_label.category }
