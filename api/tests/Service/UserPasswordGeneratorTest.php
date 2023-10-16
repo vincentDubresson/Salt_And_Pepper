@@ -5,7 +5,7 @@ namespace App\Tests\Service;
 use App\Service\UserPasswordGenerator;
 use PHPUnit\Framework\TestCase;
 
-class PasswordServiceTest extends TestCase
+class UserPasswordGeneratorTest extends TestCase
 {
     /**
      * @throws \Exception
