@@ -12,7 +12,9 @@ use App\Repository\UserRepository;
 use App\Service\UserPasswordHasherService;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -44,9 +46,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     // Available to write
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
 )]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface, SluggableInterface
 {
     use TimestampableTrait;
+    use sluggableTrait;
 
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -469,5 +472,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     public function setIsFirstConnexion(?bool $isFirstConnexion): void
     {
         $this->isFirstConnexion = $isFirstConnexion;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSluggableFields(): array
+    {
+        return ['firstname', 'lastname'];
+    }
+
+    /**
+     * @param array<string> $values
+     */
+    public function generateSlugValue(array $values): string
+    {
+        return implode('-', $values);
     }
 }
