@@ -56,6 +56,11 @@ class Category implements TimestampableInterface, SluggableInterface
     #[Groups(['category:read', 'category:create', 'category:update'])]
     private ?string $label = null;
 
+    public function __toString(): string
+    {
+        return $this->getLabel();
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;
