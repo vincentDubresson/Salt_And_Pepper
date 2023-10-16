@@ -40,7 +40,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        # Uncomment this line to add rights
+        # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/api, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
