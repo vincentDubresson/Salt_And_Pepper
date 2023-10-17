@@ -16,6 +16,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -56,6 +57,16 @@ class Category implements TimestampableInterface, SluggableInterface
     #[Groups(['category:read', 'category:create', 'category:update'])]
     private string $label;
 
+    /**
+     * @var string
+     */
+    #[Groups(['category:read'])]
+    protected $slug;
+
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['category:read', 'category:create', 'category:update'])]
+    private int $sort = 0;
+
     public function __toString(): string
     {
         return $this->getLabel();
@@ -78,6 +89,16 @@ class Category implements TimestampableInterface, SluggableInterface
         return $this;
     }
 
+    public function getSort(): int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $tri): void
+    {
+        $this->sort = $tri;
+    }
+
     /**
      * @return string[]
      */
@@ -91,11 +112,10 @@ class Category implements TimestampableInterface, SluggableInterface
      */
     public function generateSlugValue(array $values): string
     {
-        $newValues = [];
-        foreach ($values as $value) {
-            $newValues[] = str_replace(' ', '-', $value);
-        }
+        $stringValues = strtolower(implode(' ', $values));
 
-        return strtolower(implode('-', $newValues));
+        $slugger = new AsciiSlugger('fr');
+
+        return $slugger->slug($stringValues);
     }
 }

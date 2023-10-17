@@ -3,10 +3,12 @@
 namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -30,6 +32,11 @@ class CategoryAdmin extends AbstractAdmin
         $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.category_list');
     }
 
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_BY] = 'sort';
+    }
+
     protected function configureFormFields(FormMapper $form): void
     {
         $form
@@ -42,6 +49,9 @@ class CategoryAdmin extends AbstractAdmin
                 ->add('slug', null, [
                     'label' => 'sonata_admin.label.general.slug',
                     'disabled' => true,
+                ])
+                ->add('sort', NumberType::class, [
+                    'label' => 'sonata_admin.label.general.sort',
                 ])
             ->end()
         ;
@@ -72,6 +82,10 @@ class CategoryAdmin extends AbstractAdmin
                 'locale' => 'fr',
                 'timezone' => 'Europe/Paris',
             ])
+            ->add('sort', null, [
+                'label' => 'sonata_admin.label.general.sort',
+                'editable' => true,
+            ])
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'label' => 'sonata_admin.general.actions',
                 'actions' => [
@@ -91,6 +105,9 @@ class CategoryAdmin extends AbstractAdmin
             ])
                 ->add('label', null, [
                     'label' => 'sonata_admin.label.category.label',
+                ])
+                ->add('sort', null, [
+                    'label' => 'sonata_admin.label.general.sort',
                 ])
                 ->add('createdAt', 'date', [
                     'label' => 'sonata_admin.label.general.created_at',
