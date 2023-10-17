@@ -20,12 +20,19 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $sort = 1;
+
         foreach (self::CATEGORIES as $category) {
             $newCategory = new Category();
 
-            $newCategory->setLabel($category);
+            $newCategory
+                ->setLabel($category)
+                ->setSort($sort)
+            ;
 
             $manager->persist($newCategory);
+
+            ++$sort;
         }
 
         $manager->flush();

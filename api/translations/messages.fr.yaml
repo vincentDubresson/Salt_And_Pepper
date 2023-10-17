@@ -19,6 +19,7 @@ sonata_admin:
       created_at: Crée le
       updated_at: Mis à jour le
       slug: slug
+      sort: Tri
     user:
       firstname: Prénom
       lastname: Nom

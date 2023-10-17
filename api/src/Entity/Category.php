@@ -57,6 +57,16 @@ class Category implements TimestampableInterface, SluggableInterface
     #[Groups(['category:read', 'category:create', 'category:update'])]
     private string $label;
 
+    /**
+     * @var string
+     */
+    #[Groups(['category:read'])]
+    protected $slug;
+
+    #[ORM\Column(type: 'integer')]
+    #[Groups(['category:read', 'category:create', 'category:update'])]
+    private int $sort = 0;
+
     public function __toString(): string
     {
         return $this->getLabel();
@@ -77,6 +87,16 @@ class Category implements TimestampableInterface, SluggableInterface
         $this->label = $label;
 
         return $this;
+    }
+
+    public function getSort(): int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $tri): void
+    {
+        $this->sort = $tri;
     }
 
     /**
