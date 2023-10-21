@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -487,6 +488,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
      */
     public function generateSlugValue(array $values): string
     {
-        return strtolower(implode('-', $values));
+        $stringValues = strtolower(implode(' ', $values));
+
+        $slugger = new AsciiSlugger('fr');
+
+        return $slugger->slug($stringValues);
     }
 }
