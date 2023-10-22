@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GraphQl\DeleteMutation;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\UserRepository;
-use App\Service\UserPasswordHasherService;
+use App\Resolver\UserMutationResolver;
+use App\State\UserStateProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -32,20 +32,38 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse email a déjà été utilisée.')]
 #[ApiResource(
-    operations: [
-        new GetCollection(),
-        new Post(
-            validationContext: ['groups' => ['Default', 'user:create']],
-            processor: UserPasswordHasherService::class
-        ),
-        new Get(),
-        new Put(processor: UserPasswordHasherService::class),
-        new Delete(),
-    ],
+    operations: [],
     // Display when reading the object
     normalizationContext: ['groups' => ['user:read']],
     // Available to write
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
+    graphQlOperations: [
+        new QueryCollection(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
+        new Query(
+            security: 'is_granted("ROLE_USER")'
+        ),
+        new Mutation(
+            name: 'create',
+            processor: UserStateProcessor::class,
+        ),
+        new Mutation(
+            name: 'update',
+            processor: UserStateProcessor::class,
+        ),
+        new Mutation(
+            resolver: UserMutationResolver::class,
+            args: [
+                'email' => ['type' => 'String!', 'description' => 'Email of the user '],
+                'plainPassword' => ['type' => 'String!', 'description' => 'Password of the user '],
+            ],
+            validate: false,
+            write: false,
+            name: 'loginCheck',
+        ),
+        new DeleteMutation(name: 'delete'),
+    ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface, SluggableInterface
 {
@@ -77,6 +95,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $lastname = null;
 
+    /**
+     * @var string
+     */
+    #[Groups(['user:read'])]
+    protected $slug;
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank(message: 'Une adresse email est obligatoire.')]
     #[Assert\Length(
@@ -91,8 +115,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     private ?string $password = null;
 
     #[Assert\NotBlank(groups: ['user:create'])]
-    #[Groups(['user:create', 'user:update'])]
+    #[Groups(['user:create'])]
     private ?string $plainPassword = null;
+
+    #[Groups(['user:read'])]
+    private ?string $token = null;
 
     /**
      * @var array<string>|null
@@ -168,6 +195,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\Column(type: 'boolean', nullable: false)]
     #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?bool $isFirstConnexion = true;
+
+    /**
+     * @var \DateTimeInterface
+     */
+    #[Groups(['user:read'])]
+    protected $createdAt;
+
+    /**
+     * @var \DateTimeInterface
+     */
+    #[Groups(['user:read'])]
+    protected $updatedAt;
 
     public function __toString(): string
     {
@@ -276,7 +315,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getFirstname(): ?string
@@ -493,5 +532,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         $slugger = new AsciiSlugger('fr');
 
         return $slugger->slug($stringValues);
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
     }
 }

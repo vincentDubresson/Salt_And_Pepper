@@ -3,11 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -25,19 +22,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: '`category`')]
 #[ApiResource(
-    operations: [
-        new GetCollection(),
-        new Post(
-            validationContext: ['groups' => ['Default', 'category:create']],
-        ),
-        new Get(),
-        new Put(),
-        new Delete(),
-    ],
+    operations: [],
     // Display when reading the object
     normalizationContext: ['groups' => ['category:read']],
     // Available to write
     denormalizationContext: ['groups' => ['category:create', 'category:update']],
+    graphQlOperations: [
+        new QueryCollection(),
+        new Query(),
+    ]
 )]
 class Category implements TimestampableInterface, SluggableInterface
 {
@@ -62,11 +55,11 @@ class Category implements TimestampableInterface, SluggableInterface
     /**
      * @var string
      */
-    #[Groups(['category:read'])]
+    #[Groups(['sub_category:read', 'category:read'])]
     protected $slug;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['category:read', 'category:create', 'category:update'])]
+    #[Groups(['sub_category:read', 'category:read', 'category:create', 'category:update'])]
     private int $sort = 0;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, orphanRemoval: true)]

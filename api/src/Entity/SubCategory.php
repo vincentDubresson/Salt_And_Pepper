@@ -3,11 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\SubCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -23,19 +20,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
 #[ORM\Table(name: '`sub_category`')]
 #[ApiResource(
-    operations: [
-        new GetCollection(),
-        new Post(
-            validationContext: ['groups' => ['Default', 'sub_category:create']],
-        ),
-        new Get(),
-        new Put(),
-        new Delete(),
-    ],
+    operations: [],
     // Display when reading the object
     normalizationContext: ['groups' => ['sub_category:read']],
     // Available to write
     denormalizationContext: ['groups' => ['sub_category:create', 'sub_category:update']],
+    graphQlOperations: [
+        new QueryCollection(),
+        new Query(),
+    ]
 )]
 class SubCategory implements TimestampableInterface, SluggableInterface
 {
@@ -60,7 +53,7 @@ class SubCategory implements TimestampableInterface, SluggableInterface
     /**
      * @var string
      */
-    #[Groups(['category:read'])]
+    #[Groups(['sub_category:read'])]
     protected $slug;
 
     #[ORM\Column(type: 'integer')]

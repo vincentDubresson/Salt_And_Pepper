@@ -20,7 +20,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\Service\UserPasswordHasherService:
+    App\State\UserStateProcessor:
         bind:
             $processor: '@api_platform.doctrine.orm.state.persist_processor'
 
