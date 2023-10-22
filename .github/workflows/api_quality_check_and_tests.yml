@@ -18,9 +18,9 @@ jobs:
           composer install
 
       - name: Symfony Security Checker
-        run: |
-          cd api
-          symfony check:security
+        uses : symfonycorp/security-checker-action@v4
+        with:
+          lock: api/composer.lock
 
       - name: PHPStan Static Analysis
         run: |
