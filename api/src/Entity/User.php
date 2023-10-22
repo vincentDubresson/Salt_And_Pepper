@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\UserRepository;
+use App\Resolver\UserMutationResolver;
 use App\State\UserStateProcessor;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,8 +38,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     // Available to write
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
     graphQlOperations: [
-        new QueryCollection(),
-        new Query(),
+        new QueryCollection(
+            security: 'is_granted("ROLE_ADMIN")'
+        ),
+        new Query(
+            security: 'is_granted("ROLE_USER")'
+        ),
         new Mutation(
             name: 'create',
             processor: UserStateProcessor::class,
@@ -46,6 +51,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new Mutation(
             name: 'update',
             processor: UserStateProcessor::class,
+        ),
+        new Mutation(
+            resolver: UserMutationResolver::class,
+            args: [
+                'email' => ['type' => 'String!', 'description' => 'Email of the user '],
+                'plainPassword' => ['type' => 'String!', 'description' => 'Password of the user '],
+            ],
+            validate: false,
+            write: false,
+            name: 'loginCheck',
         ),
         new DeleteMutation(name: 'delete'),
     ]
@@ -102,6 +117,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Assert\NotBlank(groups: ['user:create'])]
     #[Groups(['user:create'])]
     private ?string $plainPassword = null;
+
+    #[Groups(['user:read'])]
+    private ?string $token = null;
 
     /**
      * @var array<string>|null
@@ -514,5 +532,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         $slugger = new AsciiSlugger('fr');
 
         return $slugger->slug($stringValues);
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
     }
 }
