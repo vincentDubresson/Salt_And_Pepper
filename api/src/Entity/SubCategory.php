@@ -8,9 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Repository\CategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\SubCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -22,24 +20,24 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ORM\Table(name: '`category`')]
+#[ORM\Entity(repositoryClass: SubCategoryRepository::class)]
+#[ORM\Table(name: '`sub_category`')]
 #[ApiResource(
     operations: [
         new GetCollection(),
         new Post(
-            validationContext: ['groups' => ['Default', 'category:create']],
+            validationContext: ['groups' => ['Default', 'sub_category:create']],
         ),
         new Get(),
         new Put(),
         new Delete(),
     ],
     // Display when reading the object
-    normalizationContext: ['groups' => ['category:read']],
+    normalizationContext: ['groups' => ['sub_category:read']],
     // Available to write
-    denormalizationContext: ['groups' => ['category:create', 'category:update']],
+    denormalizationContext: ['groups' => ['sub_category:create', 'sub_category:update']],
 )]
-class Category implements TimestampableInterface, SluggableInterface
+class SubCategory implements TimestampableInterface, SluggableInterface
 {
     use TimestampableTrait;
     use sluggableTrait;
@@ -48,15 +46,15 @@ class Category implements TimestampableInterface, SluggableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['sub_category:read', 'category:read'])]
+    #[Groups(['sub_category:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(
         max: 255,
-        maxMessage: 'La catégorie ne peut pas dépasser 255 caractères.',
+        maxMessage: 'La sous-catégorie ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['sub_category:read', 'category:read', 'category:create', 'category:update'])]
+    #[Groups(['sub_category:read', 'sub_category:create', 'sub_category:update'])]
     private string $label;
 
     /**
@@ -66,16 +64,13 @@ class Category implements TimestampableInterface, SluggableInterface
     protected $slug;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['category:read', 'category:create', 'category:update'])]
+    #[Groups(['sub_category:read', 'sub_category:create', 'sub_category:update'])]
     private int $sort = 0;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, orphanRemoval: true)]
-    private Collection $subCategories;
-
-    public function __construct()
-    {
-        $this->subCategories = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'subCategories')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['sub_category:read', 'sub_category:create', 'sub_category:update'])]
+    private ?Category $category;
 
     public function __toString(): string
     {
@@ -104,9 +99,23 @@ class Category implements TimestampableInterface, SluggableInterface
         return $this->sort;
     }
 
-    public function setSort(int $tri): void
+    public function setSort(int $sort): static
     {
-        $this->sort = $tri;
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
     /**
@@ -127,35 +136,5 @@ class Category implements TimestampableInterface, SluggableInterface
         $slugger = new AsciiSlugger('fr');
 
         return $slugger->slug($stringValues);
-    }
-
-    /**
-     * @return Collection<int, SubCategory>
-     */
-    public function getSubCategories(): Collection
-    {
-        return $this->subCategories;
-    }
-
-    public function addSubCategory(SubCategory $subCategory): static
-    {
-        if (!$this->subCategories->contains($subCategory)) {
-            $this->subCategories->add($subCategory);
-            $subCategory->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubCategory(SubCategory $subCategory): static
-    {
-        if ($this->subCategories->removeElement($subCategory)) {
-            // set the owning side to null (unless already changed)
-            if ($subCategory->getCategory() === $this) {
-                $subCategory->setCategory(null);
-            }
-        }
-
-        return $this;
     }
 }
