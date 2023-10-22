@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\UserRepository;
 use App\State\UserStateProcessor;
-use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -180,13 +179,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     private ?bool $isFirstConnexion = true;
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     #[Groups(['user:read'])]
     protected $createdAt;
 
     /**
-     * @var DateTimeInterface
+     * @var \DateTimeInterface
      */
     #[Groups(['user:read'])]
     protected $updatedAt;
