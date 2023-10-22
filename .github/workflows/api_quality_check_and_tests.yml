@@ -17,6 +17,11 @@ jobs:
           composer update
           composer install
 
+      - name: Symfony Security Checker
+        run: |
+          cd api
+          symfony check:security
+
       - name: PHPStan Static Analysis
         run: |
           cd api
