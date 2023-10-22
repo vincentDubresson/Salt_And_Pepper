@@ -37,3 +37,8 @@ services:
         class: App\Admin\CategoryAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Category, manager_type: orm, group: sonata_admin.block_label.category, label: sonata_admin.menu_label.category }
+
+    admin.sub_category:
+        class: App\Admin\SubCategoryAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\SubCategory, manager_type: orm, group: sonata_admin.block_label.category, label: sonata_admin.menu_label.sub_category }
