@@ -32,6 +32,11 @@ jobs:
           cd api
           ./vendor/bin/php-cs-fixer fix src --verbose --diff --dry-run
 
+      - name: Yaml Linter Check
+        run: |
+          cd api
+          ./vendor/bin/yaml-lint config/ translations/
+
       - name: PHP Unit
         run: |
           cd api
