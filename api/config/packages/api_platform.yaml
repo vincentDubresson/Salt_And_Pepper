@@ -1,7 +1,7 @@
 api_platform:
   show_webby: false
   graphql:
-    graphql_playground:
+    graphiql:
       enabled: false
   mapping:
     paths: ['%kernel.project_dir%/src/Entity']
