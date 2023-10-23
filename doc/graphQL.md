@@ -39,7 +39,7 @@ query GetUsers {
 ```
 ```json
 {
-  "authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTgwMDU0NDMsImV4cCI6MTY5ODAwOTA0Mywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidmluY2VudC5kdWJyZXNzb25AbGl2ZS5mciJ9.fVbOeSLssWSXdsaYP1OE_Jr9qzQiYwWaUuM3OmsQ-K40G_oPXqfi80dOVmgfjAzEln50PHt2GHE7oBMDpBxmuBtIJRElznGIIoEuuZ7F_adb0KcZJFTxQIssdaxBRzPBqu1YgF10aOk6hmWOBa1XTbEz8tUaFxWGYqJm3hKmO5mLash-Bjiz7ywetOKBMH6Apr1lTd5mwKLu6BigOxNQZTiobff5q3CXkreQfNxvc61lTGJbZgXMNx2hWcCVIFD-DnMQvOW-wq7Ty6OL7hpjDMKqRTzX1N2oJvp87x-XMoHh1cY_vTsRKK0Y4eaQ7sSBwiB35EWvO3zDCJfLnZqdqw"
+  "authorization": "Bearer <jwt_token>"
 }
 ```
 
@@ -72,6 +72,11 @@ query GetUser($id: ID!) {
 ```json
 {
   "id": "/api/users/<id>"
+}
+```
+```json
+{
+  "authorization": "Bearer <jwt_token>"
 }
 ```
 
