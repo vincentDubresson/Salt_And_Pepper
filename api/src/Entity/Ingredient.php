@@ -39,7 +39,7 @@ class Ingredient implements TimestampableInterface, SluggableInterface
     #[Groups(['ingredient:read'])]
     private ?Uuid $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\Length(
         max: 255,
         maxMessage: 'L\'ingrédient ne peut pas dépasser 255 caractères.',

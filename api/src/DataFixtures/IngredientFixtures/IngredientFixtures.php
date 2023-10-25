@@ -19,12 +19,12 @@ class IngredientFixtures extends Fixture
         'Airelle rouge', 'Ananas séché', 'Avoine instantanée', 'Abricot en boîte', 'Asperge blanche',
         'Airelle blanche', 'Avocat crémeux', 'Amarante séchée', 'Airelle noire', 'Banane',
         'Basilic', 'Bette', 'Betterave', 'Bigarreau', 'Brede', 'Brocoli', 'Boeuf', 'Beurre', 'Boulgour',
-        'Bœuf', 'Bacon', 'Brioche', 'Boudin', 'Blé', 'Beurre d\'arachide', 'Beurre de cacao',
+        'Bacon', 'Brioche', 'Boudin', 'Blé', 'Beurre d\'arachide', 'Beurre de cacao',
         'Biscotte', 'Carotte', 'Champignon', 'Chayotte', 'Chicorée', 'Chou', 'Chou de Bruxelles',
         'Chou-fleur', 'Citron', 'Citrouille', 'Clémentine', 'Coing', 'Concombre', 'Coriandre',
         'Cornichon', 'Courge', 'Courgette', 'Cresson', 'Crôsne', 'Céleri', 'Cèpe', 'Ciboule',
         'Ciboulette', 'Citron vert', 'Citronnelle', 'Civet', 'Coquille Saint-Jacques', 'Crevette',
-        'Canard', 'Cacahuète', 'Cacao', 'Câpre', 'Celeri-rave', 'Cèleri-branche', 'Céleri-rave',
+        'Canard', 'Cacahuète', 'Cacao', 'Câpre', 'Céleri-branche', 'Céleri-rave',
         'Cerfeuil', 'Cerfeuil tubéreux', 'Cerise', 'Cerise de terre', 'Cerise griotte', 'Cerise noire',
         'Champignon de Paris', 'Champignon des bois', 'Champignon enoki', 'Champignon maitake',
         'Champignon pied-de-mouton', 'Champignon portobello', 'Champignon shiitake',
@@ -65,7 +65,9 @@ class IngredientFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::INGREDIENTS as $ingredient) {
+        $ingredients = array_unique(self::INGREDIENTS);
+
+        foreach ($ingredients as $ingredient) {
             $newIngredient = new Ingredient();
 
             $newIngredient->setLabel($ingredient);
