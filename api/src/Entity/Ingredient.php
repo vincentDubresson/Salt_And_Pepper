@@ -53,6 +53,11 @@ class Ingredient implements TimestampableInterface, SluggableInterface
     #[Groups(['ingredient:read', 'ingredient:read'])]
     protected $slug;
 
+    public function __toString(): string
+    {
+        return $this->getlabel();
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;
