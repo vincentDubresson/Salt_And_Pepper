@@ -27,7 +27,7 @@ class SubCategoryAdmin extends BaseCategoryAdmin
 
     public function configure(): void
     {
-        $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.category_list');
+        $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.sub_category_list');
     }
 
     /**
@@ -73,6 +73,7 @@ class SubCategoryAdmin extends BaseCategoryAdmin
             ])
                 ->reorder([
                     'label',
+                    'slug',
                     'category',
                     'sort',
                     'createdAt',
@@ -133,6 +134,7 @@ class SubCategoryAdmin extends BaseCategoryAdmin
             ])
                 ->reorder([
                     'label',
+                    'slug',
                     'category',
                     'sort',
                     'createdAt',

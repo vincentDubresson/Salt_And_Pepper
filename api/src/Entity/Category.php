@@ -25,8 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [],
     // Display when reading the object
     normalizationContext: ['groups' => ['category:read']],
-    // Available to write
-    denormalizationContext: ['groups' => ['category:create', 'category:update']],
     graphQlOperations: [
         new QueryCollection(),
         new Query(),
@@ -49,7 +47,7 @@ class Category implements TimestampableInterface, SluggableInterface
         max: 255,
         maxMessage: 'La catégorie ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['sub_category:read', 'category:read', 'category:create', 'category:update'])]
+    #[Groups(['sub_category:read', 'category:read'])]
     private string $label;
 
     /**
@@ -59,7 +57,7 @@ class Category implements TimestampableInterface, SluggableInterface
     protected $slug;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['sub_category:read', 'category:read', 'category:create', 'category:update'])]
+    #[Groups(['sub_category:read', 'category:read'])]
     private int $sort = 0;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, orphanRemoval: true)]
