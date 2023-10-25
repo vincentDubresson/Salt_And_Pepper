@@ -17,9 +17,9 @@ class IngredientAdmin extends AbstractAdmin
 
     public function __construct(
         TranslatorInterface $translator,
-        ?string $code = null,
-        ?string $class = null,
-        ?string $baseControllerName = null
+        string $code = null,
+        string $class = null,
+        string $baseControllerName = null
     ) {
         parent::__construct($code, $class, $baseControllerName);
 
@@ -40,7 +40,7 @@ class IngredientAdmin extends AbstractAdmin
     {
         $form
             ->with('IngredientInfo', [
-                'label' => 'sonata_admin.form.tab_label.ingredient_info'
+                'label' => 'sonata_admin.form.tab_label.ingredient_info',
             ])
                 ->add('label', TextType::class, [
                     'label' => 'sonata_admin.label.general.label',
