@@ -71,12 +71,15 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
-        "phpstan": "phpstan analyse",
+        "phpstan": "./vendor/bin/phpstan analyse -l 8 src/ bin/ config/ public/ tests/",
+        "csfixer:dryrun": "./vendor/bin/php-cs-fixer fix src --verbose --diff --dry-run",
+        "csfixer:fix": "./vendor/bin/php-cs-fixer fix src --verbose --diff",
         "prepare": [
             "php bin/console doctrine:database:drop --if-exists -f",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:migration:migrate --no-interaction",
-            "php bin/console doctrine:fixtures:load -n"
+            "php bin/console doctrine:fixtures:load -n",
+            "php bin/console cache:clear"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",

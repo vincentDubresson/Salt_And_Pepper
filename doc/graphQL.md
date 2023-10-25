@@ -296,3 +296,38 @@ query GetSubCategory($id: ID!) {
   "id": "/api/sub_categories/<id>"
 }
 ```
+
+## Ingredients - Queries
+
+### GetIngredients
+
+```
+query GetIngredients {
+  ingredients {
+    edges {
+      node {
+        id
+        label
+        slug
+      }
+    }
+  }
+}
+```
+
+### GetIngredient
+
+```
+query GetIngredient($id: ID!) {
+  ingredient(id: $id) {
+    id
+    label
+    slug
+  }
+}
+```
+```json
+{
+  "id": "/api/ingredients/<id>"
+}
+```
