@@ -55,7 +55,7 @@ class Ingredient implements TimestampableInterface, SluggableInterface
 
     public function __toString(): string
     {
-        return $this->getlabel();
+        return (string) $this->getlabel();
     }
 
     public function getId(): ?Uuid
