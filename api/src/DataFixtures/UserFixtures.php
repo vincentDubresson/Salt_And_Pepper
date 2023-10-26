@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\UserFixtures;
+namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
