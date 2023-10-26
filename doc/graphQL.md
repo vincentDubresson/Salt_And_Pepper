@@ -4,6 +4,8 @@
 - [User - Mutations](#user---mutations)
 - [Category - Queries](#category---queries)
 - [SubCategory - Queries](#subcategory---queries)
+- [Ingredient - Queries](#ingredients---queries)
+- [Unity - Queries](#unities---queries)
 
 ## User - Queries
 
@@ -297,7 +299,7 @@ query GetSubCategory($id: ID!) {
 }
 ```
 
-## Ingredients - Queries
+## Ingredient - Queries
 
 ### GetIngredients
 
@@ -329,5 +331,40 @@ query GetIngredient($id: ID!) {
 ```json
 {
   "id": "/api/ingredients/<id>"
+}
+```
+
+## Unity - Queries
+
+### GetUnities
+
+```
+query GetUnities {
+  unities {
+    edges {
+      node {
+        id
+        label
+        abreviation
+      }
+    }
+  }
+}
+```
+
+### GetUnity
+
+```
+query GetUnity($id: ID!) {
+  unity(id: $id) {
+    id
+    label
+    abreviation
+  }
+}
+```
+```json
+{
+  "id": "/api/unity/<id>"
 }
 ```
