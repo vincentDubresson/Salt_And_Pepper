@@ -47,3 +47,8 @@ services:
         class: App\Admin\IngredientAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Ingredient, manager_type: orm, group: sonata_admin.block_label.ingredient, label: sonata_admin.menu_label.ingredient }
+
+    admin.unity:
+        class: App\Admin\UnityAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Unity, manager_type: orm, group: sonata_admin.block_label.ingredient, label: sonata_admin.menu_label.unity }
