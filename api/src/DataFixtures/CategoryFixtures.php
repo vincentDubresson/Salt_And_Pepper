@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\CategoryFixtures;
+namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\SubCategory;

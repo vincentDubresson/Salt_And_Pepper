@@ -8,6 +8,7 @@ sonata_admin:
     category_list: Catégories
     sub_category_list: Sous-catégories
     ingredient_list: Ingrédients
+    unity_list: Unités
   general:
     actions: Action
   form:
@@ -17,6 +18,7 @@ sonata_admin:
       category_info: Catégorie
       sub_category_info: Sous-catégorie
       ingredient_info: Ingrédient
+      unity_label: Unité
   label:
     category:
       label: Libellé
@@ -27,6 +29,8 @@ sonata_admin:
       updated_at: Mis à jour le
       slug: slug
       sort: Tri
+    unity:
+      abreviation: Abréviation
     user:
       firstname: Prénom
       lastname: Nom
@@ -52,5 +56,6 @@ sonata_admin:
   menu_label:
     category: Catégories
     ingredient: Ingrédients
+    unity: Unités
     user: Utilisateurs
     sub_category: Sous-catégories
