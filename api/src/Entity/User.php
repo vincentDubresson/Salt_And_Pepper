@@ -49,6 +49,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             processor: UserStateProcessor::class,
         ),
         new Mutation(
+            security: 'is_granted("ROLE_USER")',
             name: 'update',
             processor: UserStateProcessor::class,
         ),
@@ -62,7 +63,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             write: false,
             name: 'loginCheck',
         ),
-        new DeleteMutation(name: 'delete'),
+        new DeleteMutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'delete'
+        ),
     ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface, SluggableInterface
