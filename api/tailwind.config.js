@@ -10,7 +10,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'sp-red': '#ff6f61',
+        'sp-primary-50': '#fefcfd',
+        'sp-primary-300': '#e59fbf',
+        'sp-primary-400': '#d871a1',
+        'sp-primary-600': '#cb4382',
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
