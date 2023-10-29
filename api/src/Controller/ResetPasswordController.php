@@ -109,19 +109,22 @@ class ResetPasswordController extends AbstractController
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
 
-            // Encode(hash) the plain password, and set it.
-            $encodedPassword = $passwordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
+            if ($user instanceof User) {
+                // Encode(hash) the plain password, and set it.
+                $encodedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                );
 
-            $user->setPassword($encodedPassword);
-            $this->entityManager->flush();
+                $user->setPassword($encodedPassword);
+                $this->entityManager->flush();
 
-            // The session is cleaned up after the password has been changed.
-            $this->cleanSessionAfterReset();
+                // The session is cleaned up after the password has been changed.
+                $this->cleanSessionAfterReset();
 
-            return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_login');
+            }
+
         }
 
         return $this->render('reset_password/reset.html.twig', [
@@ -158,7 +161,7 @@ class ResetPasswordController extends AbstractController
 
         $email = (new TemplatedEmail())
             ->from(new Address($this->getParameter('mailer_from'), $this->getParameter('mailer_from_name')))
-            ->to($user->getEmail())
+            ->to((string) $user->getEmail())
             ->subject($translator->trans('mailer.reset_password.subject', [], 'messages'))
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
