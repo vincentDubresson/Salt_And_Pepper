@@ -14,7 +14,6 @@ jobs:
       - name: Install Composer dependencies
         run: |
           cd api
-          composer update
           composer install
 
       - name: Symfony Security Checker
