@@ -2,78 +2,66 @@
 
 {% block title %}Salt & Pepper - Admin Login{% endblock %}
 
+{% block subtitle %}Espace administrateur{% endblock %}
+
 {% block body %}
 
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-{#
-            <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-#}          <h1 class="title mb-5 text-4xl xs:text-5xl md:text-5xl text-center">Salt & Pepper</h1>
-            <h2 class="title mt-10 pt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Espace administrateur</h2>
-        </div>
-
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" action="{{ path('app_login') }}" method="POST">
-                <div class="mb-2">
-                    <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Adresse e-mail</label>
-                    <div class="mt-2">
-                        <input
-                                id="username"
-                                name="_username"
-                                type="email"
-                                autocomplete="email"
-                                value="{{ last_username }}"
-                                required
-                                class="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none"
-                                {#class="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"#}
-                        >
-                    </div>
-                </div>
-
-                <div>
-                    <div class="mt-10 flex items-center justify-between">
-                        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
-                        <div class="text-sm">
-                            <a href="{{ path('app_forgot_password_request') }}" class="font-semibold text-sp-primary-400 hover:text-sp-primary-600 transition-colors duration-300">Mot de passe oublié ?</a>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <input
-                                id="password"
-                                name="_password"
-                                type="password"
-                                autocomplete="current-password"
-                                required
-                                class="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none"
-{#
-                                class="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-#}
-                        >
-                    </div>
-                </div>
-
-                {% if error %}
-                    <div class="flex items-center justify-between">
-                        <p class="block text-sm font-medium leading-6 text-red-700">
-                            {{ error.messageKey|trans(error.messageData, 'security') }}
-                        </p>
-                    </div>
-                {% endif %}
-
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <input type="hidden" name="_target_path" value="{{ path('sonata_admin_redirect') }}">
-
-                <div>
-                    <button
-                            type="submit"
-                            class="flex mt-10 w-full justify-center rounded-md bg-sp-primary-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition-colors duration-300 hover:bg-sp-primary-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" action="{{ path('app_login') }}" method="POST">
+            <div class="mb-2">
+                <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Adresse e-mail</label>
+                <div class="mt-2">
+                    <input
+                            id="username"
+                            name="_username"
+                            type="email"
+                            autocomplete="email"
+                            value="{{ last_username }}"
+                            required
+                            class="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none"
                     >
-                        Se connecter
-                    </button>
                 </div>
-            </form>
-        </div>
+            </div>
 
+            <div>
+                <div class="mt-10 flex items-center justify-between">
+                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Mot de passe</label>
+                    <div class="text-sm">
+                        <a href="{{ path('app_forgot_password_request') }}" class="font-semibold text-sp-primary-400 hover:text-sp-primary-600 transition-colors duration-300">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <input
+                            id="password"
+                            name="_password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                            class="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none"
+                    >
+                </div>
+            </div>
+
+            {% if error %}
+                <div class="flex items-center justify-between">
+                    <p class="block text-sm font-medium leading-6 text-red-700">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </p>
+                </div>
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_target_path" value="{{ path('sonata_admin_redirect') }}">
+
+            <div>
+                <button
+                        type="submit"
+                        class="flex mt-10 w-full justify-center rounded-md bg-sp-primary-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition-colors duration-300 hover:bg-sp-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Se connecter
+                </button>
+            </div>
+        </form>
     </div>
 
 {% endblock %}

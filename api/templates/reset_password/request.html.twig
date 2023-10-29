@@ -1,22 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Salt & Pepper - Réinitialisation de mot de passe{% endblock %}
+
+{% block subtitle %}Réinitialisation de mot de passe{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('reset_password_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-    <h1>Reset your password</h1>
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address, and we will send you a
-                link to reset your password.
-            </small>
-        </div>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {{ form_start(requestForm, { 'attr': {'class': 'space-y-6'}}) }}
+            <div class="mb-2">
+                {{ form_label(requestForm.email, 'Adresse e-mail', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
+                <div class="mt-2">
+                    {{ form_widget(requestForm.email, {'attr': {'class': 'block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none'}}) }}
+                </div>
+            </div>
+            <div class="pt-5">
+                <p class="text-sm text-justify">
+                    Veuillez indiquer votre adresse e-mail, et nous vous ferons parvenir un lien permettant
+                    de réinitialiser votre mot de passe.
+                </p>
+            </div>
 
-        <button class="btn btn-primary">Send password reset email</button>
-    {{ form_end(requestForm) }}
+            {{ form_rest(requestForm) }}
+
+            <div>
+                <button
+                        type="submit"
+                        class="flex mt-10 w-full justify-center rounded-md bg-sp-primary-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition-colors duration-300 hover:bg-sp-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Envoyer
+                </button>
+            </div>
+        {{ form_end(requestForm) }}
+    </div>
+
 {% endblock %}
