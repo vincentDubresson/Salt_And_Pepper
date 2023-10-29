@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 class ChangePasswordFormType extends AbstractType
 {
@@ -25,13 +26,17 @@ class ChangePasswordFormType extends AbstractType
                 'first_options' => [
                     'constraints' => [
                         new NotBlank([
-                            'message' => 'Please enter a password',
+                            'message' => 'Merci de rentrer un mot de passe',
                         ]),
                         new Length([
-                            'min' => 6,
-                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            'min' => 12,
+                            'minMessage' => 'Votre mot de passe doit continer au moins {{ limit }} caractères.',
                             // max length allowed by Symfony for security reasons
                             'max' => 4096,
+                        ]),
+                        new PasswordStrength([
+                            'minScore' => PasswordStrength::STRENGTH_MEDIUM,
+                            'message' => 'Votre mot de passe est trop facile à deviner. La politique de sécurité de Salt & Pepper exige l\'utilisation d\'un mot de passe plus fort.',
                         ]),
                     ],
                     'label' => 'New password',
@@ -39,7 +44,7 @@ class ChangePasswordFormType extends AbstractType
                 'second_options' => [
                     'label' => 'Repeat Password',
                 ],
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'Les mots de passe de correspondent pas.',
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,

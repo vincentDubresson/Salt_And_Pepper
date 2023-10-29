@@ -1,12 +1,38 @@
 {% extends 'base.html.twig' %}
+{% form_theme resetForm 'layout/form/_form_errors.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Salt & Pepper - Réinitialisation de mot de passe{% endblock %}
+
+{% block subtitle %}Réinitialisation de mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    {{ form_start(resetForm, { 'attr': {'class': 'space-y-6'}}) }}
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
+    <div class="mb-2">
+        {{ form_label(resetForm.plainPassword.first, 'Nouveau mot de passe', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
+        <div class="mt-2">
+            {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none'}}) }}
+        </div>
+    </div>
+
+    <div class="mb-2 pt-5">
+        {{ form_label(resetForm.plainPassword.second, 'Confirmer le mot de passe', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
+        <div class="mt-2">
+            {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none'}}) }}
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center justify-between">
+            {{ form_errors(resetForm.plainPassword.first, {'attr': {'class': 'text-sm font-medium leading-6 text-red-700'}}) }}</div>
+    <div>
+        <button
+                type="submit"
+                class="flex mt-10 w-full justify-center rounded-md bg-sp-primary-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition-colors duration-300 hover:bg-sp-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+            Réinitialiser
+        </button>
+    </div>
+
     {{ form_end(resetForm) }}
 {% endblock %}
