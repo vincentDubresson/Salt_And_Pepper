@@ -44,7 +44,7 @@ class ChangePasswordFormType extends AbstractType
                 'second_options' => [
                     'label' => 'Repeat Password',
                 ],
-                'invalid_message' => 'Les mots de passe de correspondent pas.',
+                'invalid_message' => 'Les mots de passe ne correspondent pas.',
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
