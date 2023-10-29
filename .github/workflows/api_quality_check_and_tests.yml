@@ -15,7 +15,6 @@ jobs:
         run: |
           cd api
           composer update --ignore-platform-req=php
-          composer install --ignore-platform-req=php
 
       - name: Symfony Security Checker
         uses : symfonycorp/security-checker-action@v4
