@@ -16,6 +16,10 @@ sonata_admin:
                         edited: { value: 1 }
     options:
         default_translation_domain: 'messages'
+    security:
+        role_admin: ROLE_ADMIN
+    templates:
+        user_block: 'sonata/user_block.html.twig'
 
 sonata_block:
     blocks:
