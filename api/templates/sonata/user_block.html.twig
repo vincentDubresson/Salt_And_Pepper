@@ -1,0 +1,13 @@
+{% if app.user %}
+        {% set _bg_class = 'bg-light-blue' %}
+        {% set _logout_uri = url('app_logout') %}
+
+        <li class="user-footer">
+                <div class="pull-right">
+                        <a href="{{ _logout_uri }}" class="btn btn-default btn-flat">
+                                <i class="fas fa-sign-out-alt fa-fw"></i>
+                                Déconnexion
+                        </a>
+                </div>
+        </li>
+{% endif %}
