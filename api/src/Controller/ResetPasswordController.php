@@ -124,7 +124,6 @@ class ResetPasswordController extends AbstractController
 
                 return $this->redirectToRoute('app_login');
             }
-
         }
 
         return $this->render('reset_password/reset.html.twig', [
@@ -158,9 +157,18 @@ class ResetPasswordController extends AbstractController
 
             return $this->redirectToRoute('app_check_email');
         }
+        /**
+         * @var string $fromEmail
+         */
+        $fromEmail = $this->getParameter('mailer_from');
+
+        /**
+         * @var string $fromName
+         */
+        $fromName = $this->getParameter('mailer_from_name');
 
         $email = (new TemplatedEmail())
-            ->from(new Address($this->getParameter('mailer_from'), $this->getParameter('mailer_from_name')))
+            ->from(new Address($fromEmail, $fromName))
             ->to((string) $user->getEmail())
             ->subject($translator->trans('mailer.reset_password.subject', [], 'messages'))
             ->htmlTemplate('reset_password/email.html.twig')
