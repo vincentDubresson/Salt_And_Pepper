@@ -59,3 +59,7 @@ sonata_admin:
     unity: Unités
     user: Utilisateurs
     sub_category: Sous-catégories
+
+mailer:
+  reset_password:
+    subject: Votre demande de réinitialisation de mot de passe.
