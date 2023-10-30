@@ -55,6 +55,9 @@ class SubCategory implements TimestampableInterface, SluggableInterface
     protected $slug;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\Positive(
+        message: 'Le tri doit être positif.'
+    )]
     #[Groups(['sub_category:read'])]
     private int $sort = 0;
 

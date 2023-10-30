@@ -57,8 +57,11 @@ class Category implements TimestampableInterface, SluggableInterface
     protected $slug;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\Positive(
+        message: 'Le tri doit être positif.'
+    )]
     #[Groups(['sub_category:read', 'category:read'])]
-    private int $sort = 0;
+    private ?int $sort = 0;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, orphanRemoval: true)]
     private Collection $subCategories;
@@ -90,14 +93,16 @@ class Category implements TimestampableInterface, SluggableInterface
         return $this;
     }
 
-    public function getSort(): int
+    public function getSort(): ?int
     {
         return $this->sort;
     }
 
-    public function setSort(int $tri): void
+    public function setSort(int $tri): static
     {
         $this->sort = $tri;
+
+        return $this;
     }
 
     /**
