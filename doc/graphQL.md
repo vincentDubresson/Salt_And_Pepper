@@ -6,6 +6,8 @@
 - [SubCategory - Queries](#subcategory---queries)
 - [Ingredient - Queries](#ingredients---queries)
 - [Unity - Queries](#unities---queries)
+- [Cooking Types - Queries](#cooking-type---queries)
+- [Difficulty - Queries](#difficulty---queries)
 
 ## User - Queries
 
@@ -365,6 +367,76 @@ query GetUnity($id: ID!) {
 ```
 ```json
 {
-  "id": "/api/unity/<id>"
+  "id": "/api/unities/<id>"
+}
+```
+
+## Cooking Type - Queries
+
+### GetCookingTypes
+
+```
+query GetCookingTypes {
+  cookingTypes {
+    edges {
+      node {
+        id
+        label
+        sort
+      }
+    }
+  }
+}
+```
+
+### GetCookingType
+
+```
+query GetCookingType($id: ID!) {
+  cookingType(id: $id) {
+    id
+    label
+    sort
+  }
+}
+```
+```json
+{
+  "id": "/api/cooking_types/<id>"
+}
+```
+
+## Difficulty - Queries
+
+### GetDifficulties
+
+```
+query GetDifficulties {
+  difficulties {
+    edges {
+      node {
+        id
+        label
+        sort
+      }
+    }
+  }
+}
+```
+
+### GetDifficulty
+
+```
+query GetDifficulty($id: ID!) {
+  difficulty(id: $id) {
+    id
+    label
+    sort
+  }
+}
+```
+```json
+{
+  "id": "/api/difficulties/<id>"
 }
 ```
