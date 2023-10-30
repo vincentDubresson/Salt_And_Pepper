@@ -39,7 +39,7 @@ class IngredientFixtures extends Fixture
         'Minéola', 'Mûre', 'Myrtille', 'Nashi', 'Navet', 'Nectarine', 'Nèfle', 'Noisette', 'Noix',
         'Noix de cajou', 'Noix de coco', 'Oignon', 'Olive', 'Orange', 'Origan', 'Oseille', 'Oursin',
         'Oseille de Guinée', 'Oseille rouge', 'Oseille verte', 'Oeuf', 'Oeuf de caille', 'Oeuf de poule',
-        'Pomme', 'Poire', 'Pêche', 'Prune', 'Poireau', 'Poivron vert', 'Poivron rouge', 'Poivron jaune',
+        'Pain', 'Pain de mie', 'Pomme', 'Poire', 'Pêche', 'Prune', 'Poireau', 'Poivron vert', 'Poivron rouge', 'Poivron jaune',
         'poivre', 'Piment', 'Pois', 'Pomme de terre', 'Persil', 'Pois-chiche', 'Panais', 'Papaye',
         'Pastèque', 'Patate douce', 'Patisson', 'Physalis', 'Pignon de pin', 'Pissenlit', 'Pistache',
         'Pitahaya', 'Quinoa', 'Radis', 'Roquette', 'Rhubarbe', 'Romarin', 'Riz', 'Riz basmati',

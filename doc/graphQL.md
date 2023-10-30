@@ -8,6 +8,7 @@
 - [Unity - Queries](#unities---queries)
 - [Cooking Types - Queries](#cooking-type---queries)
 - [Difficulty - Queries](#difficulty---queries)
+- [Coût - Queries](#cost---queries)
 
 ## User - Queries
 
@@ -438,5 +439,40 @@ query GetDifficulty($id: ID!) {
 ```json
 {
   "id": "/api/difficulties/<id>"
+}
+```
+
+## Cost - Queries
+
+### GetCosts
+
+```
+query GetCosts {
+  costs {
+    edges {
+      node {
+        id
+        label
+        sort
+      }
+    }
+  }
+}
+```
+
+### GetCost
+
+```
+query GetCost($id: ID!) {
+  cost(id: $id) {
+    id
+    label
+    sort
+  }
+}
+```
+```json
+{
+  "id": "/api/costs/<id>"
 }
 ```
