@@ -64,3 +64,8 @@ services:
         class: App\Admin\DifficultyAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Difficulty, manager_type: orm, group: sonata_admin.block_label.miscellaneous, label: sonata_admin.menu_label.difficulty }
+
+    admin.cost:
+        class: App\Admin\CostAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Cost, manager_type: orm, group: sonata_admin.block_label.miscellaneous, label: sonata_admin.menu_label.cost }
