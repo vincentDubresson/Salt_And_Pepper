@@ -53,7 +53,7 @@ class CookingType implements TimestampableInterface
 
     public function __toString(): string
     {
-        return $this->getLabel();
+        return (string) $this->getLabel();
     }
 
     public function getId(): ?Uuid
