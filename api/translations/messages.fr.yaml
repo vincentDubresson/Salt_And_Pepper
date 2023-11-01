@@ -37,6 +37,7 @@ sonata_admin:
       updated_at: Mis à jour le
       slug: slug
       sort: Tri
+      picture: Image
     unity:
       abreviation: Abréviation
     user:

@@ -185,12 +185,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?\DateTimeImmutable $birthDate = null;
 
-    #[Vich\UploadableField(mapping: 'user', fileNameProperty: 'imageName')]
-    private ?File $imageFile = null;
+    #[Vich\UploadableField(mapping: 'user_picture_file', fileNameProperty: 'pictureName')]
+    #[Assert\File(
+        maxSize: '1M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    )]
+    #[Assert\Image(
+        allowLandscape: false,
+        allowPortrait: false,
+    )]
+    private ?File $pictureFile = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom de l\'image ne peut pas dépasser 255 caractères.',
+    )]
     #[Groups(['user:read', 'user:create', 'user:update'])]
-    private ?string $imageName = null;
+    private ?string $pictureName = null;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
     #[Groups(['user:read', 'user:create', 'user:update'])]
@@ -457,30 +469,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this;
     }
 
-    public function setImageFile(File $imageFile = null): void
+    public function setPictureFile(File $pictureFile = null): void
     {
-        $this->imageFile = $imageFile;
+        $this->pictureFile = $pictureFile;
 
-        if (null !== $imageFile) {
+        if (null !== $pictureFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
 
-    public function getImageFile(): ?File
+    public function getPictureFile(): ?File
     {
-        return $this->imageFile;
+        return $this->pictureFile;
     }
 
-    public function setImageName(?string $imageName): void
+    public function setPictureName(?string $pictureName): void
     {
-        $this->imageName = $imageName;
+        $this->pictureName = $pictureName;
     }
 
-    public function getImageName(): ?string
+    public function getPictureName(): ?string
     {
-        return $this->imageName;
+        return $this->pictureName;
     }
 
     public function isIsEnable(): ?bool
