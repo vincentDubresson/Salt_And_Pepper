@@ -67,7 +67,13 @@ class UserAdmin extends AbstractAdmin
     {
         $this->transformDataForm($form);
 
-        $picturePathIfExist = $this->picturePathIfExist($this->getSubject()->getPictureName());
+        $user = $this->getSubject();
+
+        $picturePathIfExist = ($user instanceof User) ?
+            $picturePathIfExist = $this->picturePathIfExist($user->getPictureName())
+            :
+            'Aucune image'
+        ;
 
         $form
             ->with('userInfo', [
@@ -260,7 +266,7 @@ class UserAdmin extends AbstractAdmin
                     'timezone' => 'Europe/Paris',
                 ])
                 ->add('pictureFile', null, [
-                    'label' => 'sonata_admin.label.general.picture'
+                    'label' => 'sonata_admin.label.general.picture',
                 ])
                 ->add('pictureName', 'picture', [
                     'template' => 'sonata/picture_show.html.twig',
@@ -279,12 +285,12 @@ class UserAdmin extends AbstractAdmin
         }
     }
 
-    private function picturePathIfExist($pictureName): string|null
+    private function picturePathIfExist(?string $pictureName): string
     {
         if ($pictureName) {
-            return '<img style="width: 50px;" src="/uploads/pictures/users/' . $pictureName . '" alt="User Picture">';
+            return '<img style="width: 50px;" src="/uploads/pictures/users/'.$pictureName.'" alt="User Picture">';
         }
 
-        return null;
+        return 'Aucune image.';
     }
 }

@@ -28,7 +28,7 @@ services:
             $processor: '@api_platform.doctrine.orm.state.persist_processor'
 
     App\DataFixtures\UserFixtures:
-        arguments:
+        bind:
             $uploadDirectory: '%upload_directory%'
 
     # add more service definitions when explicit configuration is needed

@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use AllowDynamicProperties;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -11,11 +10,12 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-#[AllowDynamicProperties] class UserFixtures extends Fixture
+class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $passwordHasher;
     private string $userEmail;
     private string $userPassword;
+    private string $uploadDirectory;
 
     public function __construct(
         UserPasswordHasherInterface $passwordHasher,
@@ -35,7 +35,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
     public function load(ObjectManager $manager): void
     {
-        $file = new File($this->uploadDirectory . '/default/user_default.png');
+        $file = new File($this->uploadDirectory.'/default/user_default.png');
 
         $user = new User();
 
@@ -52,7 +52,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
         $user->setPictureFile($file);
         $user->setPictureName('user_default.png');
-        copy($this->uploadDirectory . '/default/user_default.png', $this->uploadDirectory . '/users/user_default.png');
+        copy($this->uploadDirectory.'/default/user_default.png', $this->uploadDirectory.'/users/user_default.png');
         $manager->persist($user);
 
         $manager->flush();
