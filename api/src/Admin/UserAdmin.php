@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class UserAdmin extends AbstractAdmin
 {
@@ -65,6 +66,14 @@ class UserAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $this->transformDataForm($form);
+
+        $user = $this->getSubject();
+
+        $picturePathIfExist = ($user instanceof User) ?
+            $picturePathIfExist = $this->picturePathIfExist($user->getPictureName())
+            :
+            'Aucune image'
+        ;
 
         $form
             ->with('userInfo', [
@@ -122,6 +131,13 @@ class UserAdmin extends AbstractAdmin
                 ->add('slug', null, [
                     'label' => 'sonata_admin.label.general.slug',
                     'disabled' => true,
+                ])
+                ->add('pictureFile', VichFileType::class, [
+                    'label' => 'image',
+                    'required' => false,
+                    'help' => $picturePathIfExist,
+                    'help_html' => true,
+                    'download_uri' => false,
                 ])
             ->end()
         ;
@@ -238,16 +254,22 @@ class UserAdmin extends AbstractAdmin
                     'label' => 'sonata_admin.label.user.enable',
                 ])
                 ->add('createdAt', 'date', [
-                    'label' => 'sonata_admin.label.user.created_at',
+                    'label' => 'sonata_admin.label.general.created_at',
                     'format' => 'd/m/Y - H:i:s',
                     'locale' => 'fr',
                     'timezone' => 'Europe/Paris',
                 ])
                 ->add('updatedAt', 'date', [
-                    'label' => 'sonata_admin.label.user.updated_at',
+                    'label' => 'sonata_admin.label.general.updated_at',
                     'format' => 'd/m/Y - H:i:s',
                     'locale' => 'fr',
                     'timezone' => 'Europe/Paris',
+                ])
+                ->add('pictureFile', null, [
+                    'label' => 'sonata_admin.label.general.picture',
+                ])
+                ->add('pictureName', 'picture', [
+                    'template' => 'sonata/picture_show.html.twig',
                 ])
             ->end()
         ;
@@ -261,5 +283,14 @@ class UserAdmin extends AbstractAdmin
             $data->setisAdmin(in_array('ROLE_ADMIN', $data->getRoles()));
             $data->setCountry((string) array_search($data->getCountry(), Countries::getNames()));
         }
+    }
+
+    private function picturePathIfExist(?string $pictureName): string
+    {
+        if ($pictureName) {
+            return '<img style="width: 50px;" src="/uploads/pictures/users/'.$pictureName.'" alt="User Picture">';
+        }
+
+        return 'Aucune image.';
     }
 }

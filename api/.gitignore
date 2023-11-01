@@ -26,6 +26,8 @@
 
 ###> Vich Uploader ###
 /public/images/
+/public/uploads/pictures/users/*
+/public/uploads/pictures/users/!user_default.png
 ###< Vich Uploader ###
 
 ###> symfony/webpack-encore-bundle ###
