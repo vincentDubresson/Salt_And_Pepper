@@ -9,7 +9,14 @@ vich_uploader:
             uri_prefix: /uploads/pictures/users
             upload_destination: '%upload_directory%/users'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
 
+        recipe_picture_file:
+            uri_prefix: /uploads/pictures/recipes
+            upload_destination: '%upload_directory%/recipes'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true

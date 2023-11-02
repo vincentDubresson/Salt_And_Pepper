@@ -152,10 +152,14 @@ class Recipe implements TimestampableInterface, SluggableInterface
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: StepRecipe::class, orphanRemoval: true)]
     private Collection $stepRecipes;
 
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: ImageRecipe::class, orphanRemoval: true)]
+    private Collection $imageRecipes;
+
     public function __construct()
     {
         $this->ingredientRecipes = new ArrayCollection();
         $this->stepRecipes = new ArrayCollection();
+        $this->imageRecipes = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -386,6 +390,36 @@ class Recipe implements TimestampableInterface, SluggableInterface
             // set the owning side to null (unless already changed)
             if ($stepRecipe->getRecipe() === $this) {
                 $stepRecipe->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImageRecipe>
+     */
+    public function getImageRecipes(): Collection
+    {
+        return $this->imageRecipes;
+    }
+
+    public function addImageRecipe(ImageRecipe $imageRecipe): static
+    {
+        if (!$this->imageRecipes->contains($imageRecipe)) {
+            $this->imageRecipes->add($imageRecipe);
+            $imageRecipe->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageRecipe(ImageRecipe $imageRecipe): static
+    {
+        if ($this->imageRecipes->removeElement($imageRecipe)) {
+            // set the owning side to null (unless already changed)
+            if ($imageRecipe->getRecipe() === $this) {
+                $imageRecipe->setRecipe(null);
             }
         }
 
