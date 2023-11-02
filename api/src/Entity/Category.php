@@ -39,7 +39,7 @@ class Category implements TimestampableInterface, SluggableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['sub_category:read', 'category:read'])]
+    #[Groups(['sub_category:read', 'category:read', 'recipe:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -47,7 +47,7 @@ class Category implements TimestampableInterface, SluggableInterface
         max: 255,
         maxMessage: 'La catégorie ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['sub_category:read', 'category:read'])]
+    #[Groups(['sub_category:read', 'category:read', 'recipe:read'])]
     private string $label;
 
     /**
@@ -60,7 +60,7 @@ class Category implements TimestampableInterface, SluggableInterface
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
     )]
-    #[Groups(['sub_category:read', 'category:read'])]
+    #[Groups(['sub_category:read', 'category:read', 'recipe:read'])]
     private ?int $sort = 0;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, orphanRemoval: true)]
