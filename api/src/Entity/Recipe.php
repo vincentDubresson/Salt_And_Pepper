@@ -8,6 +8,8 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\RecipeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -137,11 +139,24 @@ class Recipe implements TimestampableInterface, SluggableInterface
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: IngredientRecipe::class, orphanRemoval: true)]
+    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    private Collection $ingredientRecipes;
+
     /**
      * @var \DateTimeInterface
      */
     #[Groups(['recipe:read'])]
     protected $createdAt;
+
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: StepRecipe::class, orphanRemoval: true)]
+    private Collection $stepRecipes;
+
+    public function __construct()
+    {
+        $this->ingredientRecipes = new ArrayCollection();
+        $this->stepRecipes = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -315,5 +330,65 @@ class Recipe implements TimestampableInterface, SluggableInterface
         $slugger = new AsciiSlugger('fr');
 
         return $slugger->slug($stringValues);
+    }
+
+    /**
+     * @return Collection<int, IngredientRecipe>
+     */
+    public function getIngredientRecipes(): Collection
+    {
+        return $this->ingredientRecipes;
+    }
+
+    public function addIngredientRecipe(IngredientRecipe $ingredientRecipe): static
+    {
+        if (!$this->ingredientRecipes->contains($ingredientRecipe)) {
+            $this->ingredientRecipes->add($ingredientRecipe);
+            $ingredientRecipe->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredientRecipe(IngredientRecipe $ingredientRecipe): static
+    {
+        if ($this->ingredientRecipes->removeElement($ingredientRecipe)) {
+            // set the owning side to null (unless already changed)
+            if ($ingredientRecipe->getRecipe() === $this) {
+                $ingredientRecipe->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StepRecipe>
+     */
+    public function getStepRecipes(): Collection
+    {
+        return $this->stepRecipes;
+    }
+
+    public function addStepRecipe(StepRecipe $stepRecipe): static
+    {
+        if (!$this->stepRecipes->contains($stepRecipe)) {
+            $this->stepRecipes->add($stepRecipe);
+            $stepRecipe->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStepRecipe(StepRecipe $stepRecipe): static
+    {
+        if ($this->stepRecipes->removeElement($stepRecipe)) {
+            // set the owning side to null (unless already changed)
+            if ($stepRecipe->getRecipe() === $this) {
+                $stepRecipe->setRecipe(null);
+            }
+        }
+
+        return $this;
     }
 }
