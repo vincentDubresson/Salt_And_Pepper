@@ -4,6 +4,7 @@ sonata_admin:
     difficulty: Difficulté
     ingredient: Ingrédients
     miscellaneous: Divers
+    recipe: Recettes
     user: Utilisateurs
   breadcrum:
     user_list: Utilisateurs
@@ -13,7 +14,9 @@ sonata_admin:
     difficulty_list: Difficultés
     sub_category_list: Sous-catégories
     ingredient_list: Ingrédients
+    recipe_list: Recettes
     unity_list: Unités
+    ingredient_recipe_list: Ingrédients
   general:
     actions: Action
   form:
@@ -26,7 +29,16 @@ sonata_admin:
       difficulty_info: Difficulté
       sub_category_info: Sous-catégorie
       ingredient_info: Ingrédient
+      recipe_title_info: Titre & Description
+      recipe_info_info: Informations de la recette
+      recipe_ingredient_info: Ingrédients
       unity_label: Unité
+  help:
+    recipe:
+      label: Attention ! Cette valeur est unique.
+      description: Petite note descriptive sur la recette.
+      serving_number: Correspond au nombre de parts.
+      serving_unit: Correspond à l'unité correspondant au nombre de parts (ex -> parts, personnes, litre...)
   label:
     category:
       label: Libellé
@@ -38,6 +50,22 @@ sonata_admin:
       slug: slug
       sort: Tri
       picture: Image
+    recipe:
+      description: Note
+      sub_category: Sous-catégorie
+      category: Catégorie
+      serving_number: Portion (Nombre)
+      serving_unit: Portion (Unité)
+      preparation_time: Temps de préparation
+      cooking_time: Temps de cuisson
+      rest_time: Temps de repos
+      cooking_type: Type de cuisson
+      difficulty: Difficulté
+      cost: Coût
+    recipe_ingredient:
+      quantity: Quantité
+      unity: Unité
+      ingredient: Ingrédient
     unity:
       abreviation: Abréviation
     user:
@@ -68,6 +96,7 @@ sonata_admin:
     cost: Coûts
     difficulty: Difficultés
     ingredient: Ingrédients
+    recipe: Recettes
     unity: Unités
     user: Utilisateurs
     sub_category: Sous-catégories

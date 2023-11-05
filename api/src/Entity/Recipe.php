@@ -97,23 +97,20 @@ class Recipe implements TimestampableInterface, SluggableInterface
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
     private ?string $servingUnit = null;
 
-    #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La durée de préparation est obligatoire.')]
-    #[Assert\Time(message: 'Le format de durée de préparation n\'est pas conforme.')]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
-    private ?\DateTimeImmutable $preparationTime = null;
+    private ?\DateTime $preparationTime = null;
 
-    #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La durée de cuisson est obligatoire.')]
-    #[Assert\Time(message: 'Le format de durée de cuisson n\'est pas conforme.')]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
-    private ?\DateTimeImmutable $cookingTime = null;
+    private ?\DateTime $cookingTime = null;
 
-    #[ORM\Column(type: Types::TIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La durée de repose est obligatoire.')]
-    #[Assert\Time(message: 'Le format de durée de repos n\'est pas conforme.')]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
-    private ?\DateTimeImmutable $restingTime = null;
+    private ?\DateTime $restingTime = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -139,7 +136,7 @@ class Recipe implements TimestampableInterface, SluggableInterface
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: IngredientRecipe::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: IngredientRecipe::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
     private Collection $ingredientRecipes;
 
@@ -220,36 +217,36 @@ class Recipe implements TimestampableInterface, SluggableInterface
         return $this;
     }
 
-    public function getPreparationTime(): ?\DateTimeImmutable
+    public function getPreparationTime(): ?\DateTime
     {
         return $this->preparationTime;
     }
 
-    public function setPreparationTime(\DateTimeImmutable $preparationTime): static
+    public function setPreparationTime(\DateTime $preparationTime): static
     {
         $this->preparationTime = $preparationTime;
 
         return $this;
     }
 
-    public function getCookingTime(): ?\DateTimeImmutable
+    public function getCookingTime(): ?\DateTime
     {
         return $this->cookingTime;
     }
 
-    public function setCookingTime(\DateTimeImmutable $cookingTime): static
+    public function setCookingTime(\DateTime $cookingTime): static
     {
         $this->cookingTime = $cookingTime;
 
         return $this;
     }
 
-    public function getRestingTime(): ?\DateTimeImmutable
+    public function getRestingTime(): ?\DateTime
     {
         return $this->restingTime;
     }
 
-    public function setRestingTime(\DateTimeImmutable $restingTime): static
+    public function setRestingTime(\DateTime $restingTime): static
     {
         $this->restingTime = $restingTime;
 

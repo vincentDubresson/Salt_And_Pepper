@@ -45,7 +45,7 @@ class IngredientRecipe implements TimestampableInterface
     private ?int $sort = null;
 
     #[ORM\ManyToOne(inversedBy: 'ingredientRecipes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Recipe $recipe = null;
 
     #[ORM\ManyToOne]

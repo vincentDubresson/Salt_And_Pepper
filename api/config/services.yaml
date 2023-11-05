@@ -35,6 +35,11 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # Sonata Admin Bundle
+    admin.recipe:
+        class: App\Admin\RecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Recipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.recipe }
+
     admin.user:
         class: App\Admin\UserAdmin
         tags:
@@ -74,3 +79,8 @@ services:
         class: App\Admin\CostAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Cost, manager_type: orm, group: sonata_admin.block_label.miscellaneous, label: sonata_admin.menu_label.cost }
+
+    admin.ingredient_recipe:
+        class: App\Admin\IngredientRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\IngredientRecipe, manager_type: orm, group: sonata_admin.block_label.miscellaneous, label: sonata_admin.menu_label.ingredient_recipe }
