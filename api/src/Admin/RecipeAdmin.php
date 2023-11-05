@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RecipeAdmin extends AbstractAdmin
@@ -50,7 +51,7 @@ class RecipeAdmin extends AbstractAdmin
 
     protected function preValidate(object $object): void
     {
-        if ($object instanceof Recipe && $this->tokenStorage->getToken() instanceof TokenStorageInterface) {
+        if ($object instanceof Recipe && $this->tokenStorage->getToken() instanceof TokenInterface) {
             $user = $this->tokenStorage->getToken()->getUser();
             if ($user instanceof User) {
                 $object->setUser($user);
@@ -61,23 +62,18 @@ class RecipeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('RecipeTitle', [
-                'label' => 'sonata_admin.form.tab_label.recipe_title_info',
+            ->with('RecipeInfo', [
+                'label' => 'sonata_admin.form.tab_label.recipe_info',
                 'class' => 'col-lg-6',
             ])
                 ->add('label', TextType::class, [
-                    'label' => 'sonata_admin.label.general.label',
+                    'label' => 'sonata_admin.label.recipe.label',
                     'help' => 'sonata_admin.help.recipe.label',
                 ])
                 ->add('description', TextareaType::class, [
                     'label' => 'sonata_admin.label.recipe.description',
                     'help' => 'sonata_admin.help.recipe.description',
                 ])
-            ->end()
-            ->with('RecipeInfo', [
-                'label' => 'sonata_admin.form.tab_label.recipe_info_info',
-                'class' => 'col-lg-6',
-            ])
                 ->add('subCategory', EntityType::class, [
                     'label' => 'sonata_admin.label.recipe.category',
                     'class' => SubCategory::class,
@@ -125,12 +121,23 @@ class RecipeAdmin extends AbstractAdmin
                     'class' => Cost::class,
                 ])
             ->end()
-            ->with('IngredientInfo', [
-                'label' => 'sonata_admin.form.tab_label.recipe_ingredient_info',
+            ->with('RecipeDetails', [
+                'label' => 'sonata_admin.form.tab_label.recipe_details',
                 'class' => 'col-lg-6',
             ])
                 ->add('ingredientRecipes', CollectionType::class, [
-                    'label' => 'Ingrédients',
+                    'label' => 'sonata_admin.label.recipe.ingredient',
+                    'by_reference' => false,
+                    'type_options' => [
+                        'delete' => true,
+                    ],
+                ], [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'position',
+                ])
+                ->add('stepRecipes', CollectionType::class, [
+                    'label' => 'sonata_admin.label.recipe.step',
                     'by_reference' => false,
                     'type_options' => [
                         'delete' => true,

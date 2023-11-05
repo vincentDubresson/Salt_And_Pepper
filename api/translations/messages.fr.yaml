@@ -17,6 +17,7 @@ sonata_admin:
     recipe_list: Recettes
     unity_list: Unités
     ingredient_recipe_list: Ingrédients
+    step_recipe_list: Étapes de la recette
   general:
     actions: Action
   form:
@@ -29,10 +30,9 @@ sonata_admin:
       difficulty_info: Difficulté
       sub_category_info: Sous-catégorie
       ingredient_info: Ingrédient
-      recipe_title_info: Titre & Description
-      recipe_info_info: Informations de la recette
-      recipe_ingredient_info: Ingrédients
-      unity_label: Unité
+      recipe_info: Informations de la recette
+      recipe_details: Détails de la recette
+      step_recipe_info: Étapes de la recette
   help:
     recipe:
       label: Attention ! Cette valeur est unique.
@@ -51,6 +51,7 @@ sonata_admin:
       sort: Tri
       picture: Image
     recipe:
+      label: Titre
       description: Note
       sub_category: Sous-catégorie
       category: Catégorie
@@ -62,10 +63,14 @@ sonata_admin:
       cooking_type: Type de cuisson
       difficulty: Difficulté
       cost: Coût
+      ingredient: Ingrédients
+      step: Étapes
     recipe_ingredient:
       quantity: Quantité
       unity: Unité
       ingredient: Ingrédient
+    step_recipe:
+      description: Étape
     unity:
       abreviation: Abréviation
     user:

@@ -43,7 +43,7 @@ class StepRecipe implements TimestampableInterface
     private ?int $sort = null;
 
     #[ORM\ManyToOne(inversedBy: 'stepRecipes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Recipe $recipe = null;
 
     public function getId(): ?Uuid
