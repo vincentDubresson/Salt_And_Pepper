@@ -149,7 +149,7 @@ class Recipe implements TimestampableInterface, SluggableInterface
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: StepRecipe::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $stepRecipes;
 
-    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: ImageRecipe::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: ImageRecipe::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $imageRecipes;
 
     public function __construct()

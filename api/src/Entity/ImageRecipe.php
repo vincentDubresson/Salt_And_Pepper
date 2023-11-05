@@ -37,10 +37,6 @@ class ImageRecipe implements TimestampableInterface
         maxSize: '1M',
         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
     )]
-    #[Assert\Image(
-        allowLandscape: false,
-        allowPortrait: false,
-    )]
     private ?File $pictureFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -59,7 +55,7 @@ class ImageRecipe implements TimestampableInterface
     private ?int $sort = null;
 
     #[ORM\ManyToOne(inversedBy: 'imageRecipes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Recipe $recipe = null;
 
     public function getId(): ?Uuid
@@ -88,7 +84,7 @@ class ImageRecipe implements TimestampableInterface
         return $this->pictureName;
     }
 
-    public function setPictureName(string $pictureName): static
+    public function setPictureName(?string $pictureName): static
     {
         $this->pictureName = $pictureName;
 

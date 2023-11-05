@@ -89,3 +89,8 @@ services:
         class: App\Admin\StepRecipeAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\StepRecipe, manager_type: orm }
+
+    admin.image_recipe:
+        class: App\Admin\ImageRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\ImageRecipe, manager_type: orm }

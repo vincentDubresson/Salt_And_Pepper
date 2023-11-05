@@ -236,7 +236,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
 
     public function __toString(): string
     {
-        return $this->getFirstname().' '.$this->getLastname();
+        return $this->getFirstname() . ' ' . $this->getLastname();
     }
 
     public function getId(): ?Uuid

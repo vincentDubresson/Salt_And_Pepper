@@ -35,7 +35,7 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $file = new File($this->uploadDirectory.'/default/user_default.png');
+        $file = new File($this->uploadDirectory . '/default/user_default.png');
 
         $user = new User();
 
@@ -52,7 +52,7 @@ class UserFixtures extends Fixture
 
         $user->setPictureFile($file);
         $user->setPictureName('user_default.png');
-        copy($this->uploadDirectory.'/default/user_default.png', $this->uploadDirectory.'/users/user_default.png');
+        copy($this->uploadDirectory . '/default/user_default.png', $this->uploadDirectory . '/users/user_default.png');
         $manager->persist($user);
 
         $manager->flush();

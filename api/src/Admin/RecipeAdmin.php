@@ -80,7 +80,7 @@ class RecipeAdmin extends AbstractAdmin
                     'choice_label' => function (SubCategory $subCategory) {
                         $category = $subCategory->getCategory();
                         if ($category instanceof Category) {
-                            return $category->getLabel().' - '.$subCategory->getLabel();
+                            return $category->getLabel() . ' - ' . $subCategory->getLabel();
                         }
                         throw new EntityNotFoundException('Not found');
                     },
@@ -138,6 +138,17 @@ class RecipeAdmin extends AbstractAdmin
                 ])
                 ->add('stepRecipes', CollectionType::class, [
                     'label' => 'sonata_admin.label.recipe.step',
+                    'by_reference' => false,
+                    'type_options' => [
+                        'delete' => true,
+                    ],
+                ], [
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'position',
+                ])
+                ->add('imageRecipes', CollectionType::class, [
+                    'label' => 'sonata_admin.label.recipe.image',
                     'by_reference' => false,
                     'type_options' => [
                         'delete' => true,

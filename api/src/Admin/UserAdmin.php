@@ -70,7 +70,7 @@ class UserAdmin extends AbstractAdmin
         $user = $this->getSubject();
 
         $picturePathIfExist = ($user instanceof User) ?
-            $picturePathIfExist = $this->picturePathIfExist($user->getPictureName())
+            $this->picturePathIfExist($user->getPictureName())
             :
             'Aucune image'
         ;
@@ -288,7 +288,7 @@ class UserAdmin extends AbstractAdmin
     private function picturePathIfExist(?string $pictureName): string
     {
         if ($pictureName) {
-            return '<img style="width: 50px;" src="/uploads/pictures/users/'.$pictureName.'" alt="User Picture">';
+            return '<img style="width: 50px;" src="/uploads/pictures/users/' . $pictureName . '" alt="User Picture">';
         }
 
         return 'Aucune image.';

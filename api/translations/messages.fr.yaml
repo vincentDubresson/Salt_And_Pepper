@@ -18,6 +18,7 @@ sonata_admin:
     unity_list: Unités
     ingredient_recipe_list: Ingrédients
     step_recipe_list: Étapes de la recette
+    image_recipe_list: Images de la recette
   general:
     actions: Action
   form:
@@ -33,6 +34,7 @@ sonata_admin:
       recipe_info: Informations de la recette
       recipe_details: Détails de la recette
       step_recipe_info: Étapes de la recette
+      recipe_image_info: Images de la recette
   help:
     recipe:
       label: Attention ! Cette valeur est unique.
@@ -65,6 +67,7 @@ sonata_admin:
       cost: Coût
       ingredient: Ingrédients
       step: Étapes
+      image: Images
     recipe_ingredient:
       quantity: Quantité
       unity: Unité
