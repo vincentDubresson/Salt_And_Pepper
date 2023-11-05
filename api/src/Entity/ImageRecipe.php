@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GraphQl\DeleteMutation;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\ImageRecipeRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +23,25 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[ApiResource(
     operations: [],
-    graphQlOperations: []
+    // Display when reading the object
+    normalizationContext: ['groups' => ['image_recipe:read']],
+    // Available to write
+    denormalizationContext: ['groups' => ['image_recipe:create', 'image_recipe:update']],
+    graphQlOperations: [
+        new QueryCollection(),
+        new Mutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'create',
+        ),
+        new Mutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'update',
+        ),
+        new DeleteMutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'delete'
+        ),
+    ]
 )]
 class ImageRecipe implements TimestampableInterface
 {
@@ -30,7 +51,7 @@ class ImageRecipe implements TimestampableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['recipe:read'])]
+    #[Groups(['recipe:read', 'image_recipe:read', 'image_recipe:create', 'image_recipe:update'])]
     private ?Uuid $id = null;
 
     #[Vich\UploadableField(mapping: 'recipe_picture_file', fileNameProperty: 'pictureName')]
@@ -38,7 +59,7 @@ class ImageRecipe implements TimestampableInterface
         maxSize: '1M',
         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
     )]
-    #[Groups(['recipe:create', 'recipe:update'])]
+    #[Groups(['image_recipe:create', 'image_recipe:update'])]
     private ?File $pictureFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -46,18 +67,19 @@ class ImageRecipe implements TimestampableInterface
         max: 255,
         maxMessage: 'Le nom de l\'image ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'image_recipe:read', 'image_recipe:create', 'image_recipe:update'])]
     private ?string $pictureName = null;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
     )]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'image_recipe:read', 'image_recipe:create', 'image_recipe:update'])]
     private ?int $sort = null;
 
     #[ORM\ManyToOne(inversedBy: 'imageRecipes')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['recipe:read', 'image_recipe:read', 'image_recipe:create', 'image_recipe:update'])]
     private ?Recipe $recipe = null;
 
     public function getId(): ?Uuid

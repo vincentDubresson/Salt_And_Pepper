@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GraphQl\DeleteMutation;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\IngredientRecipeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -16,7 +19,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: '`ingredient_recipe`')]
 #[ApiResource(
     operations: [],
-    graphQlOperations: []
+    // Display when reading the object
+    normalizationContext: ['groups' => ['ingredient_recipe:read']],
+    // Available to write
+    denormalizationContext: ['groups' => ['ingredient_recipe:create', 'ingredient_recipe:update']],
+    graphQlOperations: [
+        new QueryCollection(),
+        new Mutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'create',
+        ),
+        new Mutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'update',
+        ),
+        new DeleteMutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'delete'
+        ),
+    ]
 )]
 class IngredientRecipe implements TimestampableInterface
 {
@@ -26,7 +47,7 @@ class IngredientRecipe implements TimestampableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['recipe:read'])]
+    #[Groups(['recipe:read', 'ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'float')]
@@ -34,28 +55,29 @@ class IngredientRecipe implements TimestampableInterface
         type: 'float',
         message: 'La valeur "{{ value }}" n\'est un nombre à virgule (ex: 1,00).',
     )]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?float $quantity = null;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
     )]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?int $sort = null;
 
     #[ORM\ManyToOne(inversedBy: 'ingredientRecipes')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?Recipe $recipe = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?Unity $unity = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?Ingredient $ingredient = null;
 
     public function getId(): ?Uuid

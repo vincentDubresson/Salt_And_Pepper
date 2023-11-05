@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GraphQl\DeleteMutation;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\StepRecipeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +20,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: '`step_recipe`')]
 #[ApiResource(
     operations: [],
-    graphQlOperations: []
+    // Display when reading the object
+    normalizationContext: ['groups' => ['step_recipe:read']],
+    // Available to write
+    denormalizationContext: ['groups' => ['step_recipe:create', 'step_recipe:update']],
+    graphQlOperations: [
+        new QueryCollection(),
+        new Mutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'create',
+        ),
+        new Mutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'update',
+        ),
+        new DeleteMutation(
+            security: 'is_granted("ROLE_USER")',
+            name: 'delete'
+        ),
+    ]
 )]
 class StepRecipe implements TimestampableInterface
 {
@@ -27,23 +48,24 @@ class StepRecipe implements TimestampableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['recipe:read'])]
+    #[Groups(['recipe:read', 'step_recipe:read', 'step_recipe:create', 'step_recipe:update'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Blank(message: 'La description est obligatoire')]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'step_recipe:read', 'step_recipe:create', 'step_recipe:update'])]
     private ?string $description = null;
 
     #[ORM\Column(type: 'integer')]
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
     )]
-    #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
+    #[Groups(['recipe:read', 'step_recipe:read', 'step_recipe:create', 'step_recipe:update'])]
     private ?int $sort = null;
 
     #[ORM\ManyToOne(inversedBy: 'stepRecipes')]
     #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['step_recipe:read', 'step_recipe:create', 'step_recipe:update'])]
     private ?Recipe $recipe = null;
 
     public function getId(): ?Uuid
