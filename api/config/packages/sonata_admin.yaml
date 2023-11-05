@@ -14,6 +14,16 @@ sonata_admin:
                     color: bg-yellow
                     filters:
                         edited: { value: 1 }
+            - class: col-lg-3 col-xs-6
+              position: top
+              type: sonata.admin.block.stats
+              settings:
+                  code: admin.recipe
+                  icon: fas fa-list
+                  text: sonata_admin.block_label.recipe
+                  color: bg-red
+                  filters:
+                      edited: { value: 1 }
     options:
         default_translation_domain: 'messages'
     security:
