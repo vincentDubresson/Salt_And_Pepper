@@ -10,6 +10,8 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\UserRepository;
 use App\Resolver\UserMutationResolver;
 use App\State\UserStateProcessor;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -185,7 +187,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     #[Assert\Type("\DateTimeInterface")]
     #[Groups(['user:read', 'user:create', 'user:update'])]
-    private ?\DateTimeImmutable $birthDate = null;
+    private ?DateTimeImmutable $birthDate = null;
 
     #[Vich\UploadableField(mapping: 'user_picture_file', fileNameProperty: 'pictureName')]
     #[Assert\File(
@@ -215,13 +217,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     private ?bool $isFirstConnexion = true;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     #[Groups(['user:read'])]
     protected $createdAt;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     #[Groups(['user:read'])]
     protected $updatedAt;
@@ -374,7 +376,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTimeImmutable
+    public function getBirthDate(): ?DateTimeImmutable
     {
         return $this->birthDate;
     }
@@ -382,7 +384,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     /**
      * @return $this
      */
-    public function setBirthDate(?\DateTimeImmutable $birthDate): static
+    public function setBirthDate(?DateTimeImmutable $birthDate): static
     {
         $this->birthDate = $birthDate;
 
@@ -486,7 +488,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         if (null !== $pictureFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
     }
 

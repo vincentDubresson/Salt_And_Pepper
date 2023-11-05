@@ -14,6 +14,11 @@ return (new PhpCsFixer\Config())
         'increment_style' => [
             'style' => 'post',
         ],
+        'global_namespace_import' => [
+            'import_classes' => true,
+            'import_constants' => false,
+            'import_functions' => true
+        ]
     ])
     ->setFinder($finder)
 ;

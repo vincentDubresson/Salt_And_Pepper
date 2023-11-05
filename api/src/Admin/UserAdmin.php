@@ -4,6 +4,7 @@ namespace App\Admin;
 
 use App\Entity\User;
 use App\Service\UserPasswordGenerator;
+use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -48,7 +49,7 @@ class UserAdmin extends AbstractAdmin
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function preValidate(object $object): void
     {

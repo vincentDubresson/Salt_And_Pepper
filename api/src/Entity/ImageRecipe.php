@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ImageRecipeRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -37,6 +38,7 @@ class ImageRecipe implements TimestampableInterface
         maxSize: '1M',
         mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
     )]
+    #[Groups(['recipe:create', 'recipe:update'])]
     private ?File $pictureFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -70,7 +72,7 @@ class ImageRecipe implements TimestampableInterface
         if (null !== $pictureFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
     }
 

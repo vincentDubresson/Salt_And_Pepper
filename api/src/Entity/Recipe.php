@@ -8,6 +8,8 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\RecipeRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -29,9 +31,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [],
     // Display when reading the object
-    normalizationContext: ['groups' => ['user:read']],
+    normalizationContext: ['groups' => ['recipe:read']],
     // Available to write
-    denormalizationContext: ['groups' => ['user:create', 'user:update']],
+    denormalizationContext: ['groups' => ['recipe:create', 'recipe:update']],
     graphQlOperations: [
         new QueryCollection(),
         new Query(),
@@ -100,17 +102,17 @@ class Recipe implements TimestampableInterface, SluggableInterface
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La durée de préparation est obligatoire.')]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
-    private ?\DateTime $preparationTime = null;
+    private ?DateTime $preparationTime = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     #[Assert\NotBlank(message: 'La durée de cuisson est obligatoire.')]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
-    private ?\DateTime $cookingTime = null;
+    private ?DateTime $cookingTime = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    #[Assert\NotBlank(message: 'La durée de repose est obligatoire.')]
+    #[Assert\NotBlank(message: 'La durée de repos est obligatoire.')]
     #[Groups(['recipe:read', 'recipe:create', 'recipe:update'])]
-    private ?\DateTime $restingTime = null;
+    private ?DateTime $restingTime = null;
 
     #[ORM\ManyToOne(inversedBy: 'recipes')]
     #[ORM\JoinColumn(nullable: false)]
@@ -149,10 +151,16 @@ class Recipe implements TimestampableInterface, SluggableInterface
     private Collection $imageRecipes;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     #[Groups(['recipe:read'])]
     protected $createdAt;
+
+    /**
+     * @var DateTimeInterface
+     */
+    #[Groups(['recipe:read'])]
+    protected $updatedAt;
 
     public function __construct()
     {
@@ -219,36 +227,36 @@ class Recipe implements TimestampableInterface, SluggableInterface
         return $this;
     }
 
-    public function getPreparationTime(): ?\DateTime
+    public function getPreparationTime(): ?DateTime
     {
         return $this->preparationTime;
     }
 
-    public function setPreparationTime(\DateTime $preparationTime): static
+    public function setPreparationTime(DateTime $preparationTime): static
     {
         $this->preparationTime = $preparationTime;
 
         return $this;
     }
 
-    public function getCookingTime(): ?\DateTime
+    public function getCookingTime(): ?DateTime
     {
         return $this->cookingTime;
     }
 
-    public function setCookingTime(\DateTime $cookingTime): static
+    public function setCookingTime(DateTime $cookingTime): static
     {
         $this->cookingTime = $cookingTime;
 
         return $this;
     }
 
-    public function getRestingTime(): ?\DateTime
+    public function getRestingTime(): ?DateTime
     {
         return $this->restingTime;
     }
 
-    public function setRestingTime(\DateTime $restingTime): static
+    public function setRestingTime(DateTime $restingTime): static
     {
         $this->restingTime = $restingTime;
 

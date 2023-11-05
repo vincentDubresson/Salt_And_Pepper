@@ -60,12 +60,12 @@ class SubCategory implements TimestampableInterface, SluggableInterface
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
     )]
-    #[Groups(['sub_category:read', 'recipe:read'])]
+    #[Groups(['sub_category:read'])]
     private int $sort = 0;
 
     #[ORM\ManyToOne(inversedBy: 'subCategories')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['sub_category:read'])]
+    #[Groups(['sub_category:read', 'recipe:read'])]
     private ?Category $category;
 
     #[ORM\OneToMany(mappedBy: 'subCategory', targetEntity: Recipe::class)]

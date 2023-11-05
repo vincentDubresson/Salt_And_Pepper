@@ -63,6 +63,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
                     ->setCookingType($cookingTypes[rand(0, count($cookingTypes) - 1)])
                     ->setDifficulty($difficulties[rand(0, count($difficulties) - 1)])
                     ->setCost($costs[rand(0, count($costs) - 1)])
+                    ->setUser($user)
                 ;
 
                 $manager->persist($recipe);

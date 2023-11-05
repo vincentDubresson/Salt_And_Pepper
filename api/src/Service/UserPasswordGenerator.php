@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
+use Exception;
+
 class UserPasswordGenerator
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function generatePassword(int $length): string
     {

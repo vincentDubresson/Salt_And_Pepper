@@ -9,6 +9,8 @@
 - [Cooking Types - Queries](#cooking-type---queries)
 - [Difficulty - Queries](#difficulty---queries)
 - [Coût - Queries](#cost---queries)
+- [Recette - Queries](#recipe---queries)
+- [Recette - Mutations](#recipe---mutations)
 
 ## User - Queries
 
@@ -476,3 +478,179 @@ query GetCost($id: ID!) {
   "id": "/api/costs/<id>"
 }
 ```
+
+## Recipe - Queries
+
+### GetRecipes
+
+```
+query GetRecipes {
+  recipes {
+    edges {
+      node {
+        id
+        label
+        slug
+        description
+        servingNumber
+        servingUnit
+        preparationTime
+        cookingTime
+        restingTime
+        createdAt
+        updatedAt
+        subCategory {
+          id
+          label
+          category {
+            id
+            label
+          }
+        }
+        cookingType {
+          id
+          label
+        }
+        difficulty {
+          id
+          label
+        }
+        cost {
+          id
+          label
+        }
+        user {
+          id
+          firstname
+          lastname
+        }
+        ingredientRecipes {
+          edges {
+            node {
+              id
+              quantity
+              sort
+              unity {
+                id
+                label
+                abreviation
+              }
+              ingredient {
+                id
+                label
+              }
+            }
+          }
+        }
+        stepRecipes {
+          edges {
+            node {
+              id
+              description
+              sort
+            }
+          }
+        }
+        imageRecipes {
+          edges{
+            node {
+              id
+              pictureName
+              sort
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### GetRecipe
+
+```
+query GetRecipe($id: ID!) {
+  recipe(id: $id) {
+    id
+    label
+    slug
+    description
+    servingNumber
+    servingUnit
+    preparationTime
+    cookingTime
+    restingTime
+    createdAt
+    updatedAt
+    subCategory {
+      id
+      label
+      category {
+        id
+        label
+      }
+    }
+    cookingType {
+      id
+      label
+    }
+    difficulty {
+      id
+      label
+    }
+    cost {
+      id
+      label
+    }
+    user {
+      id
+      firstname
+      lastname
+    }
+    ingredientRecipes {
+      edges {
+        node {
+          id
+          quantity
+          sort
+          unity {
+            id
+            label
+            abreviation
+          }
+          ingredient {
+            id
+            label
+          }
+        }
+      }
+    }
+    stepRecipes {
+      edges {
+        node {
+          id
+          description
+          sort
+        }
+      }
+    }
+    imageRecipes {
+      edges{
+        node {
+          id
+          pictureName
+          sort
+        }
+      }
+    }
+  }
+}
+```
+
+```json
+{
+  "id": "/api/recipes/<id>"
+}
+```
+
+## Recipe - Mutations

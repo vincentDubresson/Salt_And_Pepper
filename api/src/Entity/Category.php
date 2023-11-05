@@ -60,7 +60,7 @@ class Category implements TimestampableInterface, SluggableInterface
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
     )]
-    #[Groups(['sub_category:read', 'category:read', 'recipe:read'])]
+    #[Groups(['sub_category:read', 'category:read'])]
     private ?int $sort = 0;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, orphanRemoval: true)]
