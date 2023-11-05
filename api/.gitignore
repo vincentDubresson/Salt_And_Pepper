@@ -28,6 +28,7 @@
 /public/images/
 /public/uploads/pictures/users/*
 /public/uploads/pictures/recipes/*
+!/public/uploads/pictures/recipes/re
 /public/uploads/pictures/users/!user_default.png
 ###< Vich Uploader ###
 

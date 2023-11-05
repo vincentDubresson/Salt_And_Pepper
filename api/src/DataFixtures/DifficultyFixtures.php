@@ -29,7 +29,7 @@ class DifficultyFixtures extends Fixture
 
             $manager->persist($newDifficulty);
 
-            ++$sort;
+            $sort++;
         }
 
         $manager->flush();

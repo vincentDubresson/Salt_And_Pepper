@@ -11,6 +11,9 @@ return (new PhpCsFixer\Config())
         'concat_space' => [
             'spacing' => 'one',
         ],
+        'increment_style' => [
+            'style' => 'post',
+        ],
     ])
     ->setFinder($finder)
 ;

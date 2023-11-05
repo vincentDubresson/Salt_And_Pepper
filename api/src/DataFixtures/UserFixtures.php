@@ -40,8 +40,8 @@ class UserFixtures extends Fixture
         $user = new User();
 
         $user
-            ->setFirstname('Vincent')
-            ->setLastname('Dubresson')
+            ->setFirstname('John')
+            ->setLastname('Doe')
             ->setEmail($this->userEmail)
             ->setPassword($this->passwordHasher->hashPassword($user, $this->userPassword))
             ->setRoles(['ROLE_ADMIN'])
