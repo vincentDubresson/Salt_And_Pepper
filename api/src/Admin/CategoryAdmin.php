@@ -3,6 +3,7 @@
 namespace App\Admin;
 
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CategoryAdmin extends BaseCategoryAdmin
@@ -15,6 +16,11 @@ class CategoryAdmin extends BaseCategoryAdmin
     public function configure(): void
     {
         $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.category_list');
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
