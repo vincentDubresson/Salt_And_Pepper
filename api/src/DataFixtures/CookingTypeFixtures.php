@@ -28,7 +28,7 @@ class CookingTypeFixtures extends Fixture
 
             $manager->persist($newCookingType);
 
-            ++$sort;
+            $sort++;
         }
 
         $manager->flush();

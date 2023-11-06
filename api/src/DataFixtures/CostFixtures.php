@@ -28,7 +28,7 @@ class CostFixtures extends Fixture
 
             $manager->persist($newCost);
 
-            ++$sort;
+            $sort++;
         }
 
         $manager->flush();

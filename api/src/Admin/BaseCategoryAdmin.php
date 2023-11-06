@@ -6,7 +6,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -24,6 +24,11 @@ class BaseCategoryAdmin extends AbstractAdmin
         parent::__construct($code, $class, $baseControllerName);
 
         $this->translator = $translator;
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -83,37 +88,6 @@ class BaseCategoryAdmin extends AbstractAdmin
                     'delete' => [],
                 ],
             ])
-        ;
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->with('categoryInfo', [
-                'label' => 'sonata_admin.form.tab_label.category_info',
-            ])
-                ->add('label', null, [
-                    'label' => 'sonata_admin.label.general.label',
-                ])
-                ->add('slug', null, [
-                    'label' => 'sonata_admin.label.general.slug',
-                ])
-                ->add('sort', null, [
-                    'label' => 'sonata_admin.label.general.sort',
-                ])
-                ->add('createdAt', 'date', [
-                    'label' => 'sonata_admin.label.general.created_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('updatedAt', 'date', [
-                    'label' => 'sonata_admin.label.general.updated_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-            ->end()
         ;
     }
 }

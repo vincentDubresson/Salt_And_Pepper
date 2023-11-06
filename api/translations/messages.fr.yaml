@@ -4,6 +4,7 @@ sonata_admin:
     difficulty: Difficulté
     ingredient: Ingrédients
     miscellaneous: Divers
+    recipe: Recettes
     user: Utilisateurs
   breadcrum:
     user_list: Utilisateurs
@@ -13,7 +14,11 @@ sonata_admin:
     difficulty_list: Difficultés
     sub_category_list: Sous-catégories
     ingredient_list: Ingrédients
+    recipe_list: Recettes
     unity_list: Unités
+    ingredient_recipe_list: Ingrédients de la recette
+    step_recipe_list: Étapes de la recette
+    image_recipe_list: Images de la recette
   general:
     actions: Action
   form:
@@ -26,7 +31,16 @@ sonata_admin:
       difficulty_info: Difficulté
       sub_category_info: Sous-catégorie
       ingredient_info: Ingrédient
-      unity_label: Unité
+      recipe_info: Informations de la recette
+      recipe_details: Détails de la recette
+      step_recipe_info: Étapes de la recette
+      recipe_image_info: Images de la recette
+  help:
+    recipe:
+      label: Attention ! Cette valeur est unique.
+      description: Petite note descriptive sur la recette.
+      serving_number: Correspond au nombre de parts.
+      serving_unit: Correspond à l'unité correspondant au nombre de parts (ex -> parts, personnes, litre...)
   label:
     category:
       label: Libellé
@@ -38,6 +52,31 @@ sonata_admin:
       slug: slug
       sort: Tri
       picture: Image
+    recipe:
+      label: Titre
+      description: Note
+      sub_category: Sous-catégorie
+      category: Catégorie
+      serving_number: Portion (Nombre)
+      serving_unit: Portion (Unité)
+      preparation_time: Temps de préparation
+      cooking_time: Temps de cuisson
+      rest_time: Temps de repos
+      cooking_type: Type de cuisson
+      difficulty: Difficulté
+      cost: Coût
+      ingredient: Ingrédients
+      step: Étapes
+      image: Images
+      user: Utilisateur
+      image_name: Nom de l'image
+      recipe: Recette
+    recipe_ingredient:
+      quantity: Quantité
+      unity: Unité
+      ingredient: Ingrédient
+    step_recipe:
+      description: Étape
     unity:
       abreviation: Abréviation
     user:
@@ -68,9 +107,13 @@ sonata_admin:
     cost: Coûts
     difficulty: Difficultés
     ingredient: Ingrédients
+    recipe: Recettes
     unity: Unités
     user: Utilisateurs
     sub_category: Sous-catégories
+    ingredient_recipe: Ingrédients de la recette
+    step_recipe: Étapes de la recette
+    image_recipe: Images de la recette
 
 mailer:
   reset_password:

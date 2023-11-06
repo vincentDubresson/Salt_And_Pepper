@@ -2,17 +2,17 @@
 
 namespace App\Admin;
 
+use App\Entity\Ingredient;
+use App\Entity\Unity;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CostAdmin extends AbstractAdmin
+class IngredientRecipeAdmin extends AbstractAdmin
 {
     private TranslatorInterface $translator;
 
@@ -29,7 +29,7 @@ class CostAdmin extends AbstractAdmin
 
     public function configure(): void
     {
-        $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.cost_list');
+        $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.ingredient_recipe_list');
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
@@ -37,19 +37,22 @@ class CostAdmin extends AbstractAdmin
         $collection->remove('show');
     }
 
-    protected function configureDefaultSortValues(array &$sortValues): void
-    {
-        $sortValues[DatagridInterface::SORT_BY] = 'sort';
-    }
-
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('costInfo', [
-                'label' => 'sonata_admin.form.tab_label.cost_info',
+            ->with('IngredientRecipeInfo', [
+                'label' => 'sonata_admin.form.tab_label.recipe_ingredient_info',
             ])
-                ->add('label', TextType::class, [
-                    'label' => 'sonata_admin.label.general.label',
+                ->add('quantity', NumberType::class, [
+                    'label' => 'sonata_admin.label.recipe_ingredient.quantity',
+                ])
+                ->add('unity', EntityType::class, [
+                    'label' => 'sonata_admin.label.recipe_ingredient.unity',
+                    'class' => Unity::class,
+                ])
+                ->add('ingredient', EntityType::class, [
+                    'label' => 'sonata_admin.label.recipe_ingredient.ingredient',
+                    'class' => Ingredient::class,
                 ])
                 ->add('sort', NumberType::class, [
                     'label' => 'sonata_admin.label.general.sort',
@@ -58,18 +61,20 @@ class CostAdmin extends AbstractAdmin
         ;
     }
 
-    protected function configureDatagridFilters(DatagridMapper $filter): void
-    {
-        $filter->add('label', null, [
-            'label' => 'sonata_admin.label.general.label',
-        ]);
-    }
-
     protected function configureListFields(ListMapper $list): void
     {
         $list
-            ->add('label', null, [
-                'label' => 'sonata_admin.label.general.label',
+            ->add('recipe', null, [
+                'label' => 'sonata_admin.label.recipe.recipe',
+            ])
+            ->add('quantity', null, [
+                'label' => 'sonata_admin.label.recipe_ingredient.quantity',
+            ])
+            ->add('unity', null, [
+                'label' => 'sonata_admin.label.recipe_ingredient.unity',
+            ])
+            ->add('ingredient', null, [
+                'label' => 'sonata_admin.label.recipe_ingredient.ingredient',
             ])
             ->add('createdAt', 'date', [
                 'label' => 'sonata_admin.label.general.created_at',
@@ -86,13 +91,6 @@ class CostAdmin extends AbstractAdmin
             ->add('sort', null, [
                 'label' => 'sonata_admin.label.general.sort',
                 'editable' => true,
-            ])
-            ->add(ListMapper::NAME_ACTIONS, null, [
-                'label' => 'sonata_admin.general.actions',
-                'actions' => [
-                    'edit' => [],
-                    'delete' => [],
-                ],
             ])
         ;
     }

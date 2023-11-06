@@ -10,6 +10,10 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\UserRepository;
 use App\Resolver\UserMutationResolver;
 use App\State\UserStateProcessor;
+use DateTimeImmutable;
+use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -78,7 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'recipe:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -87,7 +91,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le prénom ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:create', 'user:update', 'recipe:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -96,7 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le nom ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:create', 'user:update', 'recipe:read'])]
     private ?string $lastname = null;
 
     /**
@@ -160,7 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'La ville ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:create', 'user:update', 'recipe:read'])]
     private ?string $city = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -183,7 +187,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     #[Assert\Type("\DateTimeInterface")]
     #[Groups(['user:read', 'user:create', 'user:update'])]
-    private ?\DateTimeImmutable $birthDate = null;
+    private ?DateTimeImmutable $birthDate = null;
 
     #[Vich\UploadableField(mapping: 'user_picture_file', fileNameProperty: 'pictureName')]
     #[Assert\File(
@@ -213,20 +217,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     private ?bool $isFirstConnexion = true;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     #[Groups(['user:read'])]
     protected $createdAt;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     #[Groups(['user:read'])]
     protected $updatedAt;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Recipe::class)]
+    private Collection $recipes;
+
+    public function __construct()
+    {
+        $this->recipes = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
-        return $this->getFirstname().' '.$this->getLastname();
+        return $this->getFirstname() . ' ' . $this->getLastname();
     }
 
     public function getId(): ?Uuid
@@ -364,7 +376,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTimeImmutable
+    public function getBirthDate(): ?DateTimeImmutable
     {
         return $this->birthDate;
     }
@@ -372,7 +384,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     /**
      * @return $this
      */
-    public function setBirthDate(?\DateTimeImmutable $birthDate): static
+    public function setBirthDate(?DateTimeImmutable $birthDate): static
     {
         $this->birthDate = $birthDate;
 
@@ -476,7 +488,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         if (null !== $pictureFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
     }
 
@@ -558,5 +570,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     public function setToken(?string $token): void
     {
         $this->token = $token;
+    }
+
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): static
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): static
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            // set the owning side to null (unless already changed)
+            if ($recipe->getUser() === $this) {
+                $recipe->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

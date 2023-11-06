@@ -4,11 +4,12 @@ namespace App\Admin;
 
 use App\Entity\User;
 use App\Service\UserPasswordGenerator;
+use Exception;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -47,8 +48,13 @@ class UserAdmin extends AbstractAdmin
         $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.user_list');
     }
 
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
+    }
+
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function preValidate(object $object): void
     {
@@ -70,7 +76,7 @@ class UserAdmin extends AbstractAdmin
         $user = $this->getSubject();
 
         $picturePathIfExist = ($user instanceof User) ?
-            $picturePathIfExist = $this->picturePathIfExist($user->getPictureName())
+            $this->picturePathIfExist($user->getPictureName())
             :
             'Aucune image'
         ;
@@ -194,84 +200,10 @@ class UserAdmin extends AbstractAdmin
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'label' => 'sonata_admin.general.actions',
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ],
             ])
-        ;
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->with('userInfo', [
-                'label' => 'sonata_admin.form.tab_label.user_info',
-                'class' => 'col-lg-8',
-            ])
-                ->add('firstname', null, [
-                    'label' => 'sonata_admin.label.user.firstname',
-                ])
-                ->add('lastname', null, [
-                    'label' => 'sonata_admin.label.user.lastname',
-                ])
-                ->add('birthDate', null, [
-                    'label' => 'sonata_admin.label.user.birth_date',
-                    'format' => 'd/m/Y',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('email', null, [
-                    'label' => 'sonata_admin.label.user.email',
-                ])
-                ->add('phoneNumber', null, [
-                    'label' => 'sonata_admin.label.user.phone_number',
-                ])
-                ->add('address1', null, [
-                    'label' => 'sonata_admin.label.user.address_1',
-                ])
-                ->add('address2', null, [
-                    'label' => 'sonata_admin.label.user.address_2',
-                ])
-                ->add('zipCode', null, [
-                    'label' => 'sonata_admin.label.user.zip_code',
-                ])
-                ->add('city', null, [
-                    'label' => 'sonata_admin.label.user.city',
-                ])
-                ->add('country', null, [
-                    'label' => 'sonata_admin.label.user.country',
-                ])
-            ->end()
-            ->with('userOptions', [
-                'label' => 'sonata_admin.form.tab_label.user_config',
-                'class' => 'col-lg-4',
-            ])
-                ->add('firstRoleAsString', null, [
-                    'label' => 'sonata_admin.label.user.role',
-                ])
-                ->add('isEnable', null, [
-                    'label' => 'sonata_admin.label.user.enable',
-                ])
-                ->add('createdAt', 'date', [
-                    'label' => 'sonata_admin.label.general.created_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('updatedAt', 'date', [
-                    'label' => 'sonata_admin.label.general.updated_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('pictureFile', null, [
-                    'label' => 'sonata_admin.label.general.picture',
-                ])
-                ->add('pictureName', 'picture', [
-                    'template' => 'sonata/picture_show.html.twig',
-                ])
-            ->end()
         ;
     }
 
@@ -288,7 +220,7 @@ class UserAdmin extends AbstractAdmin
     private function picturePathIfExist(?string $pictureName): string
     {
         if ($pictureName) {
-            return '<img style="width: 50px;" src="/uploads/pictures/users/'.$pictureName.'" alt="User Picture">';
+            return '<img style="width: 50px;" src="/uploads/pictures/users/' . $pictureName . '" alt="User Picture">';
         }
 
         return 'Aucune image.';

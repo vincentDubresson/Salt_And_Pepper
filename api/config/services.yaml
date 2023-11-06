@@ -31,10 +31,34 @@ services:
         bind:
             $uploadDirectory: '%upload_directory%'
 
+    App\DataFixtures\RecipeFixtures:
+        bind:
+            $uploadDirectory: '%upload_directory%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
     # Sonata Admin Bundle
+    admin.recipe:
+        class: App\Admin\RecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Recipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.recipe }
+
+    admin.ingredient_recipe:
+        class: App\Admin\IngredientRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\IngredientRecipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.ingredient_recipe }
+
+    admin.step_recipe:
+        class: App\Admin\StepRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\StepRecipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.step_recipe }
+
+    admin.image_recipe:
+        class: App\Admin\ImageRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\ImageRecipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.image_recipe }
+
     admin.user:
         class: App\Admin\UserAdmin
         tags:

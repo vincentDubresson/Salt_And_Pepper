@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\SubCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -37,7 +39,7 @@ class SubCategory implements TimestampableInterface, SluggableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['sub_category:read'])]
+    #[Groups(['sub_category:read', 'recipe:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -45,7 +47,7 @@ class SubCategory implements TimestampableInterface, SluggableInterface
         max: 255,
         maxMessage: 'La sous-catégorie ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['sub_category:read'])]
+    #[Groups(['sub_category:read', 'recipe:read'])]
     private string $label;
 
     /**
@@ -63,8 +65,16 @@ class SubCategory implements TimestampableInterface, SluggableInterface
 
     #[ORM\ManyToOne(inversedBy: 'subCategories')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['sub_category:read'])]
+    #[Groups(['sub_category:read', 'recipe:read'])]
     private ?Category $category;
+
+    #[ORM\OneToMany(mappedBy: 'subCategory', targetEntity: Recipe::class)]
+    private Collection $recipes;
+
+    public function __construct()
+    {
+        $this->recipes = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -130,5 +140,35 @@ class SubCategory implements TimestampableInterface, SluggableInterface
         $slugger = new AsciiSlugger('fr');
 
         return $slugger->slug($stringValues);
+    }
+
+    /**
+     * @return Collection<int, Recipe>
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): static
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes->add($recipe);
+            $recipe->setSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): static
+    {
+        if ($this->recipes->removeElement($recipe)) {
+            // set the owning side to null (unless already changed)
+            if ($recipe->getSubCategory() === $this) {
+                $recipe->setSubCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

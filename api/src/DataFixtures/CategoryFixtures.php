@@ -125,11 +125,11 @@ class CategoryFixtures extends Fixture
 
                     $manager->persist($newSubCategory);
 
-                    ++$subCategorySort;
+                    $subCategorySort++;
                 }
             }
 
-            ++$categorySort;
+            $categorySort++;
         }
 
         $manager->flush();
