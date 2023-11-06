@@ -5,6 +5,7 @@ namespace App\Admin;
 use App\Entity\Ingredient;
 use App\Entity\Unity;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -57,6 +58,40 @@ class IngredientRecipeAdmin extends AbstractAdmin
                     'label' => 'sonata_admin.label.general.sort',
                 ])
             ->end()
+        ;
+    }
+
+    protected function configureListFields(ListMapper $list): void
+    {
+        $list
+            ->add('recipe', null, [
+                'label' => 'sonata_admin.label.recipe.recipe',
+            ])
+            ->add('quantity', null, [
+                'label' => 'sonata_admin.label.recipe_ingredient.quantity',
+            ])
+            ->add('unity', null, [
+                'label' => 'sonata_admin.label.recipe_ingredient.unity',
+            ])
+            ->add('ingredient', null, [
+                'label' => 'sonata_admin.label.recipe_ingredient.ingredient',
+            ])
+            ->add('createdAt', 'date', [
+                'label' => 'sonata_admin.label.general.created_at',
+                'format' => 'd/m/Y - H:i:s',
+                'locale' => 'fr',
+                'timezone' => 'Europe/Paris',
+            ])
+            ->add('updatedAt', 'date', [
+                'label' => 'sonata_admin.label.general.updated_at',
+                'format' => 'd/m/Y - H:i:s',
+                'locale' => 'fr',
+                'timezone' => 'Europe/Paris',
+            ])
+            ->add('sort', null, [
+                'label' => 'sonata_admin.label.general.sort',
+                'editable' => true,
+            ])
         ;
     }
 }

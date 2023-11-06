@@ -4,6 +4,7 @@ namespace App\Admin;
 
 use App\Entity\ImageRecipe;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -61,6 +62,34 @@ class ImageRecipeAdmin extends AbstractAdmin
                     'label' => 'sonata_admin.label.general.sort',
                 ])
             ->end()
+        ;
+    }
+
+    protected function configureListFields(ListMapper $list): void
+    {
+        $list
+            ->add('pictureName', null, [
+                'label' => 'sonata_admin.label.recipe.image_name',
+            ])
+            ->add('recipe', null, [
+                'label' => 'sonata_admin.label.recipe.recipe',
+            ])
+            ->add('createdAt', 'date', [
+                'label' => 'sonata_admin.label.general.created_at',
+                'format' => 'd/m/Y - H:i:s',
+                'locale' => 'fr',
+                'timezone' => 'Europe/Paris',
+            ])
+            ->add('updatedAt', 'date', [
+                'label' => 'sonata_admin.label.general.updated_at',
+                'format' => 'd/m/Y - H:i:s',
+                'locale' => 'fr',
+                'timezone' => 'Europe/Paris',
+            ])
+            ->add('sort', null, [
+                'label' => 'sonata_admin.label.general.sort',
+                'editable' => true,
+            ])
         ;
     }
 

@@ -16,7 +16,7 @@ sonata_admin:
     ingredient_list: Ingrédients
     recipe_list: Recettes
     unity_list: Unités
-    ingredient_recipe_list: Ingrédients
+    ingredient_recipe_list: Ingrédients de la recette
     step_recipe_list: Étapes de la recette
     image_recipe_list: Images de la recette
   general:
@@ -69,6 +69,8 @@ sonata_admin:
       step: Étapes
       image: Images
       user: Utilisateur
+      image_name: Nom de l'image
+      recipe: Recette
     recipe_ingredient:
       quantity: Quantité
       unity: Unité
