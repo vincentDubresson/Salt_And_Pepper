@@ -1,6 +1,7 @@
 import React from 'react';
 import './globals.scss';
 import { Inter } from 'next/font/google';
+import { AppContextProvider } from './context/AppContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AppContextProvider>
+          {children}
+        </AppContextProvider>
+      </body>
     </html>
   );
 }
