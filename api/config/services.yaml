@@ -44,6 +44,21 @@ services:
         tags:
             - { name: sonata.admin, model_class: App\Entity\Recipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.recipe }
 
+    admin.ingredient_recipe:
+        class: App\Admin\IngredientRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\IngredientRecipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.ingredient_recipe }
+
+    admin.step_recipe:
+        class: App\Admin\StepRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\StepRecipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.step_recipe }
+
+    admin.image_recipe:
+        class: App\Admin\ImageRecipeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\ImageRecipe, manager_type: orm, group: sonata_admin.block_label.recipe, label: sonata_admin.menu_label.image_recipe }
+
     admin.user:
         class: App\Admin\UserAdmin
         tags:
@@ -83,18 +98,3 @@ services:
         class: App\Admin\CostAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Cost, manager_type: orm, group: sonata_admin.block_label.miscellaneous, label: sonata_admin.menu_label.cost }
-
-    admin.ingredient_recipe:
-        class: App\Admin\IngredientRecipeAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\IngredientRecipe, manager_type: orm }
-
-    admin.step_recipe:
-        class: App\Admin\StepRecipeAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\StepRecipe, manager_type: orm }
-
-    admin.image_recipe:
-        class: App\Admin\ImageRecipeAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\ImageRecipe, manager_type: orm }

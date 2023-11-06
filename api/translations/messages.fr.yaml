@@ -108,6 +108,9 @@ sonata_admin:
     unity: Unités
     user: Utilisateurs
     sub_category: Sous-catégories
+    ingredient_recipe: Ingrédients de la recette
+    step_recipe: Étapes de la recette
+    image_recipe: Images de la recette
 
 mailer:
   reset_password:
