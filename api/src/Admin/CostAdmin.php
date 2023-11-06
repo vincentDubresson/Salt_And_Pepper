@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -30,6 +30,11 @@ class CostAdmin extends AbstractAdmin
     public function configure(): void
     {
         $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.cost_list');
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
     }
 
     protected function configureDefaultSortValues(array &$sortValues): void
@@ -85,39 +90,10 @@ class CostAdmin extends AbstractAdmin
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'label' => 'sonata_admin.general.actions',
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ],
             ])
-        ;
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->with('costInfo', [
-                'label' => 'sonata_admin.form.tab_label.cost_info',
-            ])
-                ->add('label', null, [
-                    'label' => 'sonata_admin.label.general.label',
-                ])
-                ->add('sort', null, [
-                    'label' => 'sonata_admin.label.general.sort',
-                ])
-                ->add('createdAt', 'date', [
-                    'label' => 'sonata_admin.label.general.created_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('updatedAt', 'date', [
-                    'label' => 'sonata_admin.label.general.updated_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-            ->end()
         ;
     }
 }

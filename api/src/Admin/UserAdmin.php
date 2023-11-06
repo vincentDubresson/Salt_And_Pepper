@@ -9,7 +9,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter;
 use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -46,6 +46,11 @@ class UserAdmin extends AbstractAdmin
     public function configure(): void
     {
         $this->classnameLabel = $this->translator->trans('sonata_admin.breadcrum.user_list');
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->remove('show');
     }
 
     /**
@@ -195,84 +200,10 @@ class UserAdmin extends AbstractAdmin
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'label' => 'sonata_admin.general.actions',
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ],
             ])
-        ;
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->with('userInfo', [
-                'label' => 'sonata_admin.form.tab_label.user_info',
-                'class' => 'col-lg-8',
-            ])
-                ->add('firstname', null, [
-                    'label' => 'sonata_admin.label.user.firstname',
-                ])
-                ->add('lastname', null, [
-                    'label' => 'sonata_admin.label.user.lastname',
-                ])
-                ->add('birthDate', null, [
-                    'label' => 'sonata_admin.label.user.birth_date',
-                    'format' => 'd/m/Y',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('email', null, [
-                    'label' => 'sonata_admin.label.user.email',
-                ])
-                ->add('phoneNumber', null, [
-                    'label' => 'sonata_admin.label.user.phone_number',
-                ])
-                ->add('address1', null, [
-                    'label' => 'sonata_admin.label.user.address_1',
-                ])
-                ->add('address2', null, [
-                    'label' => 'sonata_admin.label.user.address_2',
-                ])
-                ->add('zipCode', null, [
-                    'label' => 'sonata_admin.label.user.zip_code',
-                ])
-                ->add('city', null, [
-                    'label' => 'sonata_admin.label.user.city',
-                ])
-                ->add('country', null, [
-                    'label' => 'sonata_admin.label.user.country',
-                ])
-            ->end()
-            ->with('userOptions', [
-                'label' => 'sonata_admin.form.tab_label.user_config',
-                'class' => 'col-lg-4',
-            ])
-                ->add('firstRoleAsString', null, [
-                    'label' => 'sonata_admin.label.user.role',
-                ])
-                ->add('isEnable', null, [
-                    'label' => 'sonata_admin.label.user.enable',
-                ])
-                ->add('createdAt', 'date', [
-                    'label' => 'sonata_admin.label.general.created_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('updatedAt', 'date', [
-                    'label' => 'sonata_admin.label.general.updated_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('pictureFile', null, [
-                    'label' => 'sonata_admin.label.general.picture',
-                ])
-                ->add('pictureName', 'picture', [
-                    'template' => 'sonata/picture_show.html.twig',
-                ])
-            ->end()
         ;
     }
 

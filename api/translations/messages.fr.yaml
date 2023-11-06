@@ -68,6 +68,7 @@ sonata_admin:
       ingredient: Ingrédients
       step: Étapes
       image: Images
+      user: Utilisateur
     recipe_ingredient:
       quantity: Quantité
       unity: Unité

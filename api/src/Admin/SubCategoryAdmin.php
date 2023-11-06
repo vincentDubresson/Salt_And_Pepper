@@ -8,7 +8,6 @@ use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -112,35 +111,5 @@ class SubCategoryAdmin extends BaseCategoryAdmin
             'sort',
             ListMapper::NAME_ACTIONS,
         ]);
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        parent::configureShowFields($show);
-
-        $show
-            ->with('categoryInfo', [
-                'label' => 'sonata_admin.form.tab_label.category_info',
-            ])
-            ->add('category', null, [
-                'label' => 'sonata_admin.label.category.category',
-            ])
-            ->end()
-        ;
-
-        $show
-            ->with('categoryInfo', [
-                'label' => 'sonata_admin.form.tab_label.category_info',
-            ])
-                ->reorder([
-                    'label',
-                    'slug',
-                    'category',
-                    'sort',
-                    'createdAt',
-                    'updatedAt',
-                ])
-            ->end()
-        ;
     }
 }

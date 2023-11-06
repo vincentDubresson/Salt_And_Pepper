@@ -14,7 +14,6 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\Form\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -164,9 +163,11 @@ class RecipeAdmin extends AbstractAdmin
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $filter->add('label', null, [
-            'label' => 'sonata_admin.label.general.label',
-        ]);
+        $filter
+            ->add('label', null, [
+                'label' => 'sonata_admin.label.general.label',
+            ])
+        ;
     }
 
     protected function configureListFields(ListMapper $list): void
@@ -174,6 +175,12 @@ class RecipeAdmin extends AbstractAdmin
         $list
             ->add('label', null, [
                 'label' => 'sonata_admin.label.general.label',
+            ])
+            ->add('subCategory', null, [
+                'label' => 'sonata_admin.label.recipe.category',
+            ])
+            ->add('user', null, [
+                'label' => 'sonata_admin.label.recipe.user',
             ])
             ->add('createdAt', 'date', [
                 'label' => 'sonata_admin.label.general.created_at',
@@ -190,40 +197,10 @@ class RecipeAdmin extends AbstractAdmin
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'label' => 'sonata_admin.general.actions',
                 'actions' => [
-                    'show' => [],
                     'edit' => [],
                     'delete' => [],
                 ],
             ])
-        ;
-    }
-
-    protected function configureShowFields(ShowMapper $show): void
-    {
-        $show
-            ->with('recipeInfo', [
-                'label' => 'sonata_admin.form.tab_label.recipe_info',
-                'class' => 'col-lg-6',
-            ])
-                ->add('label', null, [
-                    'label' => 'sonata_admin.label.general.label',
-                ])
-                ->add('description', null, [
-                    'label' => 'sonata_admin.label.recipe.description',
-                ])
-                ->add('createdAt', 'date', [
-                    'label' => 'sonata_admin.label.general.created_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-                ->add('updatedAt', 'date', [
-                    'label' => 'sonata_admin.label.general.updated_at',
-                    'format' => 'd/m/Y - H:i:s',
-                    'locale' => 'fr',
-                    'timezone' => 'Europe/Paris',
-                ])
-            ->end()
         ;
     }
 }

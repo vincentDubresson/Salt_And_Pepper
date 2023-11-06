@@ -31,7 +31,7 @@ class StepRecipeAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $collection->remove('list');
+        $collection->remove('show');
     }
 
     protected function configureFormFields(FormMapper $form): void
