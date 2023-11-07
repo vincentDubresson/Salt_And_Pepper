@@ -35,7 +35,7 @@ class Unity implements TimestampableInterface
     #[Groups(['unity:read', 'recipe:read'])]
     private ?Uuid $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
     #[Assert\Length(
         max: 255,
         maxMessage: 'L\'unité ne peut pas dépasser 255 caractères.',
@@ -43,7 +43,7 @@ class Unity implements TimestampableInterface
     #[Groups(['unity:read', 'recipe:read'])]
     private ?string $label = null;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
     #[Assert\Length(
         max: 255,
         maxMessage: 'L\'abréviation de l\'unité ne peut pas dépasser 255 caractères.',
