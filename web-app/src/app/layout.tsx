@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { AppContextProvider } from './context/AppContext';
-import createApolloClient from './client/ApolloClient';
+import { AppContextProvider } from '../context/AppContext';
+import createApolloClient from '../client/ApolloClient';
 import { ApolloProvider } from '@apollo/client';
 
 import './globals.scss';
