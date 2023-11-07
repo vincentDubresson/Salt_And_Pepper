@@ -16,9 +16,9 @@ export default function Home() {
         <p>Loading...</p>
       ) : (
         <ul>
-{/*           {recipes && recipes.map((recipe: any) => (
-            <li key={recipe.id}>{recipe.name}</li>
-          ))} */}
+          {recipes && recipes.map((recipe: any) => (
+            <li key={recipe.node.id}>{recipe.node.label}</li>
+          ))}
         </ul>
       )}
     </main>

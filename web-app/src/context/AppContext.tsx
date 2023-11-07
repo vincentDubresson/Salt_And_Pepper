@@ -20,7 +20,7 @@ export const AppContextProvider = ({ children }: {children: any}) => {
   const { loading: recipesLoading } = useQuery(GET_RECIPES, {
     notifyOnNetworkStatusChange: true,
     onCompleted: (data) => {
-      setRecipes(data.recipes);
+      setRecipes(data.recipes.edges);
     },
   });
 
