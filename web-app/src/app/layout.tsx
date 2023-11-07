@@ -21,9 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ApolloProvider client={client}>
-          <AppContextProvider>
-            {children}
-          </AppContextProvider>
+          <AppContextProvider>{children}</AppContextProvider>
         </ApolloProvider>
       </body>
     </html>

@@ -11,7 +11,7 @@ type AppContextType = {
 
 export const AppContext = createContext<AppContextType | null>(null);
 
-export const AppContextProvider = ({ children }: {children: any}) => {
+export const AppContextProvider = ({ children }: { children: any }) => {
   const [recipes, setRecipes] = useState([]);
 
   /**
@@ -25,10 +25,12 @@ export const AppContextProvider = ({ children }: {children: any}) => {
   });
 
   return (
-    <AppContext.Provider value={{
-      recipesLoading,
-      recipes,
-    }}>
+    <AppContext.Provider
+      value={{
+        recipesLoading,
+        recipes,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

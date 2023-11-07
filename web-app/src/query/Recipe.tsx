@@ -66,7 +66,7 @@ export const GET_RECIPES = gql`
             }
           }
           imageRecipes {
-            edges{
+            edges {
               node {
                 id
                 pictureName
