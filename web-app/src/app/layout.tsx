@@ -5,10 +5,7 @@ import { AppContextProvider } from '../context/AppContext';
 import createApolloClient from '../client/ApolloClient';
 import { ApolloProvider } from '@apollo/client';
 
-import './globals.scss';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import Header from '@/components/Header/Header';
 
 export default function RootLayout({
   children,
@@ -19,9 +16,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <ApolloProvider client={client}>
-          <AppContextProvider>{children}</AppContextProvider>
+          <AppContextProvider>
+            <Header />
+              {children}
+          </AppContextProvider>
         </ApolloProvider>
       </body>
     </html>
