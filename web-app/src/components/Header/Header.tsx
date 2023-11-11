@@ -2,54 +2,9 @@ import { Fragment, useState } from 'react';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import { Bars3BottomRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, LockClosedIcon } from '@heroicons/react/20/solid';
-import BakeryDiningOutlinedIcon from '@mui/icons-material/BakeryDiningOutlined';
-import RiceBowlOutlinedIcon from '@mui/icons-material/RiceBowlOutlined';
-import LocalBarOutlinedIcon from '@mui/icons-material/LocalBarOutlined';
-import DinnerDiningOutlinedIcon from '@mui/icons-material/DinnerDiningOutlined';
-import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
-import LiquorOutlinedIcon from '@mui/icons-material/LiquorOutlined';
+import { headerCategories, headerPanelCategories } from '@/data/HeaderData';
 
 import MainLogo from '../../../public/pictures/logo/salt_and_pepper_logo.png';
-
-const products = [
-  {
-    name: 'Apéritifs',
-    description: 'Éveillez les papilles en une ou plusieurs bouchées',
-    href: '#',
-    icon: LocalBarOutlinedIcon,
-  },
-  {
-    name: 'Entrées',
-    // eslint-disable-next-line quotes
-    description: "Découvrez l'explosion de saveurs dès l'entrée",
-    href: '#',
-    icon: RiceBowlOutlinedIcon,
-  },
-  {
-    name: 'Plats',
-    description: 'Succombez à la gourmandise à chaque bouchée',
-    href: '#',
-    icon: DinnerDiningOutlinedIcon,
-  },
-  {
-    name: 'Desserts',
-    description: 'Plaisirs sucrés à savourer délicatement',
-    href: '#',
-    icon: CakeOutlinedIcon,
-  },
-  {
-    name: 'Boissons',
-    description: 'Dégustez nos délices, chauds ou froids',
-    href: '#',
-    icon: LiquorOutlinedIcon,
-  },
-  {
-    name: 'Petits déjeuners et brunchs',
-    description: 'Réveillez-vous en douceur, démarrez en saveurs',
-    href: '#',
-    icon: BakeryDiningOutlinedIcon,
-  },
-];
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -127,7 +82,7 @@ export default function Header() {
               >
                 <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-gray-900/5">
                   <div className="flex flex-col p-4 gap-y-2">
-                    {products.map((item) => (
+                    {headerPanelCategories.map((item) => (
                       <div
                         key={item.name}
                         className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 bg-gray-50 hover:bg-sp-primary-100 transition-colors"
@@ -156,25 +111,15 @@ export default function Header() {
                 </Popover.Panel>
               </Transition>
             </Popover>
-
-            <a
-              href="#"
-              className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors"
-            >
-              Les bases
-            </a>
-            <a
-              href="#"
-              className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors"
-            >
-              Cave à vin
-            </a>
-            <a
-              href="#"
-              className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors"
-            >
-              Recette au hasard
-            </a>
+            {headerCategories.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors"
+              >
+                {item.name}
+              </a>
+            ))}
           </Popover.Group>
         </div>
 
@@ -241,7 +186,7 @@ export default function Header() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products].map((item) => (
+                        {[...headerPanelCategories].map((item) => (
                           <Disclosure.Button
                             key={item.name}
                             as="a"
@@ -255,32 +200,15 @@ export default function Header() {
                     </>
                   )}
                 </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
-                >
-                  Les bases
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
-                >
-                  Cave à vin
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
-                >
-                  Recette au hasard
-                </a>
-              </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
-                >
-                  Se connecter
-                </a>
+                {headerCategories.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                  >
+                    {item.name}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
