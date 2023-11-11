@@ -20,7 +20,7 @@ export default function RootLayout({
         <ApolloProvider client={client}>
           <AppContextProvider>
             <Header />
-              {children}
+            {children}
           </AppContextProvider>
         </ApolloProvider>
       </body>
