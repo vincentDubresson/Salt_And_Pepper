@@ -20,6 +20,7 @@ const products = [
   },
   {
     name: 'Entrées',
+    // eslint-disable-next-line quotes
     description: "Découvrez l'explosion de saveurs dès l'entrée",
     href: '#',
     icon: RiceBowlOutlinedIcon,
