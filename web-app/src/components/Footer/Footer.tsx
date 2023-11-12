@@ -53,8 +53,14 @@ export default function Header() {
             e-mail est précieuse, et nous vous assurons qu&lsquo;elle ne sera
             utilisée que pour vous envoyer notre newsletter. Nous respectons
             votre vie privée. Vous pouvez vous désabonner à tout moment.
-            Consultez notre politique de confidentialité pour plus
-            d&lsquo;informations.
+            Consultez notre{' '}
+            <a
+              className="underline hover:text-sp-primary-200 transition-colors"
+              href="/politique-de-confidentialite"
+            >
+              politique de confidentialité
+            </a>{' '}
+            pour plus d&lsquo;informations.
           </p>
         </div>
       </div>
