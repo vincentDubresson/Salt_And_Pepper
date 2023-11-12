@@ -1,15 +1,30 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginFormTypes } from '../_lib/FormTypes';
+import { useMutation } from '@apollo/client';
+import { LOGIN_CHECK_USER } from '@/app/_lib/_queries/User';
 
 export default function LogInForm() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<LoginFormTypes>();
 
-  const onSubmit: SubmitHandler<LoginFormTypes> = (data) => console.log(data);
+  const [logIn, { loading }] = useMutation(LOGIN_CHECK_USER, {
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      console.log(data);
+    },
+  });
+
+  const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
+    logIn({
+      variables: {
+        email: data.email,
+        plainPassword: data.plainPassword,
+      },
+    });
+  };
 
   return (
     <>
@@ -20,9 +35,9 @@ export default function LogInForm() {
           </label>
           <input
             className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-            {...register('email')}
+            {...register('email', { required: true })}
           />
-          {errors.email && <span className="">This field is required</span>}
+          {errors.email && <span className="text-xs lg:text-sm text-red-600">L&lsquo;adresse e-mail est obligatoire</span>}
         </div>
 
         <div className="mb-2">
@@ -44,7 +59,7 @@ export default function LogInForm() {
             {...register('plainPassword', { required: true })}
           />
           {errors.plainPassword && (
-            <span className="">This field is required</span>
+            <span className="text-xs lg:text-sm text-red-600">Le mot de passe est obligatoire</span>
           )}
         </div>
 
