@@ -11,7 +11,7 @@ export default function Header() {
           <ArrowUpIcon className="h-6 w-6 text-gray-50" />
         </a>
       </div>
-      <div className="w-5/6 sm:w-3/4 lg:w-2/5 flex flex-col justify-center items-center border-b border-sp-primary-200 py-6">
+      <div className="w-5/6 sm:w-3/4 lg:w-3/5 xl:w-2/5 flex flex-col justify-center items-center border-b border-sp-primary-200 py-6">
         <img
           className="w-32 sm:w-44"
           src={MainLightLogo.src}
@@ -24,7 +24,7 @@ export default function Header() {
       </div>
 
       {/* NEWSLETTER AND CONTACT */}
-      <div className="w-5/6 sm:w-3/4 lg:w-2/5 flex flex-col justify-center items-center border-b border-sp-primary-200 pb-6">
+      <div className="w-5/6 sm:w-3/4 lg:w-3/5 xl:w-2/5 flex flex-col justify-center items-center border-b border-sp-primary-200 pb-6">
         <div className="lg:w-4/5 flex flex-col items-center gap-y-4">
           <p className="text-center lg:text-xl text-sp-primary-50 font-bold">
             NEWSLETTER
@@ -38,7 +38,7 @@ export default function Header() {
             type="email"
             autoComplete="email"
             required
-            className="lg:w-3/4 flex rounded-sm border-b-2 bg-sp-primary-300 px-3.5 py-2 text-sp-primary-50 placeholder-gray-100 shadow-sm text-sm lg:text-base"
+            className="lg:w-3/4 flex rounded-sm border-b-2 border-b-sp-primary-50 hover:border-b-sp-primary-500 focus:border-b-sp-primary-500 bg-sp-primary-300 px-3.5 py-2 text-sp-primary-50 placeholder-gray-100 focus:outline-none shadow-sm text-sm lg:text-base transition-colors"
             placeholder="Votre adresse email"
           />
           <button
@@ -59,7 +59,7 @@ export default function Header() {
         </div>
       </div>
       {/* COPYRIGHT */}
-      <div className="w-5/6 sm:w-3/4 lg:w-2/5 flex justify-center py-2">
+      <div className="w-5/6 sm:w-3/4 lg:w-3/5 xl:w-2/5 flex justify-center py-2">
         <p className="text-xs text-sp-primary-50 text-center">
           Ce site a été conçu et développé avec gourmandise par vdub-dev.
         </p>
