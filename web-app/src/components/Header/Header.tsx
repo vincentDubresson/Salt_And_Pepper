@@ -20,7 +20,7 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Salt & Pepper</span>
             <img
               className="lg-20 lg:h-28 w-20 lg:w-28"
