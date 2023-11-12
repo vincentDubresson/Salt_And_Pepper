@@ -23,6 +23,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        'nothing-you-could-do': ['Nothing You Could Do', 'sans-serif'],
       },
     },
     plugins: [],
