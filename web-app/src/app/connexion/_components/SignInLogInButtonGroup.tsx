@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-export default function SignInLogInButtonGroup() {
+export default function SignInLogInButtonGroup({
+  onLogInButtonFocus,
+}: {
+  onLogInButtonFocus: any;
+}) {
   const [signInFocused, setSignInFocused] = useState(false);
   const [logInFocused, setLogInFocused] = useState(true);
 
@@ -21,6 +25,7 @@ export default function SignInLogInButtonGroup() {
         onClick={() => {
           setLogInFocused(!logInFocused);
           setSignInFocused(!signInFocused);
+          onLogInButtonFocus(true);
         }}
       >
         Se connecter
@@ -36,6 +41,7 @@ export default function SignInLogInButtonGroup() {
         onClick={() => {
           setLogInFocused(!logInFocused);
           setSignInFocused(!signInFocused);
+          onLogInButtonFocus(false);
         }}
       >
         S&lsquo;inscrire
