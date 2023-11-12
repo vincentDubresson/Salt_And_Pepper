@@ -37,7 +37,11 @@ export default function LogInForm() {
             className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
             {...register('email', { required: true })}
           />
-          {errors.email && <span className="text-xs lg:text-sm text-red-600">L&lsquo;adresse e-mail est obligatoire</span>}
+          {errors.email && (
+            <span className="text-xs lg:text-sm text-red-600">
+              L&lsquo;adresse e-mail est obligatoire
+            </span>
+          )}
         </div>
 
         <div className="mb-2">
@@ -59,7 +63,9 @@ export default function LogInForm() {
             {...register('plainPassword', { required: true })}
           />
           {errors.plainPassword && (
-            <span className="text-xs lg:text-sm text-red-600">Le mot de passe est obligatoire</span>
+            <span className="text-xs lg:text-sm text-red-600">
+              Le mot de passe est obligatoire
+            </span>
           )}
         </div>
 
