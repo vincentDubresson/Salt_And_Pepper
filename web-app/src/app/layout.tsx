@@ -6,6 +6,7 @@ import createApolloClient from '../client/ApolloClient';
 import { ApolloProvider } from '@apollo/client';
 
 import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 
 export default function RootLayout({
   children,
@@ -15,12 +16,13 @@ export default function RootLayout({
   const client = createApolloClient();
 
   return (
-    <html lang="en">
+    <html className="scroll-smooth" lang="en">
       <body>
         <ApolloProvider client={client}>
           <AppContextProvider>
             <Header />
             {children}
+            <Footer />
           </AppContextProvider>
         </ApolloProvider>
       </body>
