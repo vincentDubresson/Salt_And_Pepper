@@ -20,7 +20,7 @@ export default function SignInLogInButtonGroup({
           signInFocused
             ? 'hover:bg-sp-primary-200 hover:border-sp-primary-200'
             : '',
-          'w-1/2 text-sm text-gray-500 font-bold border-y border-s border-sp-primary-300 rounded-s-md py-3 transition-colors'
+          'w-1/2 text-sm lg:text-base text-gray-500 font-bold border-y border-s border-sp-primary-300 rounded-s-md py-3 transition-colors'
         )}
         onClick={() => {
           setLogInFocused(!logInFocused);
@@ -36,7 +36,7 @@ export default function SignInLogInButtonGroup({
           logInFocused
             ? 'hover:bg-sp-primary-200 hover:border-sp-primary-200'
             : '',
-          'w-1/2 text-sm text-gray-500 font-bold border-y border-e border-sp-primary-300 rounded-e-md py-3 transition-colors'
+          'w-1/2 text-sm lg:text-base text-gray-500 font-bold border-y border-e border-sp-primary-300 rounded-e-md py-3 transition-colors'
         )}
         onClick={() => {
           setLogInFocused(!logInFocused);
