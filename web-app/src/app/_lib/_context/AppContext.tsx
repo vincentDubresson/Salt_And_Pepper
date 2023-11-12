@@ -1,6 +1,6 @@
 'use client';
 
-import { GET_RECIPES } from '@/query/Recipe';
+import { GET_RECIPES } from '@/app/_lib/_queries/Recipe';
 import { useQuery } from '@apollo/client';
 import { createContext, useState } from 'react';
 

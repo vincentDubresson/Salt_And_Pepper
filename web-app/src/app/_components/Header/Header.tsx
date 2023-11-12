@@ -2,9 +2,9 @@ import { Fragment, useState } from 'react';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import { Bars3BottomRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, LockClosedIcon } from '@heroicons/react/20/solid';
-import { headerCategories, headerPanelCategories } from '@/data/HeaderData';
+import { headerCategories, headerPanelCategories } from '@/app/_lib/HeaderData';
 
-import MainLogo from '../../../public/pictures/logo/salt_and_pepper_logo.png';
+import MainLogo from '../../../../public/pictures/logo/salt_and_pepper_logo.png';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
