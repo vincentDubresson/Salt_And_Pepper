@@ -124,9 +124,11 @@ export default function Header() {
         </div>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="bg-white hover:bg-sp-primary-400 transition-colors text-sp-primary-500 hover:text-gray-50 border-2 border-sp-primary-400 font-bold py-2 px-4 gap-3 rounded-full inline-flex items-center">
-            <LockClosedIcon className="h-5 w-5" aria-hidden="true" />
-            <span>Connexion</span>
+          <button className="bg-white hover:bg-sp-primary-400 transition-colors text-sp-primary-500 hover:text-gray-50 border-2 border-sp-primary-400 font-bold py-2 px-4 rounded-full inline-flex items-center">
+            <a className="flex gap-3" href="/connexion">
+              <LockClosedIcon className="h-5 w-5" aria-hidden="true" />
+              <span>Connexion</span>
+            </a>
           </button>
         </div>
       </nav>
@@ -209,6 +211,14 @@ export default function Header() {
                     {item.name}
                   </a>
                 ))}
+              </div>
+              <div className="space-y-2 py-6">
+                <a
+                  href="/connexion"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                >
+                  Connexion
+                </a>
               </div>
             </div>
           </div>

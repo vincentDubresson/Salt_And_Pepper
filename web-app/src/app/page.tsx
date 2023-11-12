@@ -1,10 +1,8 @@
 'use client';
 
-import './globals.scss';
-
 export default function Home() {
   return (
-    <div className="mt-44 min-h-screen">
+    <div className="w-11/12 sm:w-4/5 lg:w-2/3 mx-auto mt-28 lg:mt-40">
       <h1 className="text-center text-3xl font-bold">Salt and Pepper</h1>
     </div>
   );
