@@ -1,7 +1,10 @@
+'use client'
+
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginFormTypes } from '../_lib/FormTypes';
 import { useMutation } from '@apollo/client';
 import { LOGIN_CHECK_USER } from '@/app/_lib/_queries/User';
+import { createJwtCookie } from '@/app/_lib/_cookie/CookieActions';
 
 export default function LogInForm() {
   const {
@@ -12,8 +15,11 @@ export default function LogInForm() {
 
   const [logIn, { loading }] = useMutation(LOGIN_CHECK_USER, {
     notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      console.log(data);
+    onCompleted: async (data) => {
+      console.log(data.loginCheckUser.user.token);
+      const token = data.loginCheckUser.user.token;
+
+      await createJwtCookie(token);
     },
   });
 
