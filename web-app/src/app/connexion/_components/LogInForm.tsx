@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginFormTypes } from '../_lib/FormTypes';
@@ -13,7 +13,7 @@ export default function LogInForm() {
     formState: { errors },
   } = useForm<LoginFormTypes>();
 
-  const [logIn, { loading }] = useMutation(LOGIN_CHECK_USER, {
+  const [logIn] = useMutation(LOGIN_CHECK_USER, {
     notifyOnNetworkStatusChange: true,
     onCompleted: async (data) => {
       console.log(data.loginCheckUser.user.token);
