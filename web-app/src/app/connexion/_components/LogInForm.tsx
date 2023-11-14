@@ -5,8 +5,11 @@ import { LoginFormTypes } from '../_lib/FormTypes';
 import { useMutation } from '@apollo/client';
 import { LOGIN_CHECK_USER } from '@/app/_lib/_queries/User';
 import { createJwtCookie } from '@/app/_lib/_cookie/CookieActions';
+import { useContext } from 'react';
+import { AppContext } from '@/app/_lib/_context/AppContext';
 
 export default function LogInForm() {
+  const setJwtUsername = useContext(AppContext)?.setJwtUsername;
   const {
     register,
     handleSubmit,
@@ -16,10 +19,11 @@ export default function LogInForm() {
   const [logIn] = useMutation(LOGIN_CHECK_USER, {
     notifyOnNetworkStatusChange: true,
     onCompleted: async (data) => {
-      console.log(data.loginCheckUser.user.token);
       const token = data.loginCheckUser.user.token;
 
       await createJwtCookie(token);
+      setJwtUsername(data.loginCheckUser.user.email);
+      window.location.reload();
     },
   });
 
@@ -31,6 +35,11 @@ export default function LogInForm() {
       },
     });
   };
+
+  /** TEST */
+  const isUserAuthenticated = useContext(AppContext)?.userAuthenticated;
+
+  console.log('isUserAuthenticated', isUserAuthenticated);
 
   return (
     <>

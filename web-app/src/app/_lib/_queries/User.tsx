@@ -6,9 +6,7 @@ export const LOGIN_CHECK_USER = gql`
       user {
         token
         id
-        firstname
-        lastname
-        pictureName
+        email
       }
     }
   }
