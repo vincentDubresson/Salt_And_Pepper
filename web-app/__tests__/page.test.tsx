@@ -7,7 +7,9 @@ describe('Home', () => {
   it('renders without crashing', () => {
     render(<Footer />);
 
-    const textInHeaderComponent = screen.getByText(/politique de confidentialité/i);
+    const textInHeaderComponent = screen.getByText(
+      /politique de confidentialité/i
+    );
 
     expect(textInHeaderComponent).toBeInTheDocument();
   });
