@@ -1,87 +1,79 @@
 'use client';
 
-import { GET_RECIPES } from '@/app/_lib/_queries/Recipe';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { createContext, useEffect, useState } from 'react';
-import { getJwtCookieValue, getJwtSecretKey, getJwtUsername, verifyJwtToken } from '../_cookie/CookieActions';
+import { GET_USER, LOGIN_CHECK_USER } from '../_queries/User';
+import {
+  createCurrentUserCookie,
+  createJwtCookie,
+} from '../_cookie/CookieActions';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { PROJECT_ROUTE } from '../_router/routes';
 
 type AppContextType = {
+  logIn: any;
+  logInLoading: boolean;
+  user: any;
   userAuthenticated: boolean;
-  setJwtUsername: any;
-  recipesLoading: boolean;
-  recipes: any[];
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
 
 export const AppContextProvider = ({ children }: { children: any }) => {
-  const [recipes, setRecipes] = useState([]);
   const [userAuthenticated, setUserAuthenticated] = useState(false);
-  const [jwtUsername, setJwtUsername] = useState<string | null>(null);
-  const [checkJwtUsername, setCheckJwtUsername] = useState<string | null>(null);
-
-  console.log(jwtUsername, checkJwtUsername);
+  const router = useRouter();
 
   /**
-   * CHECK USER AUTHENTICATED
+   * AUTH
    */
-  const checkUserAuthenticated = async () => {
-    const token = await getJwtCookieValue();
-    if (!token) {
-      setUserAuthenticated(false);
-      setJwtUsername(null);
-      setCheckJwtUsername(null);
-      return;
-    }
-
-    const userName = await getJwtUsername(token);
-
-    if (userName as string && !jwtUsername) {
-      setCheckJwtUsername(userName as string);
-    } else {
-      setUserAuthenticated(false);
-      setJwtUsername(null);
-      setCheckJwtUsername(null);
-      return;
-    }
-
-    if (checkJwtUsername === jwtUsername) {
-      setUserAuthenticated(true);
-      return;
-    }
-
-/*     const payload = await verifyJwtToken(token as string);
-    console.log('payload', payload);
-    if (!payload) {
-      setUserAuthenticated(false);
-      return;
-    } */
-
-    setUserAuthenticated(false);
-    return;
-  };
-
-  /**
-   * GET_RECIPES
-   */
-  const { loading: recipesLoading } = useQuery(GET_RECIPES, {
+  const [logIn, { loading: logInLoading }] = useMutation(LOGIN_CHECK_USER, {
     notifyOnNetworkStatusChange: true,
-    onCompleted: (data) => {
-      setRecipes(data.recipes.edges);
+    onCompleted: async (data) => {
+      if (data.loginCheckUser) {
+        const token = data.loginCheckUser.user.token;
+        if (token) {
+          const userId = data.loginCheckUser.user.id;
+          await createJwtCookie(token);
+          await createCurrentUserCookie(data.loginCheckUser.user);
+          setUserAuthenticated(true);
+          const userProfile = await getUser({
+            context: { headers: { authorization: `Bearer ${token}` } },
+            variables: { id: userId },
+          });
+          if (userProfile) {
+            router.push(PROJECT_ROUTE.HOME);
+          }
+        }
+      }
+    },
+  });
+
+  const [user, setUser] = useState([]);
+
+  const [getUser] = useLazyQuery(GET_USER, {
+    notifyOnNetworkStatusChange: true,
+    onCompleted: async (data) => {
+      if (data.user) {
+        setUser(data.user);
+      }
     },
   });
 
   useEffect(() => {
-    checkUserAuthenticated();
+    const currentUser = Cookies.get('currentUser');
+    if (!currentUser) {
+      setUserAuthenticated(false);
+    }
   }, []);
 
   return (
     <AppContext.Provider
       value={{
+        logIn,
+        logInLoading,
         userAuthenticated,
-        setJwtUsername,
-        recipesLoading,
-        recipes,
+        user,
       }}
     >
       {children}

@@ -2,44 +2,25 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { LoginFormTypes } from '../_lib/FormTypes';
-import { useMutation } from '@apollo/client';
-import { LOGIN_CHECK_USER } from '@/app/_lib/_queries/User';
-import { createJwtCookie } from '@/app/_lib/_cookie/CookieActions';
 import { useContext } from 'react';
 import { AppContext } from '@/app/_lib/_context/AppContext';
 
 export default function LogInForm() {
-  const setJwtUsername = useContext(AppContext)?.setJwtUsername;
+  const logIn = useContext(AppContext)?.logIn;
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormTypes>();
 
-  const [logIn] = useMutation(LOGIN_CHECK_USER, {
-    notifyOnNetworkStatusChange: true,
-    onCompleted: async (data) => {
-      const token = data.loginCheckUser.user.token;
-
-      await createJwtCookie(token);
-      setJwtUsername(data.loginCheckUser.user.email);
-      window.location.reload();
-    },
-  });
-
-  const onSubmit: SubmitHandler<LoginFormTypes> = (data) => {
-    logIn({
+  const onSubmit: SubmitHandler<LoginFormTypes> = async (data) => {
+    await logIn({
       variables: {
         email: data.email,
         plainPassword: data.plainPassword,
       },
     });
   };
-
-  /** TEST */
-  const isUserAuthenticated = useContext(AppContext)?.userAuthenticated;
-
-  console.log('isUserAuthenticated', isUserAuthenticated);
 
   return (
     <>

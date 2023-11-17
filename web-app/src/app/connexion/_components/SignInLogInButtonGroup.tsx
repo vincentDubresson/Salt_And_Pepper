@@ -6,7 +6,9 @@ export default function SignInLogInButtonGroup({
   onLogInButtonFocus: any;
 }) {
   const [signInFocused, setSignInFocused] = useState(false);
+  const [signInDisabled, setSignInDisabled] = useState(false);
   const [logInFocused, setLogInFocused] = useState(true);
+  const [logInDisabled, setLogInDisabled] = useState(true);
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
@@ -25,8 +27,11 @@ export default function SignInLogInButtonGroup({
         onClick={() => {
           setLogInFocused(!logInFocused);
           setSignInFocused(!signInFocused);
+          setSignInDisabled(!signInDisabled);
+          setLogInDisabled(!logInDisabled);
           onLogInButtonFocus(true);
         }}
+        disabled={logInDisabled}
       >
         Se connecter
       </button>
@@ -41,8 +46,11 @@ export default function SignInLogInButtonGroup({
         onClick={() => {
           setLogInFocused(!logInFocused);
           setSignInFocused(!signInFocused);
+          setSignInDisabled(!signInDisabled);
+          setLogInDisabled(!logInDisabled);
           onLogInButtonFocus(false);
         }}
+        disabled={signInDisabled}
       >
         S&lsquo;inscrire
       </button>
