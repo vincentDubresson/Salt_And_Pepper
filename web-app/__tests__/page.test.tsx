@@ -1,13 +1,13 @@
 // This test is only here to make sure that the page is rendered without crashing.
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import Header from '@/app/_components/Header/Header';
+import Footer from '@/app/_components/Footer/Footer';
 
 describe('Home', () => {
   it('renders without crashing', () => {
-    render(<Header />);
+    render(<Footer />);
 
-    const textInHeaderComponent = screen.getByText(/Recettes/i);
+    const textInHeaderComponent = screen.getByText(/politique de confidentialité/i);
 
     expect(textInHeaderComponent).toBeInTheDocument();
   });

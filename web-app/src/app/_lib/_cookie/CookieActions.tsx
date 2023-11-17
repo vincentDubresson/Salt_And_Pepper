@@ -25,4 +25,4 @@ export const createCurrentUserCookie = async (user: any) => {
   };
 
   cookies().set('currentUser', JSON.stringify(user), cookieOptions);
-}
+};
