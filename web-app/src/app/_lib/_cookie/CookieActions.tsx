@@ -24,5 +24,24 @@ export const createCurrentUserCookie = async (user: any) => {
     expires: expirationDate,
   };
 
+  user.expiredAt = expirationDate;
+
   cookies().set('currentUser', JSON.stringify(user), cookieOptions);
+};
+
+export const removeJwtCookie = async () => {
+  cookies().delete('authToken');
+};
+
+export const removeCurrentUserCookie = async () => {
+  cookies().delete('currentUser');
+};
+
+export const getJwtCookie = async () => {
+  return cookies().get('authToken');
+};
+
+export const getCurrentUserCookie = () => {
+  const currentUser = cookies().get('currentUser')?.value;
+  return currentUser ? JSON.parse(currentUser) : null;
 };

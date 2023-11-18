@@ -14,9 +14,10 @@ function classNames(...classes: string[]) {
 }
 
 export default function Header() {
+  const setLinkClicked = useContext(AppContext)?.setLinkClicked;
+  const userAuthenticated = useContext(AppContext)?.userAuthenticated;
   const user = useContext(AppContext)?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const userAuthenticated = useContext(AppContext)?.userAuthenticated;
   const router = useRouter();
 
   console.log(user);
@@ -29,7 +30,10 @@ export default function Header() {
       >
         <div className="flex lg:flex-1">
           <button
-            onClick={() => router.push(PROJECT_ROUTE.HOME)}
+            onClick={() => {
+              setLinkClicked(true);
+              router.replace(PROJECT_ROUTE.HOME);
+            }}
             className="-m-1.5 p-1.5"
           >
             <span className="sr-only">Salt & Pepper</span>
@@ -131,12 +135,33 @@ export default function Header() {
                 {item.name}
               </a>
             ))}
+            <button
+              onClick={() => {
+                setLinkClicked(true);
+                router.replace(PROJECT_ROUTE.CONNEXION);
+              }}
+            >
+              CONNECT
+            </button>
+            <button
+              onClick={() => {
+                setLinkClicked(true);
+                router.replace(PROJECT_ROUTE.MON_COMPTE);
+              }}
+            >
+              COMPTE
+            </button>
           </Popover.Group>
         </div>
         {userAuthenticated ? (
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <div className="flex -space-x-2 overflow-hidden">
-              <button>
+              <button
+                onClick={() => {
+                  setLinkClicked(true);
+                  router.replace(PROJECT_ROUTE.MON_COMPTE);
+                }}
+              >
                 <img
                   className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
                   src="https://localhost:8000/uploads/pictures/users/user_default.png"

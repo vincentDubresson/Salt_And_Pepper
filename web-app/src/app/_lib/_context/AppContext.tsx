@@ -7,20 +7,22 @@ import {
   createCurrentUserCookie,
   createJwtCookie,
 } from '../_cookie/CookieActions';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { PROJECT_ROUTE } from '../_router/routes';
+import Cookies from 'js-cookie';
 
 type AppContextType = {
   logIn: any;
   logInLoading: boolean;
   user: any;
   userAuthenticated: boolean;
+  setLinkClicked: any;
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
 
 export const AppContextProvider = ({ children }: { children: any }) => {
+  const [linkClicked, setLinkClicked] = useState(false);
   const [userAuthenticated, setUserAuthenticated] = useState(false);
   const router = useRouter();
 
@@ -62,10 +64,17 @@ export const AppContextProvider = ({ children }: { children: any }) => {
 
   useEffect(() => {
     const currentUser = Cookies.get('currentUser');
-    if (!currentUser) {
+    console.log('currentUser', currentUser);
+    const isTokenExpired =
+      currentUser && new Date() > new Date(JSON.parse(currentUser)?.expiredAt);
+    console.log('isTokenExpired', isTokenExpired);
+    if (currentUser && !isTokenExpired) {
+      setUserAuthenticated(true);
+    } else {
       setUserAuthenticated(false);
     }
-  }, []);
+    setLinkClicked(false);
+  }, [linkClicked]);
 
   return (
     <AppContext.Provider
@@ -74,6 +83,7 @@ export const AppContextProvider = ({ children }: { children: any }) => {
         logInLoading,
         userAuthenticated,
         user,
+        setLinkClicked,
       }}
     >
       {children}
