@@ -1,17 +1,25 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import { Bars3BottomRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, LockClosedIcon } from '@heroicons/react/20/solid';
-import { headerCategories, headerPanelCategories } from '@/data/HeaderData';
+import { headerCategories, headerPanelCategories } from '@/app/_lib/HeaderData';
 
-import MainLogo from '../../../public/pictures/logo/salt_and_pepper_logo.png';
+import MainLogo from '../../../../public/pictures/logo/salt_and_pepper_logo.png';
+import { AppContext } from '@/app/_lib/_context/AppContext';
+import { useRouter } from 'next/navigation';
+import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Header() {
+  const setLinkClicked = useContext(AppContext)?.setLinkClicked;
+  const userAuthenticated = useContext(AppContext)?.userAuthenticated;
+  const user = useContext(AppContext)?.user;
+  console.log(user);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <header className="bg-white shadow-xl fixed top-0 w-full">
@@ -20,14 +28,20 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="/" className="-m-1.5 p-1.5">
+          <button
+            onClick={() => {
+              setLinkClicked(true);
+              router.replace(PROJECT_ROUTE.HOME);
+            }}
+            className="-m-1.5 p-1.5"
+          >
             <span className="sr-only">Salt & Pepper</span>
             <img
               className="lg-20 lg:h-28 w-20 lg:w-28"
               src={MainLogo.src}
               alt="Salt & Pepper Logo"
             />
-          </a>
+          </button>
         </div>
         <div className="flex lg:hidden order-last">
           <button
@@ -120,15 +134,54 @@ export default function Header() {
                 {item.name}
               </a>
             ))}
+            <button
+              onClick={() => {
+                setLinkClicked(true);
+                router.replace(PROJECT_ROUTE.CONNEXION);
+              }}
+            >
+              CONNECT
+            </button>
+            <button
+              onClick={() => {
+                setLinkClicked(true);
+                router.replace(PROJECT_ROUTE.MON_COMPTE);
+              }}
+            >
+              COMPTE
+            </button>
           </Popover.Group>
         </div>
-
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button className="bg-white hover:bg-sp-primary-400 transition-colors text-sp-primary-500 hover:text-gray-50 border-2 border-sp-primary-400 font-bold py-2 px-4 gap-3 rounded-full inline-flex items-center">
-            <LockClosedIcon className="h-5 w-5" aria-hidden="true" />
-            <span>Connexion</span>
-          </button>
-        </div>
+        {userAuthenticated && user ? (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <div className="flex -space-x-2 overflow-hidden">
+              <button
+                onClick={() => {
+                  setLinkClicked(true);
+                  router.replace(PROJECT_ROUTE.MON_COMPTE);
+                }}
+              >
+                <img
+                  className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                  src={
+                    process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                    user.pictureName
+                  }
+                  alt=""
+                />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <button className="bg-white hover:bg-sp-primary-400 transition-colors text-sp-primary-500 hover:text-gray-50 border-2 border-sp-primary-400 font-bold py-2 px-4 rounded-full inline-flex items-center">
+              <a className="flex gap-3" href="/connexion">
+                <LockClosedIcon className="h-5 w-5" aria-hidden="true" />
+                <span>Connexion</span>
+              </a>
+            </button>
+          </div>
+        )}
       </nav>
       <Dialog
         as="div"
@@ -209,6 +262,14 @@ export default function Header() {
                     {item.name}
                   </a>
                 ))}
+              </div>
+              <div className="space-y-2 py-6">
+                <a
+                  href="/connexion"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                >
+                  Connexion
+                </a>
               </div>
             </div>
           </div>

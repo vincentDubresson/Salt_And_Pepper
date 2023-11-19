@@ -1,6 +1,6 @@
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 
-import MainLightLogo from '../../../public/pictures/logo/salt_and_pepper_logo_light.png';
+import MainLightLogo from '../../../../public/pictures/logo/salt_and_pepper_logo_light.png';
 
 export default function Header() {
   return (

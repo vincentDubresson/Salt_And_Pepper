@@ -1,7 +1,6 @@
 'use client';
 
 import MainLogo from '../../../public/pictures/logo/salt_and_pepper_logo.png';
-import './../globals.scss';
 
 export default function Home() {
   return (
