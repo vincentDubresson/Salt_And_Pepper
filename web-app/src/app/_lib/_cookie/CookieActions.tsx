@@ -1,9 +1,13 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { SignJWT, jwtVerify } from 'jose';
+import { JWTPayload, SignJWT, jwtVerify } from 'jose';
 
-export const createAuthCookies = async (user: any) => {
+type COOKIE_DATA_TYPE = { id: string; token: string; expiredAt?: Date };
+
+export const createAuthCookies = async (
+  user: COOKIE_DATA_TYPE
+): Promise<void> => {
   try {
     const expirationDate = new Date();
     expirationDate.setHours(expirationDate.getHours() + 1);
@@ -19,71 +23,102 @@ export const createAuthCookies = async (user: any) => {
       process.env.NEXT_PUBLIC_JWT_PASSPHRASE as string
     );
 
-    const alg = 'HS256';
+    const alg = process.env
+      .NEXT_PUBLIC_COOKIE_ALGORITHM_HEADER_PARAMETER as string;
     const token = await new SignJWT(user)
       .setProtectedHeader({ alg })
       .sign(secret);
 
-    cookies().set('current_user', token, cookieOptions);
-    cookies().set('logged_in', 'true', cookieOptions);
+    cookies().set(
+      process.env.NEXT_PUBLIC_CURRENT_USER_COOKIE_NAME as string,
+      token,
+      cookieOptions
+    );
+    cookies().set(
+      process.env.NEXT_PUBLIC_LOGGED_IN_COOKIE_NAME as string,
+      'true',
+      cookieOptions
+    );
   } catch (error) {
-    console.error('CookiesActions - l.30 :', error);
+    console.error('CookiesActions - l.43 :', error);
+    throw new Error(
+      // eslint-disable-next-line quotes
+      "Une erreur est survenu lors de la création des cookies d'authentification."
+    );
   }
 };
 
-export const removeCurrentUserCookie = async () => {
+export const removeCurrentUserCookie = async (): Promise<void> => {
   try {
-    const expirationDate = new Date();
+    const expirationDate = Date.now();
 
     const cookieOptions = {
       secure: true,
       expires: expirationDate,
     };
 
-    cookies().set('current_user', 'removed', cookieOptions);
-    cookies().set('logged_in', 'false', cookieOptions);
+    cookies().set(
+      process.env.NEXT_PUBLIC_CURRENT_USER_COOKIE_NAME as string,
+      'removed',
+      cookieOptions
+    );
+    cookies().set(
+      process.env.NEXT_PUBLIC_LOGGED_IN_COOKIE_NAME as string,
+      'false',
+      cookieOptions
+    );
   } catch (error) {
-    console.error('CookiesActions - l.47 :', error);
+    console.error('CookiesActions - l.71 :', error);
+
+    throw new Error(
+      // eslint-disable-next-line quotes
+      "Une erreur est survenu lors de la suppression des cookies d'authentification."
+    );
   }
 };
 
-export const getCurrentUserCookie = () => {
-  try {
-    const currentUser = cookies().get('current_user')?.value;
-    return currentUser ? JSON.parse(currentUser) : null;
-  } catch (error) {
-    console.error('CookiesActions - l.57 :', error);
-
-    return null;
-  }
-};
-
-export const decodeCurrentUserCookie = async () => {
+export const decodeCurrentUserCookie = async (): Promise<
+  JWTPayload | undefined
+> => {
   try {
     const secret = new TextEncoder().encode(
       process.env.NEXT_PUBLIC_JWT_PASSPHRASE as string
     );
 
-    const jwt = cookies().get('current_user')?.value;
+    const currentUserCookie = cookies().get(
+      process.env.NEXT_PUBLIC_CURRENT_USER_COOKIE_NAME as string
+    );
 
-    if (jwt) {
-      const { payload } = await jwtVerify(jwt, secret);
+    if (currentUserCookie) {
+      const currentUserCookieData = currentUserCookie.value;
+      const { payload } = await jwtVerify(currentUserCookieData, secret);
       return payload;
     }
   } catch (error) {
-    console.error('CookiesActions - l.76 :', error);
-  }
+    console.error('CookiesActions - l.97 :', error);
 
-  return null;
+    throw new Error(
+      // eslint-disable-next-line quotes
+      "Une erreur est survenu lors de la validation des cookies d'authentification."
+    );
+  }
 };
 
-export const isUserLogged = (): boolean => {
+export const isUserLogged = (): boolean | undefined => {
   try {
-    const loggedInCookie = cookies().get('logged_in')?.value;
-    return loggedInCookie ? true : false;
-  } catch (error) {
-    console.error('CookiesActions - l.88 :', error);
+    const loggedInCookie = cookies().get(
+      process.env.NEXT_PUBLIC_LOGGED_IN_COOKIE_NAME as string
+    );
 
-    return false;
+    if (loggedInCookie) {
+      return loggedInCookie.value ? true : false;
+    }
+  } catch (error) {
+    console.error('CookiesActions - l.115 :', error);
+
+    throw new Error(
+      // eslint-disable-next-line quotes
+      "Une erreur est survenu lors de la récupération des cookies d'authentification."
+    );
   }
 };

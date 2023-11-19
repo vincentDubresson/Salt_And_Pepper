@@ -8,8 +8,8 @@ import LogInForm from './_components/LogInForm';
 export default function Home() {
   const [isSignInButtonFocused, setIsSignInButtonFocused] = useState(true);
 
-  function onLogInButtonFocus(logInFocused: boolean) {
-    setIsSignInButtonFocused(logInFocused);
+  function onLogInButtonFocus(isLogInFocused: boolean) {
+    setIsSignInButtonFocused(isLogInFocused);
   }
 
   return (

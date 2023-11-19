@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useCallback } from 'react';
 import { useLazyQuery, useMutation } from '@apollo/client';
 import { createContext, useEffect, useState } from 'react';
 import { GET_USER, LOGIN_CHECK_USER } from '../_query/User';
@@ -11,19 +12,25 @@ import {
 import { useRouter } from 'next/navigation';
 import { PROJECT_ROUTE } from '../_router/Routes';
 import { toast } from 'react-toastify';
-import { GET_USER_TYPE } from '../_type/UserTypes';
+import { GET_USER_MUTATION_VARIABLES, GET_USER_TYPE } from '../_type/UserTypes';
+import { JWTPayload } from 'jose';
+import { CUSTOM_ERROR_MESSAGE } from '../_constant/Constants';
 
 type AppContextType = {
-  logIn: any;
+  logIn: () => void;
   logInLoading: boolean;
   user: GET_USER_TYPE;
   userAuthenticated: boolean;
-  setLinkClicked: any;
+  setLinkClicked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
 
-export const AppContextProvider = ({ children }: { children: any }) => {
+export const AppContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [linkClicked, setLinkClicked] = useState(false);
   const [userAuthenticated, setUserAuthenticated] = useState(false);
   const router = useRouter();
@@ -33,7 +40,10 @@ export const AppContextProvider = ({ children }: { children: any }) => {
    * Si ce token est récupéré, on crée un cookie d'authentification sécurisé.
    * On récupère ensuite l'objet User, puis on redirige l'utilisateur.
    */
-  const [logIn, { loading: logInLoading }] = useMutation(LOGIN_CHECK_USER, {
+  const [logIn, { loading: logInLoading }] = useMutation<
+    any,
+    GET_USER_MUTATION_VARIABLES
+  >(LOGIN_CHECK_USER, {
     notifyOnNetworkStatusChange: true,
     onCompleted: async (data) => {
       try {
@@ -57,10 +67,8 @@ export const AppContextProvider = ({ children }: { children: any }) => {
           }
         }
       } catch (error) {
-        console.error('AppContext - l.59 :', error);
-        toast.error(
-          'Une erreur est survenue. Merci de contacter l&lsquo;administrateur.'
-        );
+        console.error('AppContext - l.67 :', error);
+        toast.error(CUSTOM_ERROR_MESSAGE);
       }
     },
   });
@@ -78,17 +86,13 @@ export const AppContextProvider = ({ children }: { children: any }) => {
           setUser(data.user);
         }
       } catch (error) {
-        console.error('AppContext - l.78 :', error);
-        toast.error(
-          'Une erreur est survenue. Merci de contacter l&lsquo;administrateur.'
-        );
+        console.error('AppContext - l.86 :', error);
+        toast.error(CUSTOM_ERROR_MESSAGE);
       }
     },
     onError: (error) => {
-      console.error('AppContext - l.83 :', error);
-      toast.error(
-        'Une erreur est survenue. Merci de contacter l&lsquo;administrateur.'
-      );
+      console.error('AppContext - l.91 :', error);
+      toast.error(CUSTOM_ERROR_MESSAGE);
     },
   });
 
@@ -109,30 +113,29 @@ export const AppContextProvider = ({ children }: { children: any }) => {
           setUser(data.user);
         }
       } catch (error) {
-        console.error('AppContext - l.111 :', error);
-        toast.error(
-          'Une erreur est survenue. Merci de contacter l&lsquo;administrateur.'
-        );
+        console.error('AppContext - l.113 :', error);
+        toast.error(CUSTOM_ERROR_MESSAGE);
       }
     },
     onError: (error) => {
       console.error('AppContext - l.118 :', error);
-      toast.error(
-        'Une erreur est survenue. Merci de contacter l&lsquo;administrateur.'
-      );
+      toast.error(CUSTOM_ERROR_MESSAGE);
     },
   });
 
-  const setUserQueryStates = async (currentUser: any) => {
-    setToken(currentUser.token);
-    setUserId(currentUser.id);
-  };
+  const setUserQueryStates = useCallback(
+    async (currentUser: JWTPayload): Promise<void> => {
+      setToken(currentUser.token as string);
+      setUserId(currentUser.id as string);
+    },
+    []
+  );
 
   /**
    * Après chaque accès à une page, on récupère l'objet User si l'utilisateur
    * est authentifié.
    */
-  const checkAuthAndGetUser = async () => {
+  const checkAuthAndGetUser = useCallback(async (): Promise<void> => {
     try {
       const currentUser = await decodeCurrentUserCookie();
 
@@ -153,20 +156,16 @@ export const AppContextProvider = ({ children }: { children: any }) => {
       } else {
         setUserAuthenticated(false);
       }
-      return true;
     } catch (error) {
-      console.error('AppContext - l.158 :', error);
-      toast.error(
-        'Une erreur est survenue. Merci de contacter l&lsquo;administrateur.'
-      );
+      console.error('AppContext - l.157 :', error);
+      toast.error(CUSTOM_ERROR_MESSAGE);
     }
-  };
+  }, [user, setUserQueryStates, getUser]);
 
   useEffect(() => {
     checkAuthAndGetUser();
     setLinkClicked(false);
-    console.log(user);
-  }, [linkClicked]);
+  }, [linkClicked, checkAuthAndGetUser]);
 
   return (
     <AppContext.Provider

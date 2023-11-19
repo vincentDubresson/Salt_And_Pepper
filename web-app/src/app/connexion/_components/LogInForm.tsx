@@ -6,7 +6,12 @@ import { useContext } from 'react';
 import { AppContext } from '@/app/_lib/_context/AppContext';
 
 export default function LogInForm() {
-  const logIn = useContext(AppContext)?.logIn;
+  const logIn = useContext(AppContext)?.logIn as ({
+    // eslint-disable-next-line no-unused-vars
+    variables,
+  }: {
+    variables: { email: string; plainPassword: string };
+  }) => void;
   const {
     register,
     handleSubmit,
@@ -14,10 +19,12 @@ export default function LogInForm() {
   } = useForm<LoginFormTypes>();
 
   const onSubmit: SubmitHandler<LoginFormTypes> = async (data) => {
-    await logIn({
+    const email = data.email as string;
+    const plainPassword = data.plainPassword as string;
+    logIn({
       variables: {
-        email: data.email,
-        plainPassword: data.plainPassword,
+        email: email,
+        plainPassword: plainPassword,
       },
     });
   };

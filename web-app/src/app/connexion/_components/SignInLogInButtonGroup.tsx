@@ -3,7 +3,8 @@ import { useState } from 'react';
 export default function SignInLogInButtonGroup({
   onLogInButtonFocus,
 }: {
-  onLogInButtonFocus: any;
+  // eslint-disable-next-line no-unused-vars
+  onLogInButtonFocus: (isLogInFocused: boolean) => void;
 }) {
   const [signInFocused, setSignInFocused] = useState(false);
   const [signInDisabled, setSignInDisabled] = useState(false);

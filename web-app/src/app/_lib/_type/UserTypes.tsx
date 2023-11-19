@@ -12,10 +12,15 @@ export type GET_USER_TYPE = {
   city?: string | undefined;
   country: string;
   phoneNumber?: string | undefined;
-  birthDate: any;
+  birthDate: Date;
   pictureName: string;
   isEnable: boolean;
   isFirstConnexion: boolean;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: Date;
+  updatedAt: Date;
 } | null;
+
+export type GET_USER_MUTATION_VARIABLES = {
+  email: String;
+  plainMessage: String;
+};
