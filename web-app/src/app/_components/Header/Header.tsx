@@ -7,7 +7,7 @@ import { headerCategories, headerPanelCategories } from '@/app/_lib/HeaderData';
 import MainLogo from '../../../../public/pictures/logo/salt_and_pepper_logo.png';
 import { AppContext } from '@/app/_lib/_context/AppContext';
 import { useRouter } from 'next/navigation';
-import { PROJECT_ROUTE } from '@/app/_lib/_router/routes';
+import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -17,10 +17,9 @@ export default function Header() {
   const setLinkClicked = useContext(AppContext)?.setLinkClicked;
   const userAuthenticated = useContext(AppContext)?.userAuthenticated;
   const user = useContext(AppContext)?.user;
+  console.log(user);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
-
-  console.log(user);
 
   return (
     <header className="bg-white shadow-xl fixed top-0 w-full">
@@ -153,7 +152,7 @@ export default function Header() {
             </button>
           </Popover.Group>
         </div>
-        {userAuthenticated ? (
+        {userAuthenticated && user ? (
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <div className="flex -space-x-2 overflow-hidden">
               <button
@@ -164,7 +163,10 @@ export default function Header() {
               >
                 <img
                   className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                  src="https://localhost:8000/uploads/pictures/users/user_default.png"
+                  src={
+                    process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                    user.pictureName
+                  }
                   alt=""
                 />
               </button>
