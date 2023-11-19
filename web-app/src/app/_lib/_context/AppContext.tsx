@@ -20,6 +20,7 @@ type AppContextType = {
   logIn: () => void;
   logInLoading: boolean;
   user: GET_USER_TYPE;
+  setUser: React.Dispatch<React.SetStateAction<GET_USER_TYPE>>;
   userAuthenticated: boolean;
   setLinkClicked: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -163,8 +164,10 @@ export const AppContextProvider = ({
   }, [user, setUserQueryStates, getUser]);
 
   useEffect(() => {
-    checkAuthAndGetUser();
-    setLinkClicked(false);
+    if (linkClicked) {
+      checkAuthAndGetUser();
+      setLinkClicked(false);
+    }
   }, [linkClicked, checkAuthAndGetUser]);
 
   return (
@@ -174,6 +177,7 @@ export const AppContextProvider = ({
         logInLoading,
         userAuthenticated,
         user,
+        setUser,
         setLinkClicked,
       }}
     >

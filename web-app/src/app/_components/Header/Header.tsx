@@ -1,25 +1,40 @@
+import React from 'react';
 import { Fragment, useContext, useState } from 'react';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import { Bars3BottomRightIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, LockClosedIcon } from '@heroicons/react/20/solid';
 import { headerCategories, headerPanelCategories } from '@/app/_lib/HeaderData';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import MainLogo from '../../../../public/pictures/logo/salt_and_pepper_logo.png';
 import { AppContext } from '@/app/_lib/_context/AppContext';
 import { useRouter } from 'next/navigation';
 import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
+import { removeCurrentUserCookie } from '@/app/_lib/_cookie/CookieActions';
+import { GET_USER_TYPE } from '@/app/_lib/_type/UserTypes';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Header() {
-  const setLinkClicked = useContext(AppContext)?.setLinkClicked;
+  const setLinkClicked = useContext(AppContext)
+    ?.setLinkClicked as React.Dispatch<React.SetStateAction<boolean>>;
+  const setUser = useContext(AppContext)?.setUser as React.Dispatch<
+    React.SetStateAction<GET_USER_TYPE>
+  >;
   const userAuthenticated = useContext(AppContext)?.userAuthenticated;
   const user = useContext(AppContext)?.user;
-  console.log(user);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
+
+  const handleLogout = async () => {
+    await removeCurrentUserCookie();
+    setUser(null);
+    window.location.replace(PROJECT_ROUTE.HOME);
+  };
 
   return (
     <header className="bg-white shadow-xl fixed top-0 w-full">
@@ -134,33 +149,12 @@ export default function Header() {
                 {item.name}
               </a>
             ))}
-            <button
-              onClick={() => {
-                setLinkClicked(true);
-                router.replace(PROJECT_ROUTE.CONNEXION);
-              }}
-            >
-              CONNECT
-            </button>
-            <button
-              onClick={() => {
-                setLinkClicked(true);
-                router.replace(PROJECT_ROUTE.MON_COMPTE);
-              }}
-            >
-              COMPTE
-            </button>
           </Popover.Group>
         </div>
         {userAuthenticated && user ? (
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <div className="flex -space-x-2 overflow-hidden">
-              <button
-                onClick={() => {
-                  setLinkClicked(true);
-                  router.replace(PROJECT_ROUTE.MON_COMPTE);
-                }}
-              >
+          <Popover.Group className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <Popover className="relative">
+              <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors">
                 <img
                   className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
                   src={
@@ -169,9 +163,67 @@ export default function Header() {
                   }
                   alt=""
                 />
-              </button>
-            </div>
-          </div>
+              </Popover.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <Popover.Panel className="absolute -left-64 top-14 mt-3 w-screen max-w-xs overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 z-20">
+                  <div className="flex flex-col p-4 gap-y-2">
+                    <a href="/mon-compte/mon-profil">
+                      <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 bg-gray-50 hover:bg-sp-primary-100 transition-colors">
+                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-sp-primary-100 group-hover:bg-white transition-colors shadow-sm">
+                          <AccountCircleIcon
+                            className="h-6 w-6 text-gray-600 group-hover:text-sp-primary-400 transition-colors"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <div className="flex-auto">
+                          <span className="block font-semibold text-gray-500">
+                            Mon profil
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                    <a href="/mon-compte/mon-profil">
+                      <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 bg-gray-50 hover:bg-sp-primary-100 transition-colors">
+                        <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-sp-primary-100 group-hover:bg-white transition-colors shadow-sm">
+                          <DriveFileRenameOutlineIcon
+                            className="h-6 w-6 text-gray-600 group-hover:text-sp-primary-400 transition-colors"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <div className="flex-auto">
+                          <span className="block font-semibold text-gray-500">
+                            Proposer une recette
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                    <button
+                      onClick={() => handleLogout()}
+                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 bg-gray-50 hover:bg-sp-primary-100 transition-colors"
+                    >
+                      <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-sp-primary-100 group-hover:bg-white transition-colors shadow-sm">
+                        <LogoutIcon
+                          className="h-6 w-6 text-gray-600 group-hover:text-sp-primary-400 transition-colors"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <p className="block font-semibold text-gray-500">
+                        Se déconnecter
+                      </p>
+                    </button>
+                  </div>
+                </Popover.Panel>
+              </Transition>
+            </Popover>
+          </Popover.Group>
         ) : (
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <button className="bg-white hover:bg-sp-primary-400 transition-colors text-sp-primary-500 hover:text-gray-50 border-2 border-sp-primary-400 font-bold py-2 px-4 rounded-full inline-flex items-center">
@@ -263,14 +315,47 @@ export default function Header() {
                   </a>
                 ))}
               </div>
-              <div className="space-y-2 py-6">
-                <a
-                  href="/connexion"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
-                >
-                  Connexion
-                </a>
-              </div>
+              {userAuthenticated && user ? (
+                <div className="space-y-2 py-6">
+                  <div className="flex justify-center">
+                    <img
+                      className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
+                      src={
+                        process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                        user.pictureName
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <a
+                    href="/connexion"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                  >
+                    Mon compte
+                  </a>
+                  <a
+                    href="/connexion"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                  >
+                    Proposer une recette
+                  </a>
+                  <button
+                    onClick={() => handleLogout()}
+                    className="w-full text-left -mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                  >
+                    Se déconnecter
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2 py-6">
+                  <a
+                    href="/connexion"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                  >
+                    Connexion
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </Dialog.Panel>
