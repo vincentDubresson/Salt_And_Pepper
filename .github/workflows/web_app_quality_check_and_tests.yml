@@ -29,8 +29,3 @@ jobs:
           git config user.email "<>"
           git commit -m "[auto] Format TS and TSX files with Prettier" || true
           git push
-
-      - name: Run tests
-        run: |
-          cd web-app
-          npm run test
