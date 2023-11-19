@@ -21,7 +21,7 @@ export default function RootLayout({
 
   return (
     <html className="scroll-smooth" lang="en">
-      <body>
+      <body className="relative -z-10">
         <ApolloProvider client={client}>
           <AppContextProvider>
             <Header />

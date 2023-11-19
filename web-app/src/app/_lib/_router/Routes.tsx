@@ -5,5 +5,6 @@ export const publicRoutes = ['/'];
 export const PROJECT_ROUTE = {
   HOME: '/',
   CONNEXION: '/connexion',
-  MON_COMPTE: '/mon-compte',
+  MON_PROFIL: '/mon-compte/mon-profil',
+  POLITIQUE_DE_CONFIDENTIALITE: '/politique-de-confidentialite',
 };

@@ -1,10 +1,18 @@
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
-
+import React from 'react';
 import MainLightLogo from '../../../../public/pictures/logo/salt_and_pepper_logo_light.png';
+import { useContext } from 'react';
+import { AppContext } from '@/app/_lib/_context/AppContext';
+import { useRouter } from 'next/navigation';
+import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
 
 export default function Header() {
+  const setLinkClicked = useContext(AppContext)
+    ?.setLinkClicked as React.Dispatch<React.SetStateAction<boolean>>;
+  const router = useRouter();
+
   return (
-    <footer className="relative flex flex-col gap-y-6 justify-center items-center bg-sp-primary-400 mt-20">
+    <footer className="relative flex flex-col gap-y-6 justify-center items-center bg-sp-primary-400 mt-20 -z-10">
       {/* LOGO AND TEXT */}
       <div className="group absolute -top-5 flex justify-center items-center h-11 w-11 rounded-full bg-sp-primary-300 hover:bg-sp-primary-500 transition-colors">
         <a href="#top">
@@ -54,12 +62,15 @@ export default function Header() {
             utilisée que pour vous envoyer notre newsletter. Nous respectons
             votre vie privée. Vous pouvez vous désabonner à tout moment.
             Consultez notre{' '}
-            <a
+            <button
               className="underline hover:text-sp-primary-200 transition-colors"
-              href="/politique-de-confidentialite"
+              onClick={() => {
+                setLinkClicked(true);
+                router.replace(PROJECT_ROUTE.POLITIQUE_DE_CONFIDENTIALITE);
+              }}
             >
               politique de confidentialité
-            </a>{' '}
+            </button>{' '}
             pour plus d&lsquo;informations.
           </p>
         </div>
