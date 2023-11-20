@@ -3,8 +3,15 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { SignInFormTypes } from '../_lib/FormTypes';
 import { useState } from 'react';
+import PasswordStrengthBar from 'react-password-strength-bar';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 export default function SignInForm() {
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ');
+  }
+
   const {
     register,
     handleSubmit,
@@ -13,50 +20,11 @@ export default function SignInForm() {
 
   const onSubmit: SubmitHandler<SignInFormTypes> = async () => {};
 
-  /*   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [progress, setProgress] = useState(''); */
+  const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
 
-  const handlePassword = (passwordValue) => {
-    const strengthChecks = {
-      length: 0,
-      hasUpperCase: false,
-      hasLowerCase: false,
-      hasDigit: false,
-      hasSpecialChar: false,
-    };
-
-    strengthChecks.length = passwordValue.length >= 8 ? true : false;
-    strengthChecks.hasUpperCase = /[A-Z]+/.test(passwordValue);
-    strengthChecks.hasLowerCase = /[a-z]+/.test(passwordValue);
-    strengthChecks.hasDigit = /[0-9]+/.test(passwordValue);
-    strengthChecks.hasSpecialChar = /[^A-Za-z0-9]+/.test(passwordValue);
-
-    let verifiedList = Object.values(strengthChecks).filter((value) => value);
-
-    let strength =
-      verifiedList.length == 5
-        ? 'Strong'
-        : verifiedList.length >= 2
-          ? 'Medium'
-          : 'Weak';
-
-    setPassword(passwordValue);
-    setProgress(`${(verifiedList.length / 5) * 100}%`);
-    setMessage(strength);
-
-    console.log('verifiedList: ', `${(verifiedList.length / 5) * 100}%`);
-  };
-
-  const getActiveColor = (type) => {
-    if (type === 'Strong') return 'password-strong';
-    if (type === 'Medium') return 'password-medium';
-    return 'password-weak';
-  };
-
   return (
-    <>
+    <div className="flex flex-col w-full">
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col space-y-6">
           <div className="mb-2">
@@ -107,30 +75,46 @@ export default function SignInForm() {
 
           <div className="mb-2">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
-              Mot de passe
+              Mot de passe *
             </label>
 
-            <div className="flex">
+            <div className="flex mb-3 border-b-2 border-b-sp-primary-400 hover:border-b-sp-primary-300">
               <input
-                className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-                {...register('plainPassword', { required: true })}
+                type={hidePassword ? 'password' : 'text'}
+                className="block w-full px-2.5 py-2.5 bg-sp-primary-50 transition-colors focus:border-b-sp-primary-300 shadow-sm outline-none"
+                {...register('plainPassword', {
+                  required: true,
+                  onChange(event) {
+                    setPassword(event.target.value);
+                  },
+                })}
               />
-              <a
-                href="#"
-                className="toggle-btn"
-                onClick={() => {
+              <button
+                className="px-3"
+                onClick={(e) => {
+                  e.preventDefault();
                   setHidePassword(!hidePassword);
                 }}
               >
-                <span
-                  className="material-icons eye-icon"
-                  style={{ color: !hidePassword ? '#FF0054' : '#c3c3c3' }}
-                >
-                  visibility
-                </span>
-              </a>
+                {hidePassword ? (
+                  <VisibilityOffOutlinedIcon className="text-gray-600" />
+                ) : (
+                  <RemoveRedEyeOutlinedIcon className="text-gray-600" />
+                )}
+              </button>
             </div>
-
+            <PasswordStrengthBar
+              password={password}
+              scoreWords={[
+                'Très faible',
+                'Faible',
+                'Moyen',
+                'Fort',
+                'Très fort',
+              ]}
+              minLength={4}
+              shortScoreWord={'Très faible'}
+            />
             {errors.email && (
               <span className="text-xs lg:text-sm text-red-600">
                 Le mot de passe est obligatoire
@@ -164,6 +148,6 @@ export default function SignInForm() {
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }

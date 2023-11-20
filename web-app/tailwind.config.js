@@ -18,9 +18,9 @@ module.exports = {
         'sp-primary-500': '#D46598ff',
         'sp-primary-550': '#D0548Dff',
         'sp-primary-600': '#CB4382ff',
-        'password-weak': '#FF0054',
-        'password-medium': '#FEBD01',
-        'password-strong': '#8BC926',
+        'sp-password-weak': '#FF0054',
+        'sp-password-medium': '#FEBD01',
+        'sp-password-strong': '#8BC926',
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
