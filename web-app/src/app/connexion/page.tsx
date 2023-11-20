@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MainLogo from '../../../public/pictures/logo/salt_and_pepper_logo.png';
 import SignInLogInButtonGroup from './_components/SignInLogInButtonGroup';
 import LogInForm from './_components/LogInForm';
+import SignInForm from './_components/SignInForm';
 
 export default function Home() {
   const [isSignInButtonFocused, setIsSignInButtonFocused] = useState(true);
@@ -23,7 +24,7 @@ export default function Home() {
         <SignInLogInButtonGroup onLogInButtonFocus={onLogInButtonFocus} />
       </div>
       <div className="flex w-full sm:w-2/3 md:w-1/2 xl:w-2/5 pb-20">
-        {isSignInButtonFocused ? <LogInForm /> : <p>signin</p>}
+        {isSignInButtonFocused ? <LogInForm /> : <SignInForm />}
       </div>
     </div>
   );

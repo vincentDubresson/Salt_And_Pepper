@@ -2,9 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
       colors: {
@@ -20,6 +18,9 @@ module.exports = {
         'sp-primary-500': '#D46598ff',
         'sp-primary-550': '#D0548Dff',
         'sp-primary-600': '#CB4382ff',
+        'password-weak': '#FF0054',
+        'password-medium': '#FEBD01',
+        'password-strong': '#8BC926',
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
@@ -28,4 +29,4 @@ module.exports = {
     },
     plugins: [],
   },
-}
+};

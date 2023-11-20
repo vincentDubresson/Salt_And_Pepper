@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { AppContext } from '@/app/_lib/_context/AppContext';
 
 export default function LogInForm() {
+  //TODO : Validation du formulaire avec react-hook-form
   const logIn = useContext(AppContext)?.logIn as ({
     // eslint-disable-next-line no-unused-vars
     variables,
