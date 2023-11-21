@@ -4,13 +4,22 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { SignInFormTypes } from '../_lib/FormTypes';
 import { useState } from 'react';
 import PasswordStrengthBar from 'react-password-strength-bar';
+import Select from 'react-select';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import CountryData from '../_lib/CountryData';
 
 export default function SignInForm() {
+  const [country, setCountry] = useState('');
+  console.log(country);
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
+
+  const countries = CountryData.countries.map((country) => ({
+    value: country.country,
+    label: `${country.flag} ${country.country}`,
+  }));
 
   const {
     register,
@@ -104,6 +113,7 @@ export default function SignInForm() {
               </button>
             </div>
             <PasswordStrengthBar
+              className="-z-10"
               password={password}
               scoreWords={[
                 'Très faible',
@@ -127,9 +137,18 @@ export default function SignInForm() {
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
               Pays
             </label>
-            <input
+            <Select
               className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-              {...register('country', { required: true })}
+              onChange={(e) => setCountry(e?.value as string)}
+              styles={{
+                control: () => ({
+                  display: 'flex',
+                  border: 'none',
+                  cursor: 'pointer',
+                }),
+              }}
+              placeholder="Choisissez un pays"
+              options={countries}
             />
             {errors.email && (
               <span className="text-xs lg:text-sm text-red-600">
@@ -137,6 +156,21 @@ export default function SignInForm() {
               </span>
             )}
           </div>
+        </div>
+        <div className="flex gap-4 items-center pt-5">
+          <input type="checkbox" className="w-4 h-4" />
+          <p className="text-sm text-justify text-gray-600">
+            J&lsquo;accepte les Conditions Générales d&lsquo;Utilisation et reconnais avoir
+            été informé que mes données personnelles seront utilisées tel que
+            détaillé dans la Politique de protection des
+            données personnelles
+          </p>
+        </div>
+        <div className="flex gap-4 items-center">
+          <input type="checkbox" className="w-4 h-4" />
+          <p className="text-sm text-justify text-gray-600">
+            J&lsquo;accepte que Salt & Pepper m&lsquo;envoie des newsletters personnalisées et mesure mes interactions avec celles-ci.
+          </p>
         </div>
 
         <div>
