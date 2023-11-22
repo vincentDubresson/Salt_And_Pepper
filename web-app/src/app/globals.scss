@@ -23,3 +23,13 @@ a {
 header {
   z-index: 100;
 }
+
+.css-popover {
+  z-index: 101;
+}
+
+@media screen and (min-width: 1024px) {
+  .css-signin-input {
+    width: 48% !important;
+  }
+}

@@ -20,12 +20,18 @@ export default function Home() {
         src={MainLogo.src}
         alt="Salt & Pepper Logo"
       />
-      <div className="flex w-full xl:w-2/3 pb-20">
+      <div className="flex w-full xl:w-4/5 pb-20">
         <SignInLogInButtonGroup onLogInButtonFocus={onLogInButtonFocus} />
       </div>
-      <div className="flex w-full sm:w-2/3 md:w-1/2 xl:w-2/5 pb-20">
-        {isSignInButtonFocused ? <LogInForm /> : <SignInForm />}
-      </div>
+      {isSignInButtonFocused ? (
+        <div className="flex w-full sm:w-2/3 md:w-1/2 xl:w-2/5 pb-20">
+          <LogInForm />
+        </div>
+      ) : (
+        <div className="flex w-full sm:w-2/3 md:w-1/2 lg:w-4/5 xl:w-3/5 pb-20">
+          <SignInForm />
+        </div>
+      )}
     </div>
   );
 }

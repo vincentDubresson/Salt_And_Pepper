@@ -173,7 +173,7 @@ export default function Header() {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute -left-64 top-14 mt-3 w-screen max-w-xs overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 z-20">
+                <Popover.Panel className="absolute -left-64 top-14 mt-3 w-screen max-w-xs overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 css-popover">
                   <div className="flex flex-col p-4 gap-y-2">
                     <a href="/mon-compte/mon-profil">
                       <div className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 bg-gray-50 hover:bg-sp-primary-100 transition-colors">
@@ -241,7 +241,7 @@ export default function Header() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 css-popover">
           <div className="flex items-center justify-between">
             <div></div>
             <button

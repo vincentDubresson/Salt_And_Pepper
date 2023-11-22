@@ -1,20 +1,24 @@
 'use client';
 
+import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { SignInFormTypes } from '../_lib/FormTypes';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import Select from 'react-select';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import CountryData from '../_lib/CountryData';
+import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
+import { AppContext } from '@/app/_lib/_context/AppContext';
+import { useRouter } from 'next/navigation';
 
 export default function SignInForm() {
+  const setLinkClicked = useContext(AppContext)
+    ?.setLinkClicked as React.Dispatch<React.SetStateAction<boolean>>;
   const [country, setCountry] = useState('');
+  const router = useRouter();
   console.log(country);
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-  }
 
   const countries = CountryData.countries.map((country) => ({
     value: country.country,
@@ -34,9 +38,15 @@ export default function SignInForm() {
 
   return (
     <div className="flex flex-col w-full">
+      <div className="flex flex-col text-center text-gray-600 mb-14">
+        <p className="font-nothing-you-could-do font-bold lg:text-lg">
+          Proposez vos recettes favorites, donnez votre avis et bien plus encore
+          en rejoignant la famille Salt & Pepper...
+        </p>
+      </div>
       <form className="w-full space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col space-y-6">
-          <div className="mb-2">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start space-y-6 lg:space-y-0">
+          <div className="mb-2 css-signin-input">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
               Prénom
             </label>
@@ -51,7 +61,7 @@ export default function SignInForm() {
             )}
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 css-signin-input">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
               Nom
             </label>
@@ -66,8 +76,8 @@ export default function SignInForm() {
             )}
           </div>
         </div>
-        <div className="flex flex-col space-y-6">
-          <div className="mb-2">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start space-y-6 lg:space-y-0">
+          <div className="mb-2 css-signin-input">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
               Adresse e-mail
             </label>
@@ -82,7 +92,7 @@ export default function SignInForm() {
             )}
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 css-signin-input">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
               Mot de passe *
             </label>
@@ -132,8 +142,8 @@ export default function SignInForm() {
             )}
           </div>
         </div>
-        <div className="flex flex-col space-y-6">
-          <div className="mb-2">
+        <div className="flex flex-col lg:flex-row lg:justify-center space-y-6 lg:w-full">
+          <div className="mb-2 css-signin-input lg:w-1/2">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
               Pays
             </label>
@@ -159,29 +169,71 @@ export default function SignInForm() {
         </div>
         <div className="flex gap-4 items-center pt-5">
           <input type="checkbox" className="w-4 h-4" />
-          <p className="text-sm text-justify text-gray-600">
-            J&lsquo;accepte les Conditions Générales d&lsquo;Utilisation et reconnais avoir
-            été informé que mes données personnelles seront utilisées tel que
-            détaillé dans la Politique de protection des
-            données personnelles
+          <p className="text-sm lg:text-base text-justify text-gray-600">
+            J&lsquo;accepte les Conditions Générales d&lsquo;Utilisation et
+            reconnais avoir été informé que mes données personnelles seront
+            utilisées tel que détaillé dans la{' '}
+            <button
+              className="underline"
+              onClick={(e) => {
+                e.preventDefault();
+                setLinkClicked(true);
+                router.replace(PROJECT_ROUTE.POLITIQUE_DE_CONFIDENTIALITE);
+              }}
+            >
+              politique de confidentialité
+            </button>
+            .
           </p>
         </div>
         <div className="flex gap-4 items-center">
           <input type="checkbox" className="w-4 h-4" />
-          <p className="text-sm text-justify text-gray-600">
-            J&lsquo;accepte que Salt & Pepper m&lsquo;envoie des newsletters personnalisées et mesure mes interactions avec celles-ci.
+          <p className="text-sm lg:text-base text-justify text-gray-600">
+            J&lsquo;accepte que Salt & Pepper m&lsquo;envoie des newsletters
+            personnalisées et mesure mes interactions avec celles-ci.
           </p>
         </div>
 
         <div>
           <button
-            className="flex m-auto mt-10 justify-center rounded-full bg-sp-primary-400 px-3.5 py-2 text-sm lg:text-base font-semibold leading-6 text-white shadow-sm transition-colors  hover:bg-sp-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-1/3 m-auto mt-10 justify-center rounded-full bg-sp-primary-400 px-3.5 py-2 text-sm lg:text-base font-semibold leading-6 text-white shadow-sm transition-colors  hover:bg-sp-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             type="submit"
           >
             S&lsquo;inscrire
           </button>
         </div>
       </form>
+      <div className="mt-10">
+        <p className="text-xs text-justify text-gray-500">
+          En tant que responsable du site de recettes &ldquo;Salt &
+          Pepper,&ldquo; nous traitons vos données pour gérer votre compte,
+          améliorer nos services, respecter les obligations légales, et
+          personnaliser les contenus et publicités. Nous pouvons vous envoyer
+          des communications commerciales personnalisées avec votre
+          consentement, révocable via notre module de paramétrage des cookies.
+          Vous avez le droit d&lsquo;accéder, rectifier, ou effacer vos données,
+          limiter le traitement, vous opposer à certains traitements, et
+          demander la portabilité de vos données. Contactez-nous à{' '}
+          <a
+            className="underline"
+            href="mailto:contact.salt-and-pepper@vdub-dev.fr"
+          >
+            contact.salt-and-pepper@vdub-dev.fr
+          </a>{' '}
+          pour exercer vos droits. En cas de désaccord, vous pouvez déposer une
+          réclamation auprès de la CNIL. Consultez notre{' '}
+          <button
+            className="underline"
+            onClick={() => {
+              setLinkClicked(true);
+              router.replace(PROJECT_ROUTE.POLITIQUE_DE_CONFIDENTIALITE);
+            }}
+          >
+            politique de confidentialité
+          </button>{' '}
+          sur notre site pour plus d&lsquo;informations.
+        </p>
+      </div>
     </div>
   );
 }
