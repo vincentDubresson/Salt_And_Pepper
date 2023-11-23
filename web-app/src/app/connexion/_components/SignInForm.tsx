@@ -12,13 +12,24 @@ import CountryData from '../_lib/CountryData';
 import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
 import { AppContext } from '@/app/_lib/_context/AppContext';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@apollo/client';
+import { CREATE_USER_MUTATION_VARIABLES } from '@/app/_lib/_type/UserTypes';
+import { CREATE_USER } from '@/app/_lib/_query/User';
+import { toast } from 'react-toastify';
 
-export default function SignInForm() {
+export default function SignInForm({
+  onLogInButtonFocus,
+}: {
+  // eslint-disable-next-line no-unused-vars
+  onLogInButtonFocus: (isLogInFocused: boolean) => void;
+}) {
+  const [password, setPassword] = useState('');
+  const [hidePassword, setHidePassword] = useState(true);
+  const [userCountry, setUserCountry] = useState('');
+
   const setLinkClicked = useContext(AppContext)
     ?.setLinkClicked as React.Dispatch<React.SetStateAction<boolean>>;
-  const [country, setCountry] = useState('');
   const router = useRouter();
-  console.log(country);
 
   const countries = CountryData.countries.map((country) => ({
     value: country.country,
@@ -31,10 +42,40 @@ export default function SignInForm() {
     formState: { errors },
   } = useForm<SignInFormTypes>();
 
-  const onSubmit: SubmitHandler<SignInFormTypes> = async () => {};
+  const [signIn] = useMutation<any, CREATE_USER_MUTATION_VARIABLES>(
+    CREATE_USER,
+    {
+      notifyOnNetworkStatusChange: true,
+      onCompleted(data) {
+        if (data.createUser.user.id) {
+          toast.success(
+            'Votre compte a été crée avec succès. Vous allez être redirigé vers la page de connexion.'
+          );
+          setTimeout(() => {
+            onLogInButtonFocus(true);
+          }, 4000);
+        }
+      },
+    }
+  );
 
-  const [password, setPassword] = useState('');
-  const [hidePassword, setHidePassword] = useState(true);
+  const onSubmit: SubmitHandler<SignInFormTypes> = async (data) => {
+    data.acceptNewsletter = data.acceptNewsletter ? true : false;
+    data.acceptTerms = data.acceptTerms ? true : false;
+    console.log(data);
+    await signIn({
+      variables: {
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+        plainPassword: data.plainPassword,
+        isAdmin: false,
+        country: userCountry,
+        isEnable: false,
+        isFirstConnexion: true,
+      },
+    });
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -52,11 +93,17 @@ export default function SignInForm() {
             </label>
             <input
               className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-              {...register('firstname', { required: true })}
+              {...register('firstname', {
+                required: 'Le prénom est obligatoire',
+                maxLength: {
+                  value: 255,
+                  message: 'Le prénom ne peut pas dépasser 255 caractères.',
+                },
+              })}
             />
-            {errors.email && (
+            {errors.firstname && (
               <span className="text-xs lg:text-sm text-red-600">
-                Le prénom est obligatoire
+                {errors.firstname.message}
               </span>
             )}
           </div>
@@ -67,11 +114,17 @@ export default function SignInForm() {
             </label>
             <input
               className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-              {...register('lastname', { required: true })}
+              {...register('lastname', {
+                required: 'Le nom est obligatoire',
+                maxLength: {
+                  value: 255,
+                  message: 'Le nom ne peut pas dépasser 255 caractères.',
+                },
+              })}
             />
-            {errors.email && (
+            {errors.lastname && (
               <span className="text-xs lg:text-sm text-red-600">
-                Le nom est obligatoire
+                {errors.lastname.message}
               </span>
             )}
           </div>
@@ -83,26 +136,45 @@ export default function SignInForm() {
             </label>
             <input
               className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-              {...register('email', { required: true })}
+              {...register('email', {
+                // eslint-disable-next-line quotes
+                required: "L'adresse e-mail est obligatoire",
+                maxLength: {
+                  value: 255,
+                  message:
+                    // eslint-disable-next-line quotes
+                    "L'adresse e-mail ne peut pas dépasser 255 caractères.",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  // eslint-disable-next-line quotes
+                  message: "Votre adresse email n'est pas valide.",
+                },
+              })}
             />
             {errors.email && (
               <span className="text-xs lg:text-sm text-red-600">
-                L&lsquo;adresse e-mail est obligatoire
+                {errors.email.message}
               </span>
             )}
           </div>
 
           <div className="mb-2 css-signin-input">
             <label className="block text-sm lg:text-base font-medium leading-6 text-gray-500">
-              Mot de passe *
+              Mot de passe
             </label>
 
-            <div className="flex mb-3 border-b-2 border-b-sp-primary-400 hover:border-b-sp-primary-300">
+            <div className="flex border-b-2 border-b-sp-primary-400 hover:border-b-sp-primary-300">
               <input
                 type={hidePassword ? 'password' : 'text'}
                 className="block w-full px-2.5 py-2.5 bg-sp-primary-50 transition-colors focus:border-b-sp-primary-300 shadow-sm outline-none"
                 {...register('plainPassword', {
-                  required: true,
+                  required: 'Le mot de passe est obligatoire.',
+                  minLength: {
+                    value: 8,
+                    message:
+                      'Le mot de passe doit comporter 8 caractères minimum.',
+                  },
                   onChange(event) {
                     setPassword(event.target.value);
                   },
@@ -122,6 +194,11 @@ export default function SignInForm() {
                 )}
               </button>
             </div>
+            {errors.plainPassword && (
+              <span className="text-xs lg:text-sm text-red-600">
+                {errors.plainPassword.message}
+              </span>
+            )}
             <PasswordStrengthBar
               className="-z-10"
               password={password}
@@ -132,14 +209,9 @@ export default function SignInForm() {
                 'Fort',
                 'Très fort',
               ]}
-              minLength={4}
+              minLength={1}
               shortScoreWord={'Très faible'}
             />
-            {errors.email && (
-              <span className="text-xs lg:text-sm text-red-600">
-                Le mot de passe est obligatoire
-              </span>
-            )}
           </div>
         </div>
         <div className="flex flex-col lg:flex-row lg:justify-center space-y-6 lg:w-full">
@@ -149,7 +221,9 @@ export default function SignInForm() {
             </label>
             <Select
               className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
-              onChange={(e) => setCountry(e?.value as string)}
+              onChange={(e) => {
+                setUserCountry(e?.value as string);
+              }}
               styles={{
                 control: () => ({
                   display: 'flex',
@@ -159,16 +233,17 @@ export default function SignInForm() {
               }}
               placeholder="Choisissez un pays"
               options={countries}
+              required
             />
-            {errors.email && (
-              <span className="text-xs lg:text-sm text-red-600">
-                Le pays est obligatoire
-              </span>
-            )}
           </div>
         </div>
         <div className="flex gap-4 items-center pt-5">
-          <input type="checkbox" className="w-4 h-4" />
+          <input
+            type="checkbox"
+            className="w-4 h-4"
+            required
+            {...register('acceptTerms', { required: true })}
+          />
           <p className="text-sm lg:text-base text-justify text-gray-600">
             J&lsquo;accepte les Conditions Générales d&lsquo;Utilisation et
             reconnais avoir été informé que mes données personnelles seront
@@ -187,7 +262,11 @@ export default function SignInForm() {
           </p>
         </div>
         <div className="flex gap-4 items-center">
-          <input type="checkbox" className="w-4 h-4" />
+          <input
+            type="checkbox"
+            className="w-4 h-4"
+            {...register('acceptNewsletter')}
+          />
           <p className="text-sm lg:text-base text-justify text-gray-600">
             J&lsquo;accepte que Salt & Pepper m&lsquo;envoie des newsletters
             personnalisées et mesure mes interactions avec celles-ci.

@@ -1,3 +1,5 @@
+/* eslint-disable quotes */
+
 export type CountryType = {
   country: string;
   code: string;
@@ -81,7 +83,7 @@ export default class CountryData {
     {
       country: 'Antigua-et-Barbuda',
       code: 'AG',
-      capital: 'Saint John\'s',
+      capital: "Saint John's",
       continent: 'Amérique',
       flag: '🇦🇬',
     },
@@ -360,7 +362,7 @@ export default class CountryData {
       flag: '🇨🇷',
     },
     {
-      country: 'Côte d\'Ivoire',
+      country: "Côte d'Ivoire",
       code: 'CI',
       capital: 'Yamoussoukro',
       continent: 'Afrique',
@@ -1248,14 +1250,14 @@ export default class CountryData {
     {
       country: 'Tonga',
       code: 'TO',
-      capital: 'Nuku\'alofa',
+      capital: "Nuku'alofa",
       continent: 'Océanie',
       flag: '🇹🇴',
     },
     {
       country: 'Trinité-et-Tobago',
       code: 'TT',
-      capital: 'Port-d\'Espagne',
+      capital: "Port-d'Espagne",
       continent: 'Amérique du Nord',
       flag: '🇹🇹',
     },

@@ -9,4 +9,6 @@ export type SignInFormTypes = {
   email: string;
   plainPassword: string;
   country: string;
+  acceptTerms: boolean;
+  acceptNewsletter: boolean;
 };
