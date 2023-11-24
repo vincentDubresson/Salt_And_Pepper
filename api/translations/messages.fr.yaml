@@ -94,6 +94,7 @@ sonata_admin:
       role: Rôle
       admin: Administrateur
       enable: Actif
+      newsletter: Newsletter
   placeholder:
     user:
       select_country: Sélectionner un pays

@@ -56,6 +56,9 @@ export default function SignInForm({
           }, 4000);
         }
       },
+      onError(error) {
+        toast.error(error.message);
+      },
     }
   );
 
@@ -72,7 +75,7 @@ export default function SignInForm({
         isAdmin: false,
         country: userCountry,
         isEnable: false,
-        isFirstConnexion: true,
+        acceptNewsletter: data.acceptNewsletter,
       },
     });
   };

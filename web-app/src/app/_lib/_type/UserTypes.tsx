@@ -15,7 +15,7 @@ export type GET_USER_TYPE = {
   birthDate: Date;
   pictureName: string;
   isEnable: boolean;
-  isFirstConnexion: boolean;
+  acceptNewsletter: boolean;
   createdAt: Date;
   updatedAt: Date;
 } | null;
@@ -33,5 +33,5 @@ export type CREATE_USER_MUTATION_VARIABLES = {
   isAdmin: boolean;
   country: string;
   isEnable: boolean;
-  isFirstConnexion: boolean;
+  acceptNewsletter: boolean;
 };

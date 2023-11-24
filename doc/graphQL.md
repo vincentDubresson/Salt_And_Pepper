@@ -36,7 +36,7 @@ query GetUsers {
         birthDate
         imageName
         isEnable
-        isFirstConnexion
+        acceptNewsletter
     	createdAt
         updatedAt
       }
@@ -70,8 +70,8 @@ query GetUser($id: ID!) {
         birthDate
         imageName
         isEnable
-        isFirstConnexion
-    		createdAt
+        acceptNewletter
+    	createdAt
         updatedAt
   }
 }
@@ -97,7 +97,7 @@ mutation CreateUser(
   $plainPassword: String!, $isAdmin: Boolean!, $address1: String,
   $address2: String, $zipCode: Int, $city: String, $country: String!,
   $phoneNumber: String, $birthDate: String, $isEnable: Boolean!,
-  $imageName: String, $isFirstConnexion: Boolean!
+  $imageName: String, $acceptNewsletter: Boolean!
 ) {
   createUser(
     input: {
@@ -105,7 +105,7 @@ mutation CreateUser(
       plainPassword: $plainPassword, isAdmin: $isAdmin, address1: $address1,
       address2: $address2, zipCode: $zipCode, city: $city, country: $country,
       phoneNumber: $phoneNumber, birthDate: $birthDate, isEnable: $isEnable,
-      imageName: $imageName, isFirstConnexion: $isFirstConnexion
+      imageName: $imageName, acceptNewsletter: $acceptNewsletter
     }
   ) {
     user {
@@ -132,7 +132,7 @@ mutation CreateUser(
   "birthDate": null,
   "isEnable": false,
   "imageName": null,
-  "isFirstConnexion": true
+  "acceptNewsletter": true
 }
 ```
 
@@ -144,7 +144,7 @@ mutation UpdateUser(
   $plainPassword: String, $isAdmin: Boolean!, $address1: String,
   $address2: String, $zipCode: Int, $city: String, $country: String!,
   $phoneNumber: String, $birthDate: String, $isEnable: Boolean!,
-  $imageName: String, $isFirstConnexion: Boolean!
+  $imageName: String, $acceptNewsletter: Boolean!
 ) {
   updateUser(
     input: {
@@ -152,7 +152,7 @@ mutation UpdateUser(
       plainPassword: $plainPassword, isAdmin: $isAdmin, address1: $address1,
       address2: $address2, zipCode: $zipCode, city: $city, country: $country,
       phoneNumber: $phoneNumber, birthDate: $birthDate, isEnable: $isEnable,
-      imageName: $imageName, isFirstConnexion: $isFirstConnexion
+      imageName: $imageName, acceptNewsletter: $acceptNewsletter
     }
   ) {
     user {
@@ -180,7 +180,7 @@ mutation UpdateUser(
   "birthDate": null,
   "isEnable": false,
   "imageName": null,
-  "isFirstConnexion": true
+  "acceptNewsletter": true
 }
 ```
 

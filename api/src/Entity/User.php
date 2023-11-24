@@ -214,7 +214,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
 
     #[ORM\Column(type: 'boolean', nullable: false)]
     #[Groups(['user:read', 'user:create', 'user:update'])]
-    private ?bool $isFirstConnexion = true;
+    private ?bool $acceptNewsletter = null;
 
     /**
      * @var DateTimeInterface
@@ -532,14 +532,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         $this->isAdmin = $isAdmin;
     }
 
-    public function getIsFirstConnexion(): ?bool
+    public function isAcceptNewsletter(): ?bool
     {
-        return $this->isFirstConnexion;
+        return $this->acceptNewsletter;
     }
 
-    public function setIsFirstConnexion(?bool $isFirstConnexion): void
+    public function setAcceptNewsletter(bool $acceptNewsletter): static
     {
-        $this->isFirstConnexion = $isFirstConnexion;
+        $this->acceptNewsletter = $acceptNewsletter;
+
+        return $this;
     }
 
     /**

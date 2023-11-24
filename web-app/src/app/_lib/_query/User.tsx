@@ -29,7 +29,7 @@ export const GET_USER = gql`
       birthDate
       pictureName
       isEnable
-      isFirstConnexion
+      acceptNewsletter
       createdAt
       updatedAt
     }
@@ -52,7 +52,7 @@ export const CREATE_USER = gql`
     $birthDate: String
     $isEnable: Boolean!
     $pictureName: String
-    $isFirstConnexion: Boolean!
+    $acceptNewsletter: Boolean!
   ) {
     createUser(
       input: {
@@ -70,7 +70,7 @@ export const CREATE_USER = gql`
         birthDate: $birthDate
         isEnable: $isEnable
         pictureName: $pictureName
-        isFirstConnexion: $isFirstConnexion
+        acceptNewsletter: $acceptNewsletter
       }
     ) {
       user {

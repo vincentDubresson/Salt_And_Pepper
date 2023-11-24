@@ -21,7 +21,10 @@ export default function Home() {
         alt="Salt & Pepper Logo"
       />
       <div className="flex w-full xl:w-4/5 pb-20">
-        <SignInLogInButtonGroup onLogInButtonFocus={onLogInButtonFocus} />
+        <SignInLogInButtonGroup
+          onLogInButtonFocus={onLogInButtonFocus}
+          isSignInButtonFocused={isSignInButtonFocused}
+        />
       </div>
       {isSignInButtonFocused ? (
         <div className="flex w-full sm:w-2/3 md:w-1/2 xl:w-2/5 pb-20">

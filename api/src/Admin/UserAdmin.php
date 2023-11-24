@@ -134,6 +134,9 @@ class UserAdmin extends AbstractAdmin
                 ->add('isEnable', null, [
                     'label' => 'sonata_admin.label.user.enable',
                 ])
+                ->add('acceptNewsletter', null, [
+                    'label' => 'sonata_admin.label.user.newsletter',
+                ])
                 ->add('slug', null, [
                     'label' => 'sonata_admin.label.general.slug',
                     'disabled' => true,
