@@ -48,7 +48,7 @@ export const AppContextProvider = ({
     notifyOnNetworkStatusChange: true,
     onCompleted: async (data) => {
       try {
-        if (data.loginCheckUser) {
+        if (data.loginCheckUser.user.token) {
           const token = data.loginCheckUser.user.token;
           if (token) {
             const userId = data.loginCheckUser.user.id;
@@ -66,9 +66,10 @@ export const AppContextProvider = ({
               router.push(PROJECT_ROUTE.HOME);
             }
           }
+        } else {
+          toast.warning('Identifiants incorrects.');
         }
       } catch (error) {
-        console.error('AppContext - l.67 :', error);
         toast.error(CUSTOM_ERROR_MESSAGE);
       }
     },
@@ -87,12 +88,11 @@ export const AppContextProvider = ({
           setUser(data.user);
         }
       } catch (error) {
-        console.error('AppContext - l.86 :', error);
         toast.error(CUSTOM_ERROR_MESSAGE);
       }
     },
+    /* eslint-disable no-unused-vars */
     onError: (error) => {
-      console.error('AppContext - l.91 :', error);
       toast.error(CUSTOM_ERROR_MESSAGE);
     },
   });
@@ -114,12 +114,11 @@ export const AppContextProvider = ({
           setUser(data.user);
         }
       } catch (error) {
-        console.error('AppContext - l.113 :', error);
         toast.error(CUSTOM_ERROR_MESSAGE);
       }
     },
+    /* eslint-disable no-unused-vars */
     onError: (error) => {
-      console.error('AppContext - l.118 :', error);
       toast.error(CUSTOM_ERROR_MESSAGE);
     },
   });
@@ -158,7 +157,6 @@ export const AppContextProvider = ({
         setUserAuthenticated(false);
       }
     } catch (error) {
-      console.error('AppContext - l.157 :', error);
       toast.error(CUSTOM_ERROR_MESSAGE);
     }
   }, [user, setUserQueryStates, getUser]);

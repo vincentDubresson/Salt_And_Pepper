@@ -63,6 +63,7 @@ export default function LogInForm() {
           </div>
           <input
             className="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors border-b-sp-primary-400 hover:border-b-sp-primary-300 focus:border-b-sp-primary-300 shadow-sm outline-none"
+            type="password"
             {...register('plainPassword', { required: true })}
           />
           {errors.plainPassword && (

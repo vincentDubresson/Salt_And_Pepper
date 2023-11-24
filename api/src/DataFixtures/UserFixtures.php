@@ -47,7 +47,7 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN'])
             ->setCountry(Countries::getName('FR'))
             ->setIsEnable(true)
-            ->setIsFirstConnexion(false)
+            ->setAcceptNewsletter(false)
         ;
 
         $user->setPictureFile($file);

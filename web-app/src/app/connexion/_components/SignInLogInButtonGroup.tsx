@@ -2,10 +2,13 @@ import { useState } from 'react';
 
 export default function SignInLogInButtonGroup({
   onLogInButtonFocus,
+  isSignInButtonFocused,
 }: {
   // eslint-disable-next-line no-unused-vars
   onLogInButtonFocus: (isLogInFocused: boolean) => void;
+  isSignInButtonFocused: boolean;
 }) {
+  //TODO : Voir pour le disable apres soumission du formulaire
   const [signInFocused, setSignInFocused] = useState(false);
   const [signInDisabled, setSignInDisabled] = useState(false);
   const [logInFocused, setLogInFocused] = useState(true);
@@ -19,7 +22,9 @@ export default function SignInLogInButtonGroup({
     <>
       <button
         className={classNames(
-          logInFocused ? 'bg-sp-primary-400 text-sp-primary-50' : '',
+          logInFocused || isSignInButtonFocused
+            ? 'bg-sp-primary-400 text-sp-primary-50'
+            : '',
           signInFocused
             ? 'hover:bg-sp-primary-200 hover:border-sp-primary-200'
             : '',
@@ -38,7 +43,9 @@ export default function SignInLogInButtonGroup({
       </button>
       <button
         className={classNames(
-          signInFocused ? 'bg-sp-primary-400 text-sp-primary-50' : '',
+          signInFocused && !isSignInButtonFocused
+            ? 'bg-sp-primary-400 text-sp-primary-50'
+            : '',
           logInFocused
             ? 'hover:bg-sp-primary-200 hover:border-sp-primary-200'
             : '',

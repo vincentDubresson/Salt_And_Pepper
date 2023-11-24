@@ -26,6 +26,7 @@ class UserStateProcessor implements ProcessorInterface
         $data->setRoles(
             ($data->isIsAdmin()) ? ['ROLE_ADMIN'] : ['ROLE_USER']
         );
+        $data->setPictureName('user_default.png');
 
         return $this->processor->process($data, $operation, $uriVariables, $context);
     }
