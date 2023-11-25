@@ -653,4 +653,86 @@ query GetRecipe($id: ID!) {
 }
 ```
 
+### GetRandomRecipe
+
+```
+query GetRandomRecipe {
+  randomRecipe {
+    id
+    label
+    slug
+    description
+    servingNumber
+    servingUnit
+    preparationTime
+    cookingTime
+    restingTime
+    createdAt
+    updatedAt
+    subCategory {
+      id
+      label
+      category {
+        id
+        label
+      }
+    }
+    cookingType {
+      id
+      label
+    }
+    difficulty {
+      id
+      label
+    }
+    cost {
+      id
+      label
+    }
+    user {
+      id
+      firstname
+      lastname
+    }
+    stepRecipes {
+      edges {
+        node {
+          id
+          description
+          sort
+        }
+      }
+    }
+    imageRecipes {
+      edges {
+        node {
+          id
+          pictureName
+          sort
+        }
+      }
+    }
+    ingredientRecipes {
+      edges {
+        node {
+          id
+          quantity
+          sort
+          unity {
+            id
+            label
+            abreviation
+          }
+          ingredient {
+            id
+            label
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
 ## Recipe - Mutations

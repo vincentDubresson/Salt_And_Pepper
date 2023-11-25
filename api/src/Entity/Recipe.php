@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\RecipeRepository;
+use App\Resolver\RandomRecipeQueryResolver;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,6 +38,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     graphQlOperations: [
         new QueryCollection(),
         new Query(),
+        new Query(
+            resolver: RandomRecipeQueryResolver::class,
+            args: [],
+            name: 'random',
+        ),
         new Mutation(
             security: 'is_granted("ROLE_USER")',
             name: 'create',
