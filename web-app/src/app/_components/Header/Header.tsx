@@ -143,8 +143,11 @@ export default function Header() {
             {headerCategories.map((item) => (
               <a
                 key={item.name}
-                href={item.href}
-                className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors"
+                onClick={() => {
+                  setLinkClicked(true);
+                  router.replace(item.path);
+                }}
+                className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors cursor-pointer"
               >
                 {item.name}
               </a>
@@ -306,13 +309,17 @@ export default function Header() {
                   )}
                 </Disclosure>
                 {headerCategories.map((item) => (
-                  <a
+                  <button
                     key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                    onClick={() => {
+                      setLinkClicked(true);
+                      setMobileMenuOpen(false);
+                      router.replace(item.path);
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100 cursor-pointer"
                   >
                     {item.name}
-                  </a>
+                  </button>
                 ))}
               </div>
               {userAuthenticated && user ? (
