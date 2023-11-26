@@ -100,22 +100,48 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
                     $manager->persist($stepRecipe);
                 }
 
-                // On insère 3 images par recettes (la même)
-                for ($l = 1; $l <= 3; $l++) {
-                    $imageRecipe = new ImageRecipe();
+                // On insère 3 images par recettes
+                $imageRecipe = new ImageRecipe();
 
-                    $image = new File($this->uploadDirectory . '/default/recipe_default.png');
+                $image = new File($this->uploadDirectory . '/default/recipe_default.png');
 
-                    $imageRecipe->setPictureFile($image);
-                    $imageRecipe
-                        ->setPictureName('recipe_default.png')
-                        ->setSort($l)
-                        ->setRecipe($recipe)
-                    ;
-                    copy($this->uploadDirectory . '/default/recipe_default.png', $this->uploadDirectory . '/recipes/re/recipe_default.png');
+                $imageRecipe->setPictureFile($image);
+                $imageRecipe
+                    ->setPictureName('recipe_default.png')
+                    ->setSort(1)
+                    ->setRecipe($recipe)
+                ;
+                copy($this->uploadDirectory . '/default/recipe_default.png', $this->uploadDirectory . '/recipes/re/recipe_default.png');
 
-                    $manager->persist($imageRecipe);
-                }
+                $manager->persist($imageRecipe);
+
+                $imageRecipe = new ImageRecipe();
+
+                $image = new File($this->uploadDirectory . '/default/recipe_default_1920_1080.png');
+
+                $imageRecipe->setPictureFile($image);
+                $imageRecipe
+                    ->setPictureName('recipe_default_1920_1080.png')
+                    ->setSort(2)
+                    ->setRecipe($recipe)
+                ;
+                copy($this->uploadDirectory . '/default/recipe_default_1920_1080.png', $this->uploadDirectory . '/recipes/re/recipe_default_1920_1080.png');
+
+                $manager->persist($imageRecipe);
+
+                $imageRecipe = new ImageRecipe();
+
+                $image = new File($this->uploadDirectory . '/default/recipe_default_1280_700.png');
+
+                $imageRecipe->setPictureFile($image);
+                $imageRecipe
+                    ->setPictureName('recipe_default_1280_700.png')
+                    ->setSort(3)
+                    ->setRecipe($recipe)
+                ;
+                copy($this->uploadDirectory . '/default/recipe_default_1280_700.png', $this->uploadDirectory . '/recipes/re/recipe_default_1280_700.png');
+
+                $manager->persist($imageRecipe);
             }
         }
 

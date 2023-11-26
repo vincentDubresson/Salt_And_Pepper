@@ -9,9 +9,9 @@ use Doctrine\Persistence\ObjectManager;
 class CostFixtures extends Fixture
 {
     private const COSTS = [
-        'Bon marché',
-        'Coût moyen',
-        'Assez cher',
+        'Faible',
+        'Moyen',
+        'Élevé',
     ];
 
     public function load(ObjectManager $manager): void
