@@ -14,9 +14,14 @@ export default function Ingredients({ recipe }: { recipe: any }) {
 
       <div className="flex flex-col gap-2">
         {recipe?.ingredientRecipes.edges.map((ingredient: any) => (
-          <div key={ingredient.node.id} className="flex justify-between items-center">
+          <div
+            key={ingredient.node.id}
+            className="flex justify-between items-center"
+          >
             <span>{ingredient.node.label}</span>
-            <span className="text-sp-primary-400">{ingredient.node.quantity}</span>
+            <span className="text-sp-primary-400">
+              {ingredient.node.quantity}
+            </span>
           </div>
         ))}
       </div>

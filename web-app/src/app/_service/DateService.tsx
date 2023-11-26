@@ -4,7 +4,11 @@ export default function sommeHeuresMinutesFormatees(
   cookingTime: string
 ) {
   // Fonction pour calculer la somme des heures et des minutes des trois dates
-  function sommeHeuresMinutes(preparationTime: string, restingTime: string, cookingTime: string) {
+  function sommeHeuresMinutes(
+    preparationTime: string,
+    restingTime: string,
+    cookingTime: string
+  ) {
     const date1 = new Date(preparationTime);
     const date2 = new Date(restingTime);
     const date3 = new Date(cookingTime);
@@ -28,7 +32,11 @@ export default function sommeHeuresMinutesFormatees(
   }
 
   // Calculer la somme des heures et des minutes
-  const resultatSomme = sommeHeuresMinutes(preparationTime, restingTime, cookingTime);
+  const resultatSomme = sommeHeuresMinutes(
+    preparationTime,
+    restingTime,
+    cookingTime
+  );
 
   // Formater et retourner le résultat
   return formaterHeuresMinutes(resultatSomme.heures, resultatSomme.minutes);

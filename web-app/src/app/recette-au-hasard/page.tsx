@@ -59,7 +59,6 @@ export default function RandomRecipe() {
       <div>
         <Ingredients recipe={recipe} />
       </div>
-
     </div>
   );
 }
