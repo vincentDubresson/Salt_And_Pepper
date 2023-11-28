@@ -32,7 +32,7 @@ export default function Carousel({
             <img
               src={
                 process.env.NEXT_PUBLIC_API_RECIPE_PICTURE_URL +
-                '/re/' +
+                're/' +
                 picture.node.pictureName
               }
               alt=""

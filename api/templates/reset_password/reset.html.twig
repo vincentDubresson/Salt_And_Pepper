@@ -10,14 +10,14 @@
     {{ form_start(resetForm, { 'attr': {'class': 'space-y-6'}}) }}
 
     <div class="mb-2">
-        {{ form_label(resetForm.plainPassword.first, 'Nouveau mot de passe', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
+        {{ form_label(resetForm.plainPassword.first, 'Nouveau mot de passe', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-500'}}) }}
         <div class="mt-2">
             {{ form_widget(resetForm.plainPassword.first, {'attr': {'class': 'block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none'}}) }}
         </div>
     </div>
 
     <div class="mb-2 pt-5">
-        {{ form_label(resetForm.plainPassword.second, 'Confirmer le mot de passe', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
+        {{ form_label(resetForm.plainPassword.second, 'Confirmer le mot de passe', { 'label_attr': {'class': 'block text-sm font-medium leading-6 text-gray-500'}}) }}
         <div class="mt-2">
             {{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none'}}) }}
         </div>

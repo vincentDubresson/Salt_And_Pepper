@@ -36,7 +36,7 @@ class Ingredient implements TimestampableInterface, SluggableInterface
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['ingredient:read', 'recipe:read'])]
+    #[Groups(['ingredient_recipe:read', 'ingredient:read', 'recipe:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true, nullable: true)]
@@ -44,13 +44,13 @@ class Ingredient implements TimestampableInterface, SluggableInterface
         max: 255,
         maxMessage: 'L\'ingrédient ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['ingredient:read', 'recipe:read'])]
+    #[Groups(['ingredient_recipe:read', 'ingredient:read', 'recipe:read'])]
     private ?string $label = null;
 
     /**
      * @var string
      */
-    #[Groups(['ingredient:read'])]
+    #[Groups(['ingredient_recipe:read', 'ingredient:read'])]
     protected $slug;
 
     public function __toString(): string

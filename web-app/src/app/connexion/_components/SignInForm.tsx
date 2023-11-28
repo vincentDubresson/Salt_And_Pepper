@@ -23,9 +23,9 @@ export default function SignInForm({
   // eslint-disable-next-line no-unused-vars
   onLogInButtonFocus: (isLogInFocused: boolean) => void;
 }) {
-  const [password, setPassword] = useState('');
-  const [hidePassword, setHidePassword] = useState(true);
-  const [userCountry, setUserCountry] = useState('');
+  const [password, setPassword] = useState<string>('');
+  const [hidePassword, setHidePassword] = useState<boolean>(true);
+  const [userCountry, setUserCountry] = useState<string>('');
 
   const setLinkClicked = useContext(AppContext)
     ?.setLinkClicked as React.Dispatch<React.SetStateAction<boolean>>;
@@ -62,10 +62,12 @@ export default function SignInForm({
     }
   );
 
-  const onSubmit: SubmitHandler<SignInFormTypes> = async (data) => {
+  const onSubmit: SubmitHandler<SignInFormTypes> = async (
+    data: SignInFormTypes
+  ) => {
     data.acceptNewsletter = data.acceptNewsletter ? true : false;
     data.acceptTerms = data.acceptTerms ? true : false;
-    console.log(data);
+
     await signIn({
       variables: {
         firstname: data.firstname,
@@ -178,8 +180,8 @@ export default function SignInForm({
                     message:
                       'Le mot de passe doit comporter 8 caractères minimum.',
                   },
-                  onChange(event) {
-                    setPassword(event.target.value);
+                  onChange(e) {
+                    setPassword(e.target.value);
                   },
                 })}
               />
