@@ -205,7 +205,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         max: 255,
         maxMessage: 'Le nom de l\'image ne peut pas dépasser 255 caractères.',
     )]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:create', 'user:update', 'recipe:read'])]
     private ?string $pictureName = null;
 
     #[ORM\Column(type: 'boolean', nullable: false)]

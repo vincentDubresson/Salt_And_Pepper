@@ -1,7 +1,7 @@
 import { RECIPE_TYPE } from '@/app/_lib/_type/RecipeTypes';
 import DateService from '@/app/_service/DateService';
 
-export default function Steps({ recipe }: { recipe: RECIPE_TYPE }) {
+export default function Steps({ recipe }: { recipe: RECIPE_TYPE | undefined }) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col bg-sp-primary-100 shadow-md">
@@ -10,9 +10,9 @@ export default function Steps({ recipe }: { recipe: RECIPE_TYPE }) {
           <span className="text-sp-primary-400">
             {' '}
             {DateService.sommeHeuresMinutesFormatees(
-              recipe?.preparationTime,
-              recipe?.restingTime,
-              recipe?.cookingTime
+              recipe?.preparationTime as string,
+              recipe?.restingTime as string,
+              recipe?.cookingTime as string
             )}
           </span>
         </p>
@@ -20,19 +20,21 @@ export default function Steps({ recipe }: { recipe: RECIPE_TYPE }) {
           <div className="flex w-1/3 flex-col justify-center items-center gap-2">
             <p>Préparation</p>
             <p className="text-sp-primary-400">
-              {DateService.formatHeuresMinutes(recipe?.preparationTime)}
+              {DateService.formatHeuresMinutes(
+                recipe?.preparationTime as string
+              )}
             </p>
           </div>
           <div className="flex w-1/3 flex-col justify-center items-center gap-2">
             <p>Repos</p>
             <p className="text-sp-primary-400">
-              {DateService.formatHeuresMinutes(recipe?.restingTime)}
+              {DateService.formatHeuresMinutes(recipe?.restingTime as string)}
             </p>
           </div>
           <div className="flex w-1/3 flex-col justify-center items-center gap-2">
             <p>Cuisson</p>
             <p className="text-sp-primary-400">
-              {DateService.formatHeuresMinutes(recipe?.cookingTime)}
+              {DateService.formatHeuresMinutes(recipe?.cookingTime as string)}
             </p>
           </div>
         </div>

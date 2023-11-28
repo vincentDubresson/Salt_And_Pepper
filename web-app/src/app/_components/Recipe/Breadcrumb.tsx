@@ -4,7 +4,11 @@ import { RECIPE_TYPE } from '@/app/_lib/_type/RecipeTypes';
 import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
 
-export default function Breadcrumb({ recipe }: { recipe: RECIPE_TYPE }) {
+export default function Breadcrumb({
+  recipe,
+}: {
+  recipe: RECIPE_TYPE | undefined;
+}) {
   const setLinkClicked = useContext(AppContext)
     ?.setLinkClicked as React.Dispatch<React.SetStateAction<boolean>>;
   const router = useRouter();

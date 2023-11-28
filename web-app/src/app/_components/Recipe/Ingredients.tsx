@@ -1,9 +1,13 @@
 import { RECIPE_TYPE } from '@/app/_lib/_type/RecipeTypes';
 import { useEffect, useState } from 'react';
 
-export default function Ingredients({ recipe }: { recipe: RECIPE_TYPE }) {
+export default function Ingredients({
+  recipe,
+}: {
+  recipe: RECIPE_TYPE | undefined;
+}) {
   const [dynamicRecipe, setDynamicRecipe] = useState<RECIPE_TYPE>();
-  const [servingNumber, setServingNumber] = useState<number>(0);
+  const [servingNumber, setServingNumber] = useState<string | number>(0);
   const [dynamicServingNumber, setDynamicServingNumber] = useState<number>(0);
 
   const quantityAdjust = async (
@@ -38,7 +42,7 @@ export default function Ingredients({ recipe }: { recipe: RECIPE_TYPE }) {
     let number = dynamicServingNumber + 1;
 
     await changeDynamicServingNumber(number);
-    await quantityAdjust(recipe, number, servingNumber);
+    await quantityAdjust(recipe, number, servingNumber as number);
   };
 
   const handleDecrement = async (recipe: any) => {
@@ -48,12 +52,12 @@ export default function Ingredients({ recipe }: { recipe: RECIPE_TYPE }) {
         : dynamicServingNumber;
 
     await changeDynamicServingNumber(number);
-    await quantityAdjust(recipe, number, servingNumber);
+    await quantityAdjust(recipe, number, servingNumber as number);
   };
 
   useEffect(() => {
-    setServingNumber(recipe?.servingNumber);
-    setDynamicServingNumber(recipe?.servingNumber);
+    setServingNumber(recipe?.servingNumber as number);
+    setDynamicServingNumber(recipe?.servingNumber as number);
     setDynamicRecipe(recipe);
   }, [recipe?.servingNumber, recipe]);
 

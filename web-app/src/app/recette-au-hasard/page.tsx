@@ -18,9 +18,10 @@ import {
 } from '../_lib/_constant/Constants';
 import { RECIPE_TYPE } from '../_lib/_type/RecipeTypes';
 import { toast } from 'react-toastify';
+import Description from '../_components/Recipe/Description';
 
 export default function RandomRecipe() {
-  const [recipe, setRecipe] = useState<RECIPE_TYPE | null>(null);
+  const [recipe, setRecipe] = useState<RECIPE_TYPE>();
 
   const { loading } = useQuery(GET_RANDOM_RECIPE, {
     notifyOnNetworkStatusChange: true,
@@ -60,14 +61,12 @@ export default function RandomRecipe() {
         <Resume recipe={recipe} />
       </div>
 
-      <Separator title={RECIPE_TITLE.description} />
-
       {recipe?.description && (
-        <div className="mt-8 pb-8">
-          <p className="font-nothing-you-could-do text-sm lg:text-base font-bold text-justify">
-            {recipe.description}
-          </p>
-        </div>
+        <>
+          <Separator title={RECIPE_TITLE.description} />
+
+          <Description recipe={recipe} />
+        </>
       )}
 
       <Separator title={RECIPE_TITLE.ingredient} />

@@ -118,6 +118,7 @@ export const GET_RANDOM_RECIPE = gql`
         id
         firstname
         lastname
+        pictureName
       }
       stepRecipes {
         edges {

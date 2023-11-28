@@ -51,6 +51,7 @@ export type RECIPE_TYPE = {
     id: string;
     firstname: string;
     lastname: string;
+    pictureName: string;
   };
   ingredientRecipes: {
     __typename?: 'IngredientRecipe' | undefined;
