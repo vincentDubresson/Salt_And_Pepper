@@ -557,6 +557,7 @@ query GetRecipes {
               id
               pictureName
               sort
+              isApiPicture
             }
           }
         }
@@ -640,6 +641,7 @@ query GetRecipe($id: ID!) {
           id
           pictureName
           sort
+          isApiPicture
         }
       }
     }
@@ -709,6 +711,7 @@ query GetRandomRecipe {
           id
           pictureName
           sort
+          isApiPicture
         }
       }
     }

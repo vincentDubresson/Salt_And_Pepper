@@ -70,6 +70,10 @@ class ImageRecipe implements TimestampableInterface
     #[Groups(['recipe:read', 'image_recipe:read', 'image_recipe:create', 'image_recipe:update'])]
     private ?string $pictureName = null;
 
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    #[Groups(['recipe:read', 'image_recipe:read', 'image_recipe:create', 'image_recipe:update'])]
+    private ?bool $isApiPicture = true;
+
     #[ORM\Column(type: 'integer')]
     #[Assert\Positive(
         message: 'Le tri doit être positif.'
@@ -113,6 +117,16 @@ class ImageRecipe implements TimestampableInterface
         $this->pictureName = $pictureName;
 
         return $this;
+    }
+
+    public function getIsApiPicture(): ?bool
+    {
+        return $this->isApiPicture;
+    }
+
+    public function setIsApiPicture(?bool $isApiPicture): void
+    {
+        $this->isApiPicture = $isApiPicture;
     }
 
     public function getSort(): ?int
