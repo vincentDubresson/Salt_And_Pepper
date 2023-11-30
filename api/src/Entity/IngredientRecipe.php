@@ -71,7 +71,7 @@ class IngredientRecipe implements TimestampableInterface
     private ?Recipe $recipe = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Groups(['recipe:read', 'ingredient_recipe:read', 'ingredient_recipe:create', 'ingredient_recipe:update'])]
     private ?Unity $unity = null;
 
