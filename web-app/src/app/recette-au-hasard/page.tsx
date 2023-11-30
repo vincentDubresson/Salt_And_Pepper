@@ -12,13 +12,11 @@ import Resume from '../_components/Recipe/Resume';
 import Ingredients from '../_components/Recipe/Ingredients';
 import Steps from '../_components/Recipe/Steps';
 import Separator from '../_components/Recipe/Separator';
-import {
-  CUSTOM_ERROR_MESSAGE,
-  RECIPE_TITLE,
-} from '../_lib/_constant/Constants';
+import { RECIPE_TITLE } from '../_lib/_constant/Constants';
 import { RECIPE_TYPE } from '../_lib/_type/RecipeTypes';
 import { toast } from 'react-toastify';
 import Description from '../_components/Recipe/Description';
+import MainLogo from '../../../public/pictures/logo/salt_and_pepper_logo.png';
 
 export default function RandomRecipe() {
   const [recipe, setRecipe] = useState<RECIPE_TYPE>();
@@ -34,13 +32,21 @@ export default function RandomRecipe() {
         toast.warn('Aucune recette trouvée.');
       }
     },
-    onError() {
-      toast.error(CUSTOM_ERROR_MESSAGE);
-    },
   });
 
   return loading ? (
     <Spinner />
+  ) : !recipe ? (
+    <div className="flex flex-col w-11/12 sm:w-4/5 lg:w-1/2 mx-auto mt-28 lg:mt-40">
+      <img
+        className="w-32 sm:w-40 lg:w-48 m-auto pb-3"
+        src={MainLogo.src}
+        alt="Salt & Pepper Logo"
+      />
+      <h1 className="font-nothing-you-could-do text-center text-xl sm:text-2xl lg:text-3xl font-bold py-3">
+        Aucune recette trouvée.
+      </h1>
+    </div>
   ) : (
     <div className="flex flex-col w-11/12 sm:w-4/5 lg:w-1/2 mx-auto mt-28 lg:mt-40">
       <div className="mb-8 text-xs md:text-sm">

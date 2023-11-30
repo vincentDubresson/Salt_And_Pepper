@@ -184,6 +184,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $phoneNumber = null;
 
+    #[ORM\Column(type: 'boolean', nullable: false)]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    private ?bool $isApiPicture = true;
+
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     #[Assert\Type("\DateTimeInterface")]
     #[Groups(['user:read', 'user:create', 'user:update'])]
@@ -479,6 +483,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
         $this->phoneNumber = $phoneNumber;
 
         return $this;
+    }
+
+    public function getIsApiPicture(): ?bool
+    {
+        return $this->isApiPicture;
+    }
+
+    public function setIsApiPicture(?bool $isApiPicture): void
+    {
+        $this->isApiPicture = $isApiPicture;
     }
 
     public function setPictureFile(File $pictureFile = null): void

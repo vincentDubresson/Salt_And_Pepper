@@ -20,7 +20,7 @@ export default function Description({
         </p>
       </div>
 
-      <div className="mt-8 pb-8">
+      <div className="m-auto mt-8 pb-8">
         <p className="font-nothing-you-could-do text-sm lg:text-base font-bold text-justify">
           {recipe?.description}
         </p>

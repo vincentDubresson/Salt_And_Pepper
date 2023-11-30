@@ -5,6 +5,7 @@ export type PICTURES_RECIPE_TYPE = Array<{
     id: string;
     pictureName: string;
     sort: number;
+    isApiPicture: boolean;
   };
 }>;
 
@@ -86,6 +87,7 @@ export type RECIPE_TYPE = {
         id: string;
         pictureName: string;
         sort: number;
+        isApiPicture: boolean;
       };
     }>;
   };

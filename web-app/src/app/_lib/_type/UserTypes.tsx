@@ -14,6 +14,7 @@ export type GET_USER_TYPE = {
   phoneNumber?: string | undefined;
   birthDate: Date;
   pictureName: string;
+  isApiPicture: boolean;
   isEnable: boolean;
   acceptNewsletter: boolean;
   createdAt: Date;
@@ -33,5 +34,6 @@ export type CREATE_USER_MUTATION_VARIABLES = {
   isAdmin: boolean;
   country: string;
   isEnable: boolean;
+  isApiPicture: boolean;
   acceptNewsletter: boolean;
 };

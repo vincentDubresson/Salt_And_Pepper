@@ -71,6 +71,7 @@ export const GET_RECIPES = gql`
                 id
                 pictureName
                 sort
+                isApiPicture
               }
             }
           }
@@ -135,6 +136,7 @@ export const GET_RANDOM_RECIPE = gql`
             id
             pictureName
             sort
+            isApiPicture
           }
         }
       }

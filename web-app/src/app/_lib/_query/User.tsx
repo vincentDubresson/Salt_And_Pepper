@@ -28,6 +28,7 @@ export const GET_USER = gql`
       phoneNumber
       birthDate
       pictureName
+      isApiPicture
       isEnable
       acceptNewsletter
       createdAt
@@ -52,6 +53,7 @@ export const CREATE_USER = gql`
     $birthDate: String
     $isEnable: Boolean!
     $pictureName: String
+    $isApiPicture: Boolean!
     $acceptNewsletter: Boolean!
   ) {
     createUser(
@@ -70,6 +72,7 @@ export const CREATE_USER = gql`
         birthDate: $birthDate
         isEnable: $isEnable
         pictureName: $pictureName
+        isApiPicture: $isApiPicture
         acceptNewsletter: $acceptNewsletter
       }
     ) {

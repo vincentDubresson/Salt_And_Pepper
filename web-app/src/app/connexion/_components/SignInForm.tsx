@@ -77,6 +77,7 @@ export default function SignInForm({
         isAdmin: false,
         country: userCountry,
         isEnable: false,
+        isApiPicture: true,
         acceptNewsletter: data.acceptNewsletter,
       },
     });

@@ -34,10 +34,11 @@ query GetUsers {
         country
         phoneNumber
         birthDate
-        imageName
+        pictureName
+        isApiPicture
         isEnable
         acceptNewsletter
-    	createdAt
+    	  createdAt
         updatedAt
       }
     }
@@ -68,10 +69,11 @@ query GetUser($id: ID!) {
         country
         phoneNumber
         birthDate
-        imageName
+        pictureName
+        isApiPicture
         isEnable
         acceptNewletter
-    	createdAt
+    	  createdAt
         updatedAt
   }
 }
@@ -97,7 +99,7 @@ mutation CreateUser(
   $plainPassword: String!, $isAdmin: Boolean!, $address1: String,
   $address2: String, $zipCode: Int, $city: String, $country: String!,
   $phoneNumber: String, $birthDate: String, $isEnable: Boolean!,
-  $imageName: String, $acceptNewsletter: Boolean!
+  $pictureName: String, $isApiPicture: Boolean!, $acceptNewsletter: Boolean!
 ) {
   createUser(
     input: {
@@ -105,7 +107,7 @@ mutation CreateUser(
       plainPassword: $plainPassword, isAdmin: $isAdmin, address1: $address1,
       address2: $address2, zipCode: $zipCode, city: $city, country: $country,
       phoneNumber: $phoneNumber, birthDate: $birthDate, isEnable: $isEnable,
-      imageName: $imageName, acceptNewsletter: $acceptNewsletter
+      pictureName: $pictureName, isApiPicture: $isApiPicture, acceptNewsletter: $acceptNewsletter
     }
   ) {
     user {
@@ -131,7 +133,8 @@ mutation CreateUser(
   "phoneNumber": null,
   "birthDate": null,
   "isEnable": false,
-  "imageName": null,
+  "pictureName": null,
+  "isApiPicture": false,
   "acceptNewsletter": true
 }
 ```
@@ -144,7 +147,7 @@ mutation UpdateUser(
   $plainPassword: String, $isAdmin: Boolean!, $address1: String,
   $address2: String, $zipCode: Int, $city: String, $country: String!,
   $phoneNumber: String, $birthDate: String, $isEnable: Boolean!,
-  $imageName: String, $acceptNewsletter: Boolean!
+  $pictureName: String, $isApiPicture: Boolean!, $acceptNewsletter: Boolean!
 ) {
   updateUser(
     input: {
@@ -152,7 +155,7 @@ mutation UpdateUser(
       plainPassword: $plainPassword, isAdmin: $isAdmin, address1: $address1,
       address2: $address2, zipCode: $zipCode, city: $city, country: $country,
       phoneNumber: $phoneNumber, birthDate: $birthDate, isEnable: $isEnable,
-      imageName: $imageName, acceptNewsletter: $acceptNewsletter
+      pictureName: $pictureName, isApiPicture: $isApiPicture, acceptNewsletter: $acceptNewsletter
     }
   ) {
     user {
@@ -179,7 +182,8 @@ mutation UpdateUser(
   "phoneNumber": null,
   "birthDate": null,
   "isEnable": false,
-  "imageName": null,
+  "pictureName": null,
+  "isApiPicture": false,
   "acceptNewsletter": true
 }
 ```

@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
 import { removeCurrentUserCookie } from '@/app/_lib/_cookie/CookieActions';
 import { GET_USER_TYPE } from '@/app/_lib/_type/UserTypes';
+import PictureService from '@/app/_service/PictureService';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -29,6 +30,7 @@ export default function Header() {
   const user = useContext(AppContext)?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
+  console.log(user);
 
   const handleLogout = async () => {
     await removeCurrentUserCookie();
@@ -160,9 +162,12 @@ export default function Header() {
               <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors">
                 <img
                   className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                  src={
+                  src={ user.isApiPicture ?
                     process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                    user.pictureName
+                    PictureService.getPictureUrl(user.pictureName)
+                    :
+                    process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
+                    PictureService.getPictureUrl(user.pictureName)
                   }
                   alt=""
                 />
@@ -327,9 +332,12 @@ export default function Header() {
                   <div className="flex justify-center">
                     <img
                       className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                      src={
+                      src={ user.isApiPicture ?
                         process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                        user.pictureName
+                        PictureService.getPictureUrl(user.pictureName)
+                        :
+                        process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
+                        PictureService.getPictureUrl(user.pictureName)
                       }
                       alt=""
                     />

@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import PictureService from '@/app/_service/PictureService';
 
 export default function Carousel({
   recipePictures,
@@ -31,9 +32,11 @@ export default function Carousel({
           >
             <img
               src={
-                process.env.NEXT_PUBLIC_API_RECIPE_PICTURE_URL +
-                're/' +
-                picture.node.pictureName
+                picture.node.isApiPicture
+                  ? process.env.NEXT_PUBLIC_API_RECIPE_PICTURE_URL +
+                    PictureService.getPictureUrl(picture.node.pictureName)
+                  : process.env.NEXT_PUBLIC_WEB_APP_RECIPE_PICTURE_URL +
+                    PictureService.getPictureUrl(picture.node.pictureName)
               }
               alt=""
             />
