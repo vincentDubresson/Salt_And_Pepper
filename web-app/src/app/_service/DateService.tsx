@@ -41,8 +41,6 @@ export default class DateService {
   static formatHeuresMinutes(dateString: string) {
     const date = new Date(dateString);
 
-    console.log(dateString);
-
     const heures = date.getUTCHours();
     const minutes = date.getUTCMinutes();
 

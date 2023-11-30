@@ -30,7 +30,6 @@ export default function Header() {
   const user = useContext(AppContext)?.user;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
-  console.log(user);
 
   const handleLogout = async () => {
     await removeCurrentUserCookie();
