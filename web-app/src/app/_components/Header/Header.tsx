@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { PROJECT_ROUTE } from '@/app/_lib/_router/Routes';
 import { removeCurrentUserCookie } from '@/app/_lib/_cookie/CookieActions';
 import { GET_USER_TYPE } from '@/app/_lib/_type/UserTypes';
+import PictureService from '@/app/_service/PictureService';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -143,8 +144,11 @@ export default function Header() {
             {headerCategories.map((item) => (
               <a
                 key={item.name}
-                href={item.href}
-                className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors"
+                onClick={() => {
+                  setLinkClicked(true);
+                  router.replace(item.path);
+                }}
+                className="text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors cursor-pointer"
               >
                 {item.name}
               </a>
@@ -158,8 +162,11 @@ export default function Header() {
                 <img
                   className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
                   src={
-                    process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                    user.pictureName
+                    user.isApiPicture
+                      ? process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                        PictureService.getPictureUrl(user.pictureName)
+                      : process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
+                        PictureService.getPictureUrl(user.pictureName)
                   }
                   alt=""
                 />
@@ -306,13 +313,17 @@ export default function Header() {
                   )}
                 </Disclosure>
                 {headerCategories.map((item) => (
-                  <a
+                  <button
                     key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100"
+                    onClick={() => {
+                      setLinkClicked(true);
+                      setMobileMenuOpen(false);
+                      router.replace(item.path);
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-500 hover:bg-sp-primary-100 cursor-pointer"
                   >
                     {item.name}
-                  </a>
+                  </button>
                 ))}
               </div>
               {userAuthenticated && user ? (
@@ -321,8 +332,11 @@ export default function Header() {
                     <img
                       className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
                       src={
-                        process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                        user.pictureName
+                        user.isApiPicture
+                          ? process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                            PictureService.getPictureUrl(user.pictureName)
+                          : process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
+                            PictureService.getPictureUrl(user.pictureName)
                       }
                       alt=""
                     />

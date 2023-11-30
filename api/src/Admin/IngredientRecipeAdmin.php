@@ -49,6 +49,7 @@ class IngredientRecipeAdmin extends AbstractAdmin
                 ->add('unity', EntityType::class, [
                     'label' => 'sonata_admin.label.recipe_ingredient.unity',
                     'class' => Unity::class,
+                    'required' => false,
                 ])
                 ->add('ingredient', EntityType::class, [
                     'label' => 'sonata_admin.label.recipe_ingredient.ingredient',

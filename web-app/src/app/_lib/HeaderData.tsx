@@ -4,6 +4,7 @@ import LocalBarOutlinedIcon from '@mui/icons-material/LocalBarOutlined';
 import DinnerDiningOutlinedIcon from '@mui/icons-material/DinnerDiningOutlined';
 import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 import LiquorOutlinedIcon from '@mui/icons-material/LiquorOutlined';
+import { PROJECT_ROUTE } from './_router/Routes';
 
 export const headerPanelCategories = [
   {
@@ -48,14 +49,14 @@ export const headerPanelCategories = [
 export const headerCategories = [
   {
     name: 'Les bases',
-    href: '#',
+    path: PROJECT_ROUTE.HOME,
   },
   {
     name: 'Cave à vin',
-    href: '#',
+    path: PROJECT_ROUTE.HOME,
   },
   {
     name: 'Recette au hasard',
-    href: '#',
+    path: PROJECT_ROUTE.RECETTE_AU_HASARD,
   },
 ];

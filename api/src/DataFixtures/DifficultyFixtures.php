@@ -9,9 +9,8 @@ use Doctrine\Persistence\ObjectManager;
 class DifficultyFixtures extends Fixture
 {
     private const DIFFICULTIES = [
-        'Très facile',
         'Facile',
-        'Niveau moyen',
+        'Normal',
         'Difficile',
     ];
 
