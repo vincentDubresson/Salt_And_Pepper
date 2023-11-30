@@ -161,12 +161,12 @@ export default function Header() {
               <Popover.Button className="flex items-center gap-x-1 text-md font-semibold leading-6 text-gray-500 hover:text-sp-primary-400 transition-colors">
                 <img
                   className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                  src={ user.isApiPicture ?
-                    process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                    PictureService.getPictureUrl(user.pictureName)
-                    :
-                    process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
-                    PictureService.getPictureUrl(user.pictureName)
+                  src={
+                    user.isApiPicture
+                      ? process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                        PictureService.getPictureUrl(user.pictureName)
+                      : process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
+                        PictureService.getPictureUrl(user.pictureName)
                   }
                   alt=""
                 />
@@ -331,12 +331,12 @@ export default function Header() {
                   <div className="flex justify-center">
                     <img
                       className="inline-block h-12 w-12 rounded-full ring-2 ring-white"
-                      src={ user.isApiPicture ?
-                        process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                        PictureService.getPictureUrl(user.pictureName)
-                        :
-                        process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
-                        PictureService.getPictureUrl(user.pictureName)
+                      src={
+                        user.isApiPicture
+                          ? process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
+                            PictureService.getPictureUrl(user.pictureName)
+                          : process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
+                            PictureService.getPictureUrl(user.pictureName)
                       }
                       alt=""
                     />

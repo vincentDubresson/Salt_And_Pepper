@@ -13,7 +13,8 @@ export default class DateService {
       const date2 = new Date(restingTime);
       const date3 = new Date(cookingTime);
 
-      let totalHeures = date1.getUTCHours() + date2.getUTCHours() + date3.getUTCHours();
+      let totalHeures =
+        date1.getUTCHours() + date2.getUTCHours() + date3.getUTCHours();
       let totalMinutes =
         date1.getUTCMinutes() + date2.getUTCMinutes() + date3.getUTCMinutes();
 
