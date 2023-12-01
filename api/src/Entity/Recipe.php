@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\RecipeRepository;
+use App\Resolver\LastFourRecipesQueryResolver;
 use App\Resolver\RandomRecipeQueryResolver;
 use DateTime;
 use DateTimeInterface;
@@ -37,6 +38,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['recipe:create', 'recipe:update']],
     graphQlOperations: [
         new QueryCollection(),
+        new QueryCollection(
+            args: [],
+            paginationItemsPerPage: 5,
+            order: ['createdAt' => 'DESC'],
+            name: 'lastFour'
+        ),
         new Query(),
         new Query(
             resolver: RandomRecipeQueryResolver::class,
