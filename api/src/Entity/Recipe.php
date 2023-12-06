@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use App\Repository\RecipeRepository;
-use App\Resolver\LastFourRecipesQueryResolver;
 use App\Resolver\RandomRecipeQueryResolver;
 use DateTime;
 use DateTimeInterface;

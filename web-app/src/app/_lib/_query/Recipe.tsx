@@ -40,6 +40,8 @@ export const GET_RECIPES = gql`
             id
             firstname
             lastname
+            isApiPicture
+            pictureName
           }
           ingredientRecipes {
             edges {
@@ -121,6 +123,8 @@ export const GET_LAST_FOUR_RECIPES = gql`
             id
             firstname
             lastname
+            isApiPicture
+            pictureName
           }
           ingredientRecipes {
             edges {
@@ -200,6 +204,7 @@ export const GET_RANDOM_RECIPE = gql`
         id
         firstname
         lastname
+        isApiPicture
         pictureName
       }
       stepRecipes {

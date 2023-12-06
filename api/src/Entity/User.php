@@ -184,8 +184,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?string $phoneNumber = null;
 
-    #[ORM\Column(type: 'boolean', nullable: false)]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['user:read', 'user:create', 'user:update', 'recipe:read'])]
     private ?bool $isApiPicture = true;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
