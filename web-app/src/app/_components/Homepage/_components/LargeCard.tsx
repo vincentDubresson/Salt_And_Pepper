@@ -35,7 +35,8 @@ export default function LargeCard({ recipe }: { recipe: EDGE_RECIPE_TYPE }) {
           />
           <div>
             <p className="absolute top-0 left-0 m-2 p-1 rounded text-sm font-medium leading-tight bg-sp-primary-250 text-gray-50">
-              {recipe?.node.subCategory.category.label} {'>'} {recipe?.node.subCategory.label}
+              {recipe?.node.subCategory.category.label} {'>'}{' '}
+              {recipe?.node.subCategory.label}
             </p>
           </div>
         </div>

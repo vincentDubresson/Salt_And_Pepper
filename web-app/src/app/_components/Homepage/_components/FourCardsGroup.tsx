@@ -23,9 +23,13 @@ export default function FourCardsGroup({
                   src={
                     recipe.node.imageRecipes.edges[0]?.node.isApiPicture
                       ? process.env.NEXT_PUBLIC_API_RECIPE_PICTURE_URL +
-                        PictureService.getPictureUrl(recipe.node.imageRecipes.edges[0]?.node.pictureName)
+                        PictureService.getPictureUrl(
+                          recipe.node.imageRecipes.edges[0]?.node.pictureName
+                        )
                       : process.env.NEXT_PUBLIC_WEB_APP_RECIPE_PICTURE_URL +
-                        PictureService.getPictureUrl(recipe.node.imageRecipes.edges[0]?.node.pictureName)
+                        PictureService.getPictureUrl(
+                          recipe.node.imageRecipes.edges[0]?.node.pictureName
+                        )
                   }
                   alt="première image de la recette"
                 />
@@ -37,9 +41,13 @@ export default function FourCardsGroup({
                   src={
                     recipe.node.user.isApiPicture
                       ? process.env.NEXT_PUBLIC_API_USER_PICTURE_URL +
-                        PictureService.getPictureUrl(recipe.node.user.pictureName)
+                        PictureService.getPictureUrl(
+                          recipe.node.user.pictureName
+                        )
                       : process.env.NEXT_PUBLIC_WEB_APP_USER_PICTURE_URL +
-                        PictureService.getPictureUrl(recipe.node.user.pictureName)
+                        PictureService.getPictureUrl(
+                          recipe.node.user.pictureName
+                        )
                   }
                   alt="icone de l'auteur de la recette"
                 />
