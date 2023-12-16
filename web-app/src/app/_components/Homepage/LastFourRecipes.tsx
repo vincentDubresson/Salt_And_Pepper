@@ -5,6 +5,7 @@ import {
 import { useEffect, useState } from 'react';
 import MainLogo from '../../../../public/pictures/logo/salt_and_pepper_logo.png';
 import LargeCard from './_components/LargeCard';
+import FourCardsGroup from './_components/FourCardsGroup';
 
 export default function LastFourRecipes({
   recipes,
@@ -28,10 +29,14 @@ export default function LastFourRecipes({
         src={MainLogo.src}
         alt="Salt & Pepper Logo"
       />
-      <h1 className="text-center font-nothing-you-could-do text-3xl font-bold mb-8">Les dernières recettes</h1>
-      <div>
-        <LargeCard recipe={firstRecipe as EDGE_RECIPE_TYPE} />
-      </div>
+
+      <h1 className="text-center font-nothing-you-could-do text-3xl font-bold mb-8">
+        Les dernières recettes
+      </h1>
+
+      <LargeCard recipe={firstRecipe as EDGE_RECIPE_TYPE} />
+
+      <FourCardsGroup recipes={otherRecipes as EDGE_RECIPES_TYPE} />
     </>
   );
 }
