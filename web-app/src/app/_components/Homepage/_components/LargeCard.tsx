@@ -4,6 +4,10 @@ import {
 } from '@/app/_lib/_type/RecipeTypes';
 import PictureService from '@/app/_service/PictureService';
 import { useEffect, useState } from 'react';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DateService from '@/app/_service/DateService';
+import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
+import EuroIcon from '@mui/icons-material/Euro';
 
 export default function LargeCard({ recipe }: { recipe: EDGE_RECIPE_TYPE }) {
   const [picture, setPicture] = useState<PICTURE_RECIPE_TYPE>();
@@ -19,11 +23,11 @@ export default function LargeCard({ recipe }: { recipe: EDGE_RECIPE_TYPE }) {
   console.log(recipe);
 
   return (
-    <div className="rounded-lg pb-3 hover:shadow transition">
-      <button className="flex flex-col items-start w-full h-full">
-        <div className="relative overflow-hidden rounded-lg h-60">
+    <div className="flex flex-col items-center rounded-lg transition">
+      <button className="flex flex-col items-start w-full max-w-120 sm:max-w-160 lg:max-w-120 h-full">
+        <div className="flex justify-center items-center max-w-full relative overflow-hidden rounded-lg h-60 sm:h-80">
           <img
-            className="rounded-lg hover:scale-110 transform transition-all duration-500 ease-in-out object-center"
+            className="min-h-full object-cover rounded-lg hover:scale-110 transform transition-all duration-500 ease-in-out object-center"
             src={
               picture?.node.isApiPicture
                 ? process.env.NEXT_PUBLIC_API_RECIPE_PICTURE_URL +
@@ -41,7 +45,32 @@ export default function LargeCard({ recipe }: { recipe: EDGE_RECIPE_TYPE }) {
           </div>
         </div>
         <p className="text-base">{recipe?.node.label}</p>
-        <div className="text-base flex items-center gap-2">
+        <p className="hidden sm:block font-nothing-you-could-do font-bold text-justify">
+          {recipe?.node.description}
+        </p>
+        <div className="hidden lg:flex py-4 gap-3">
+          <div className="flex items-center gap-2">
+            <AccessTimeIcon className="text-sp-primary-400" />
+            <p>
+              {DateService.sommeHeuresMinutesFormatees(
+                recipe?.node.preparationTime as string,
+                recipe?.node.restingTime as string,
+                recipe?.node.cookingTime as string
+              )}
+            </p>
+          </div>
+          <p>-</p>
+          <div className="flex items-center gap-2">
+            <SignalCellularAltIcon className="text-sp-primary-400" />
+            <p>{recipe?.node.difficulty.label}</p>
+          </div>
+          <p>-</p>
+          <div className="flex items-center gap-2">
+            <EuroIcon className="text-sp-primary-400" />
+            <p>{recipe?.node.cost.label}</p>
+          </div>
+        </div>
+        <div className="text-base flex items-center gap-2 mt-auto">
           <img
             className="rounded-lg w-6 h-6"
             src={

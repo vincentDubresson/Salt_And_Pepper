@@ -30,13 +30,16 @@ export default function LastFourRecipes({
         alt="Salt & Pepper Logo"
       />
 
-      <h1 className="text-center font-nothing-you-could-do text-3xl font-bold mb-8">
-        Les dernières recettes
+      <h1 className="text-center font-nothing-you-could-do text-2xl sm:text-3xl font-bold mb-8">
+        Les dernières douceurs
       </h1>
 
-      <LargeCard recipe={firstRecipe as EDGE_RECIPE_TYPE} />
+      <div className="flex flex-col lg:flex-row gap-5">
+        <LargeCard recipe={firstRecipe as EDGE_RECIPE_TYPE} />
 
-      <FourCardsGroup recipes={otherRecipes as EDGE_RECIPES_TYPE} />
+        <FourCardsGroup recipes={otherRecipes as EDGE_RECIPES_TYPE} />
+      </div>
+
     </>
   );
 }
