@@ -12,9 +12,9 @@ export default function Header() {
   const router = useRouter();
 
   return (
-    <footer className="relative flex flex-col gap-y-6 justify-center items-center bg-sp-primary-400 mt-20 -z-10">
+    <footer className="relative flex flex-col gap-y-6 justify-center items-center bg-sp-primary-400 -z-10">
       {/* LOGO AND TEXT */}
-      <div className="group absolute -top-5 flex justify-center items-center h-11 w-11 rounded-full bg-sp-primary-300 hover:bg-sp-primary-500 transition-colors">
+      <div className="group absolute -top-5 flex justify-center items-center h-11 w-11 rounded-full bg-sp-primary-500 hover:bg-sp-primary-600 transition-colors">
         <a href="#top">
           <ArrowUpIcon className="h-6 w-6 text-gray-50" />
         </a>

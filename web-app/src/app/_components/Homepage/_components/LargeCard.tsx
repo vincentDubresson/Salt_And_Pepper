@@ -20,8 +20,6 @@ export default function LargeCard({ recipe }: { recipe: EDGE_RECIPE_TYPE }) {
     }
   }, [recipe]);
 
-  console.log(recipe);
-
   return (
     <div className="flex flex-col items-center rounded-lg transition">
       <button className="flex flex-col items-start w-full max-w-120 sm:max-w-160 lg:max-w-120 h-full">
