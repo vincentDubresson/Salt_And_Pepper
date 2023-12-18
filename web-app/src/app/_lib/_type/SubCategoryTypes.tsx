@@ -4,7 +4,7 @@ export type LIGHT_SUB_CATEGORY_TYPES = Array<{
     id: string;
     label: string;
     slug: string;
-  }
+  };
 }>;
 
 export type FULL_SUB_CATEGORY_TYPES = Array<{
@@ -21,6 +21,5 @@ export type FULL_SUB_CATEGORY_TYPES = Array<{
       slug: string;
       sort: number;
     };
-  }
+  };
 }>;
-

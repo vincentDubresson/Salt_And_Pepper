@@ -39,7 +39,6 @@ export default function LastFourRecipes({
 
         <FourCardsGroup recipes={otherRecipes as EDGE_RECIPES_TYPE} />
       </div>
-
     </>
   );
 }

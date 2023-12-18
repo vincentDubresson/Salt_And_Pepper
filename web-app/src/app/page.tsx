@@ -60,7 +60,9 @@ export default function Home() {
               (subCategory) => subCategory.node.category.label !== 'Les bases'
             )
             .map((subCategory) => (
-              <button className="text-left" key={subCategory.node.id}>{subCategory.node.label}</button>
+              <button className="text-left" key={subCategory.node.id}>
+                {subCategory.node.label}
+              </button>
             ))}
         </div>
       </div>
