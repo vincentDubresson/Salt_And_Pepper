@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salt & Pepper - Admin Login{% endblock %}
+
+{% block subtitle %}Espace administrateur{% endblock %}
+
+{% block body %}
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" action="{{ path('app_login') }}" method="POST">
+            <div class="mb-2">
+                <label for="username" class="block text-sm font-medium leading-6 text-gray-500">Adresse e-mail</label>
+                <div class="mt-2">
+                    <input
+                            id="username"
+                            name="_username"
+                            type="email"
+                            autocomplete="email"
+                            value="{{ last_username }}"
+                            required
+                            class="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <div class="mt-10 flex items-center justify-between">
+                    <label for="password" class="block text-sm font-medium leading-6 text-gray-500">Mot de passe</label>
+                    <div class="text-sm">
+                        <a href="{{ path('app_forgot_password_request') }}" class="font-semibold text-sp-primary-400 hover:text-sp-primary-600 transition-colors duration-300">Mot de passe oublié ?</a>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <input
+                            id="password"
+                            name="_password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                            class="block w-full border-b-2 px-2.5 py-2.5 bg-sp-primary-50 transition-colors duration-300 border-b-sp-primary-300 hover:border-b-sp-primary-600 focus:border-b-sp-primary-600 shadow-sm outline-none"
+                    >
+                </div>
+            </div>
+
+            {% if error %}
+                <div class="flex items-center justify-between">
+                    <p class="block text-sm font-medium leading-6 text-red-700">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </p>
+                </div>
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_target_path" value="{{ path('sonata_admin_redirect') }}">
+
+            <div>
+                <button
+                        type="submit"
+                        class="flex mt-10 w-full justify-center rounded-md bg-sp-primary-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm transition-colors duration-300 hover:bg-sp-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    Se connecter
+                </button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

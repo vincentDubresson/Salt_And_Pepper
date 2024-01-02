@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salt & Pepper - Réinitialisation de mot de passe{% endblock %}
+
+{% block subtitle %}Réinitialisation de mot de passe{% endblock %}
+
+{% block body %}
+<div class="sm:mx-auto sm:w-full sm:max-w-screen-md">
+    <div class="pt-16">
+        <p class="text-sm text-justify">
+            Si un compte associé à votre adresse e-mail existe, alors un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.
+            Ce lien aura une durée de validité de {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        </p>
+        <br>
+        <p class="text-sm text-justify">
+            Si vous ne reçevez aucun e-mail, merci de vérifier dans vos spams ou <a class="text-sp-primary-600" href="{{ path('app_forgot_password_request') }}">essayez une nouvelle fois</a>.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+    We'll only use app.scss file because only sonata login page will be used.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
+
+body {
+    background-color: white;
+    .title {
+        font-family: 'Nothing You Could Do', cursive;
+    }
+}

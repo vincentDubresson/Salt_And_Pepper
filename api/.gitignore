@@ -8,3 +8,35 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+/logs/
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> Vich Uploader ###
+/public/images/
+/public/uploads/pictures/users/*
+/public/uploads/pictures/recipes/*
+!/public/uploads/pictures/recipes/re
+!/public/uploads/pictures/users/us
+/public/uploads/pictures/users/!user_default.png
+###< Vich Uploader ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+/src/Controller/TestController.php

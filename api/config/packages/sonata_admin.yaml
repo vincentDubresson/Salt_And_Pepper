@@ -1,0 +1,38 @@
+sonata_admin:
+    title: 'Salt & Pepper'
+    title_logo: '/uploads/pictures/logo/salt_and_pepper_logo.png'
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+            -
+                class: col-lg-3 col-xs-6
+                position: top
+                type: sonata.admin.block.stats
+                settings:
+                    code: admin.user
+                    icon: fas fa-user
+                    text: sonata_admin.block_label.user
+                    color: bg-yellow
+                    filters:
+                        edited: { value: 1 }
+            - class: col-lg-3 col-xs-6
+              position: top
+              type: sonata.admin.block.stats
+              settings:
+                  code: admin.recipe
+                  icon: fas fa-list
+                  text: sonata_admin.block_label.recipe
+                  color: bg-red
+                  filters:
+                      edited: { value: 1 }
+    options:
+        default_translation_domain: 'messages'
+    security:
+        role_admin: ROLE_ADMIN
+    templates:
+        user_block: 'sonata/user_block.html.twig'
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

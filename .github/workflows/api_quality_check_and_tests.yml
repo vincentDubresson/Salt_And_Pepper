@@ -1,0 +1,42 @@
+name: PHP Quality Check and Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  php_quality_check_and_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Composer dependencies
+        run: |
+          cd api
+          composer update --ignore-platform-req=php
+
+      - name: Symfony Security Checker
+        uses : symfonycorp/security-checker-action@v4
+        with:
+          lock: api/composer.lock
+
+      - name: PHPStan Static Analysis
+        run: |
+          cd api
+          ./vendor/bin/phpstan analyse -l 8 src/ bin/ config/ public/ tests/
+
+      - name: PHP CS Fixer Analysis
+        run: |
+          cd api
+          ./vendor/bin/php-cs-fixer fix src --verbose --diff --dry-run
+
+      - name: Yaml Linter Check
+        run: |
+          cd api
+          ./vendor/bin/yaml-lint config/ translations/
+
+      - name: PHP Unit
+        run: |
+          cd api
+          ./vendor/bin/phpunit
