@@ -50,17 +50,17 @@ export default function Home() {
         <LastFourRecipes recipes={lastFourRecipes as EDGE_RECIPES_TYPE} />
       </div>
 
-      <div className="relative mt-5 p-10 bg-sp-primary-100 -z-20">
-        <p className="font-nothing-you-could-do font-bold text-center text-2xl sm:text-3xl font-bold pt-8 mb-8">
+      <div className="relative mt-5 px-10 bg-sp-primary-100 -z-20">
+        <p className="font-nothing-you-could-do text-center text-2xl sm:text-3xl font-bold pt-8 mb-8">
           Recettes par thème
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 pb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 pb-10">
           {subCategories
             ?.filter(
               (subCategory) => subCategory.node.category.label !== 'Les bases'
             )
             .map((subCategory) => (
-              <button className="text-left" key={subCategory.node.id}>
+              <button className="text-gray-600 hover:text-sp-primary-500 transition-colors text-left" key={subCategory.node.id}>
                 {subCategory.node.label}
               </button>
             ))}
