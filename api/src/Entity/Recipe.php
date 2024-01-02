@@ -37,6 +37,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['recipe:create', 'recipe:update']],
     graphQlOperations: [
         new QueryCollection(),
+        new QueryCollection(
+            args: [],
+            paginationItemsPerPage: 5,
+            order: ['createdAt' => 'DESC'],
+            name: 'lastFour'
+        ),
         new Query(),
         new Query(
             resolver: RandomRecipeQueryResolver::class,

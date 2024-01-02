@@ -40,6 +40,91 @@ export const GET_RECIPES = gql`
             id
             firstname
             lastname
+            isApiPicture
+            pictureName
+          }
+          ingredientRecipes {
+            edges {
+              node {
+                id
+                quantity
+                sort
+                unity {
+                  id
+                }
+                ingredient {
+                  id
+                }
+              }
+            }
+          }
+          stepRecipes {
+            edges {
+              node {
+                id
+                description
+                sort
+              }
+            }
+          }
+          imageRecipes {
+            edges {
+              node {
+                id
+                pictureName
+                sort
+                isApiPicture
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_LAST_FOUR_RECIPES = gql`
+  query GetLastFourRecipes {
+    lastFourRecipes {
+      edges {
+        node {
+          id
+          label
+          slug
+          description
+          servingNumber
+          servingUnit
+          preparationTime
+          cookingTime
+          restingTime
+          createdAt
+          updatedAt
+          subCategory {
+            id
+            label
+            category {
+              id
+              label
+            }
+          }
+          cookingType {
+            id
+            label
+          }
+          difficulty {
+            id
+            label
+          }
+          cost {
+            id
+            label
+          }
+          user {
+            id
+            firstname
+            lastname
+            isApiPicture
+            pictureName
           }
           ingredientRecipes {
             edges {
@@ -119,6 +204,7 @@ export const GET_RANDOM_RECIPE = gql`
         id
         firstname
         lastname
+        isApiPicture
         pictureName
       }
       stepRecipes {

@@ -26,6 +26,17 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         'nothing-you-could-do': ['Nothing You Could Do', 'sans-serif'],
       },
+      spacing: {
+        120: '30rem',
+        128: '32rem',
+        144: '36rem',
+      },
+      maxWidth: {
+        '120': '30rem',
+        '128': '32rem',
+        '144': '36rem',
+        '160': '40rem',
+      }
     },
     plugins: [],
   },

@@ -26,7 +26,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     // Display when reading the object
     normalizationContext: ['groups' => ['sub_category:read']],
     graphQlOperations: [
-        new QueryCollection(),
+        new QueryCollection(
+            paginationItemsPerPage: 100,
+        ),
         new Query(),
     ]
 )]
