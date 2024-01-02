@@ -60,7 +60,10 @@ export default function Home() {
               (subCategory) => subCategory.node.category.label !== 'Les bases'
             )
             .map((subCategory) => (
-              <button className="text-gray-600 hover:text-sp-primary-500 transition-colors text-left" key={subCategory.node.id}>
+              <button
+                className="text-gray-600 hover:text-sp-primary-500 transition-colors text-left"
+                key={subCategory.node.id}
+              >
                 {subCategory.node.label}
               </button>
             ))}
