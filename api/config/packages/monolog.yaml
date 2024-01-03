@@ -59,3 +59,7 @@ when@prod:
                 type: stream
                 channels: [deprecation]
                 path: php://stderr
+            error:
+                type: stream
+                path: "%kernel.logs_dir%/prod_error.log"
+                level: error

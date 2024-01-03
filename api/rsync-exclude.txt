@@ -1,0 +1,17 @@
+.env.*
+.nvmrc
+.php-cs-fixer*
+.phpunit.*
+phpstan*
+phpunit*
+
+/bin/phpunit
+
+/config/jwt/*
+
+/node_modules
+
+/tests
+
+/var/cache/*
+/var/log/*
